@@ -1,0 +1,24 @@
+Metadata-Version: 2.1
+Name: cypari
+Version: 2.5.5
+Summary: Sage's PARI extension, modified to stand alone.
+Home-page: https://bitbucket.org/t3m/cypari
+Author: Marc Culler and Nathan M. Dunfield
+Author-email: culler@uic.edu, nathan@dunfield.info
+License: GPLv2+
+Keywords: Pari,SageMath,SnapPy
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: C
+Classifier: Programming Language :: Python
+Classifier: Topic :: Scientific/Engineering :: Mathematics
+
+The package *cypari* is a Python wrapper for the `PARI library
+<http://pari.math.u-bordeaux.fr/>`_, a computer algebra system for
+number theory computations.  It is derived from the `corresponding
+component
+<https://github.com/sagemath/sage/blob/797dd7b4c273556d9677fadffa2ef6dd7f113857/src/sage/libs/cypari2/gen.pyx>`_
+of `SageMath <http://www.sagemath.org>`_, but is independent of the rest of
+SageMath and can be used with any recent version of Python 3.

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Verified computations &mdash; SnapPy 3.1.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/snappy_sphinx_rtd_theme.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/SnapPy.ico"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Canonical retriangulation and isometry signature" href="verify_canon.html" />
+    <link rel="prev" title="Number theory of hyperbolic 3-manifolds" href="snap.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            SnapPy
+              <img src="_static/SnapPy-horizontal-128.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                3.1.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installing SnapPy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="screenshots.html">Screenshots: SnapPy in action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snappy.html">The snappy module and its classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plink.html">Using SnapPy’s link editor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spherogram.html">Links: planar diagrams and invariants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snap.html">Number theory of hyperbolic 3-manifolds</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Verified computations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#verified-computation-topics">Verified computation topics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="verify_canon.html">Canonical retriangulation and isometry signature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="verify_internals.html">Internals of verified computations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="other.html">Other components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="news.html">News</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bugs.html">Reporting bugs and other problems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="todo.html">To Do List</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development.html">Development Basics</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SnapPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Verified computations</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="verified-computations">
+<h1>Verified computations<a class="headerlink" href="#verified-computations" title="Permalink to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<p>When used inside <a class="reference external" href="http://sagemath.org">Sage</a>, SnapPy can verify the
+following computations:</p>
+<ul>
+<li><p>Complex intervals for the shapes that are guaranteed to contain a true
+but not necessarily geometric solution to the rectangular gluing equations:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sage: M = Manifold(&quot;m015(3,1)&quot;)
+sage: M.tetrahedra_shapes(&#39;rect&#39;, intervals=True)
+[0.625222762246? + 3.177940133813?*I,
+ -0.0075523593782? + 0.5131157955971?*I,
+ 0.6515818912107? - 0.1955023488930?*I]
+</pre></div>
+</div>
+<p>(Specify <code class="xref py py-attr docutils literal notranslate"><span class="pre">bits_prec</span></code> or <code class="xref py py-attr docutils literal notranslate"><span class="pre">dec_prec</span></code> for higher precision intervals.)</p>
+</li>
+<li><p>Verify the hyperbolicity
+of an orientable 3-manifold giving complex intervals for the
+shapes corresponding to a hyperbolic structure or holonomy representation with
+<a class="reference internal" href="manifold.html#snappy.Manifold.verify_hyperbolicity" title="snappy.Manifold.verify_hyperbolicity"><code class="xref py py-meth docutils literal notranslate"><span class="pre">verify_hyperbolicity()</span></code></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sage: M = Manifold(&quot;m015&quot;)
+sage: M.verify_hyperbolicity()
+(True,
+ [0.6623589786224? + 0.5622795120623?*I,
+  0.6623589786224? + 0.5622795120623?*I,
+  0.6623589786224? + 0.5622795120623?*I])
+sage: M.verify_hyperbolicity(holonomy=True)[1].SL2C(&#39;a&#39;)
+[-0.324717957? - 1.124559024?*I -0.704807293? + 0.398888830?*I]
+[ 1.409614585? - 0.797777659?*I       -1.000000000? + 0.?e-9*I]
+</pre></div>
+</div>
+</li>
+<li><p>Intervals for the volume and complex volume of a hyperbolic orientable 3-manifold:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sage: M = Manifold(&quot;m003(-3,1)&quot;)
+sage: M.volume(verified=True, bits_prec = 100)
+0.942707362776927720921299603?
+sage: M = Manifold(&quot;m015&quot;)
+sage: M.complex_volume(verified_modulo_2_torsion=True)
+2.8281220883? + 1.9106738240?*I
+</pre></div>
+</div>
+<p>(Note that when using verified computation, the Chern-Simons invariant is only computed
+modulo pi^2/2 even though it is defined modulo pi^2.)</p>
+</li>
+<li><p>Give the <a class="reference internal" href="verify_canon.html"><span class="doc">canonical retriangulation</span></a> (a close
+relative to the canonical cell decomposition) of a cusped hyperbolic
+manifold using intervals or exact arithmetic if necessary with
+<a class="reference internal" href="manifold.html#snappy.Manifold.canonical_retriangulation" title="snappy.Manifold.canonical_retriangulation"><code class="xref py py-meth docutils literal notranslate"><span class="pre">canonical_retriangulation()</span></code></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m412&quot;</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">K</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">canonical_retriangulation</span><span class="p">(</span><span class="n">verified</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">isomorphisms_to</span><span class="p">(</span><span class="n">K</span><span class="p">))</span> <span class="c1"># Certified size of isometry group</span>
+<span class="mi">8</span>
+</pre></div>
+</div>
+<p><strong>Remark:</strong> For the case of non-tetrahedral canonical cell, exact values
+are used which are found
+using the   <a class="reference external" href="http://en.wikipedia.org/wiki/Lenstra%E2%80%93Lenstra%E2%80%93Lov%C3%A1sz_lattice_basis_reduction_algorithm">LLL-algorithm</a>
+and then verified using exact computations. These computations can be slow. A massive speed-up was achieved by
+recent improvements so that the computation of the isometry signature of any manifold in <code class="docutils literal notranslate"><span class="pre">OrientableCuspedCensus</span></code>
+takes at most a couple of seconds, typically, far less. Manifolds with more simplices might require setting
+a higher value for
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">exact_bits_prec_and_degrees</span></code>.</p>
+</li>
+<li><p>The <a class="reference internal" href="verify_canon.html"><span class="doc">isometry signature</span></a> which is a complete invariant of the isometry type
+of a cusped hyperbolic manifold (i.e., two manifolds are isometric if and only
+if they have the same isometry signature):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m412&quot;</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">M</span><span class="o">.</span><span class="n">isometry_signature</span><span class="p">(</span><span class="n">verified</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="s1">&#39;mvvLALQQQhfghjjlilkjklaaaaaffffffff&#39;</span>
+</pre></div>
+</div>
+<p>The isometry signature can be strengthened to include the peripheral curves
+such that it is a complete invariant of a hyperbolic link:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;L5a1&quot;</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">M</span><span class="o">.</span><span class="n">isometry_signature</span><span class="p">(</span><span class="n">of_link</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">verified</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="s1">&#39;eLPkbdcddhgggb_baCbbaCb&#39;</span>
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="manifold.html#snappy.Manifold.isometry_signature" title="snappy.Manifold.isometry_signature"><code class="xref py py-meth docutils literal notranslate"><span class="pre">isometry_signature()</span></code></a> for details.</p>
+<p><strong>Remark:</strong> The isometry signature is based on the canonical
+retriangulation so the same warning applies.</p>
+</li>
+<li><p>The maximal cusp area matrix which characterizes the configuration
+space of disjoint cusp neighborhoods with
+<a class="reference internal" href="manifold.html#snappy.Manifold.cusp_area_matrix" title="snappy.Manifold.cusp_area_matrix"><code class="xref py py-meth docutils literal notranslate"><span class="pre">cusp_area_matrix()</span></code></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sage: M=Manifold(&quot;m203&quot;)
+sage: M.cusp_area_matrix(method=&#39;maximal&#39;, verified=True)
+[   27.000000? 9.0000000000?]
+[9.0000000000?   27.0000000?]
+</pre></div>
+</div>
+<p>In this example, the cusp neighborhood about cusp 0 or 1 is only
+embedded if and only if its area is less than sqrt(27). The cusp
+neighborhood about cusp 0 is only disjoint from the one about cusp 1
+if and only if the product of their areas is less than 9.</p>
+</li>
+<li><p>Compute areas for disjoint cusp neighborhoods with
+<a class="reference internal" href="manifold.html#snappy.Manifold.cusp_areas" title="snappy.Manifold.cusp_areas"><code class="xref py py-meth docutils literal notranslate"><span class="pre">cusp_areas()</span></code></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sage: M=Manifold(&quot;m203&quot;)
+sage: M.cusp_areas(policy = &#39;unbiased&#39;, method=&#39;maximal&#39;, verified = True)
+[3.00000000000?, 3.00000000000?]
+</pre></div>
+</div>
+<p>With the above parameters, the result is intrinsic to the hyperbolic
+manifold with labeled cusped.</p>
+</li>
+<li><p>Find all slopes of length less or equal to 6 when measured on the boundary
+of disjoint cusp neighborhoods:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="n">M</span><span class="o">=</span><span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m203&quot;</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">M</span><span class="o">.</span><span class="n">short_slopes</span><span class="p">(</span><span class="n">policy</span> <span class="o">=</span> <span class="s1">&#39;unbiased&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;maximal&#39;</span><span class="p">,</span> <span class="n">verified</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="p">[[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="o">...</span><span class="p">,</span>  <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)],</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="o">...</span><span class="p">,</span>  <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]]</span>
+</pre></div>
+</div>
+<p>First block has all short slopes for first cusp, …, see
+<a class="reference internal" href="manifold.html#snappy.Manifold.short_slopes" title="snappy.Manifold.short_slopes"><code class="xref py py-meth docutils literal notranslate"><span class="pre">short_slopes()</span></code></a> for details.</p>
+<p>By <a class="reference external" href="http://arxiv.org/abs/math/9906183">Agol’s</a> and <a class="reference external" href="http://arxiv.org/abs/math/9808120">Lackenby’s</a> 6-Theorem any Dehn-filling
+resulting in a non-hyperbolic manifold must contain one of the above
+slopes.  Thus, <a class="reference internal" href="manifold.html#snappy.Manifold.short_slopes" title="snappy.Manifold.short_slopes"><code class="xref py py-meth docutils literal notranslate"><span class="pre">short_slopes()</span></code></a> can be used
+to implement the techniques to find exceptional Dehn surgeries
+(<a class="reference external" href="https://arxiv.org/abs/1109.0903">arXiv:1109.0903</a> and
+<a class="reference external" href="https://arxiv.org/abs/1310.3472">arXiv:1310.3472</a>).</p>
+</li>
+</ul>
+<p>This is all based on a reimplementation of <a class="reference external" href="http://www.oishi.info.waseda.ac.jp/~takayasu/hikmot/">HIKMOT</a> which
+pioneered the use of interval methods for hyperbolic manifolds (also see
+<a class="reference external" href="http://ww2.ii.uj.edu.pl/~zgliczyn/cap07/krawczyk.pdf">Zgliczynski’s notes</a>). It
+can be used in a way very similar to HIKMOT, but uses Sage’s complex
+interval types for certification. It furthermore makes use of code by
+<a class="reference external" href="http://arxiv.org/abs/1407.7827/">Dunfield, Hoffman, Licata</a>. The code to
+compute the isomorphism signature was ported over from
+<a class="reference external" href="https://regina-normal.github.io/">Regina</a>.</p>
+<p>This verification code was contributed by Matthias Goerner.</p>
+</section>
+<section id="verified-computation-topics">
+<h2>Verified computation topics<a class="headerlink" href="#verified-computation-topics" title="Permalink to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="verify_canon.html">Canonical retriangulation and isometry signature</a></li>
+<li class="toctree-l1"><a class="reference internal" href="verify_internals.html">Internals of verified computations</a></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="snap.html" class="btn btn-neutral float-left" title="Number theory of hyperbolic 3-manifolds" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="verify_canon.html" class="btn btn-neutral float-right" title="Canonical retriangulation and isometry signature" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2009-2023, by Marc Culler, Nathan Dunfield, Matthias Goerner, Jeffrey Weeks and others.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

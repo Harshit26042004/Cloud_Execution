@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Installing SnapPy &mdash; SnapPy 3.1.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/snappy_sphinx_rtd_theme.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/SnapPy.ico"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Screenshots: SnapPy in action" href="screenshots.html" />
+    <link rel="prev" title="SnapPy" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            SnapPy
+              <img src="_static/SnapPy-horizontal-128.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                3.1.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installing SnapPy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#macos">macOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#windows">Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#linux">Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#python-modules-for-macintosh-or-windows">Python Modules for Macintosh or Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sagemath">SageMath</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kitchen-sink">Kitchen sink</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#generic-unix">Generic Unix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#source-code">Source code</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="screenshots.html">Screenshots: SnapPy in action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snappy.html">The snappy module and its classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plink.html">Using SnapPy’s link editor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spherogram.html">Links: planar diagrams and invariants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snap.html">Number theory of hyperbolic 3-manifolds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="verify.html">Verified computations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="other.html">Other components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="news.html">News</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bugs.html">Reporting bugs and other problems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="todo.html">To Do List</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development.html">Development Basics</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SnapPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Installing SnapPy</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="installing-snappy">
+<h1>Installing SnapPy<a class="headerlink" href="#installing-snappy" title="Permalink to this heading"></a></h1>
+<p>Here are detailed instructions on how to get SnapPy working on a
+variety of platforms.  The current version is 3.1.1 which was released
+on June 2023.  If you encounter problems installing SnapPy,
+<a class="reference internal" href="bugs.html"><span class="doc">please let us know</span></a>.</p>
+<section id="macos">
+<h2>macOS<a class="headerlink" href="#macos" title="Permalink to this heading"></a></h2>
+<p>Simply download <a class="reference external" href="https://github.com/3-manifolds/SnapPy/releases/latest/download/SnapPy.dmg">SnapPy.dmg</a>
+and copy SnapPy.app to the Applications folder.  Double-click to start
+it, just like any other application.  Works with macOS/OS X 10.9 and
+newer.  Earlier releases <a class="reference external" href="https://github.com/3-manifolds/SnapPy/releases/">can be found here</a>.</p>
+</section>
+<section id="windows">
+<h2>Windows<a class="headerlink" href="#windows" title="Permalink to this heading"></a></h2>
+<p>Simply download and run <a class="reference external" href="https://github.com/3-manifolds/SnapPy/releases/latest/download/InstallSnapPy.exe">InstallSnapPy.exe</a>.
+Earlier releases <a class="reference external" href="https://github.com/3-manifolds/SnapPy/releases/">can be found here</a>.</p>
+</section>
+<section id="linux">
+<h2>Linux<a class="headerlink" href="#linux" title="Permalink to this heading"></a></h2>
+<p>Here are short recipes which work on most Linux systems, specifically
+those that run a 64-bit kernel and have Python 3.6 or newer. These
+instructions assume you have system administrator (superuser)
+privileges to install software packages from your Linux distribution
+but want to install SnapPy (and its various Python dependencies) just
+in your own user directory, specifically <code class="docutils literal notranslate"><span class="pre">~/.local</span></code>.  For other
+Linux systems, try the one closest to yours below, and if that fails,
+follow the instructions for <a class="reference internal" href="#generic-unix">generic Unix</a>.</p>
+<ul>
+<li><p><strong>Ubuntu/Debian/Mint</strong>: Tested on Ubuntu 20.04:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">python3</span><span class="o">-</span><span class="n">tk</span> <span class="n">python3</span><span class="o">-</span><span class="n">pip</span>
+<span class="c1"># Note no &quot;sudo&quot; on the next one!</span>
+<span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="o">--</span><span class="n">user</span> <span class="n">snappy</span>
+</pre></div>
+</div>
+<p>Users of Ubuntu 18.04 or older should do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">python3</span><span class="o">-</span><span class="n">tk</span> <span class="n">python3</span><span class="o">-</span><span class="n">pip</span>
+<span class="c1"># Note no &quot;sudo&quot; on the next two</span>
+<span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="o">--</span><span class="n">user</span> <span class="n">pip</span> <span class="n">wheel</span>
+<span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="o">--</span><span class="n">user</span> <span class="n">snappy</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Fedora</strong>: Tested on Fedora 30:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">yum</span> <span class="n">install</span> <span class="n">python3</span><span class="o">-</span><span class="n">tkinter</span> <span class="n">python3</span><span class="o">-</span><span class="n">pip</span>
+<span class="c1"># Note no &quot;sudo&quot; on the next one!</span>
+<span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="o">--</span><span class="n">user</span> <span class="n">snappy</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Red Hat Enterprise Linux/CentOS/SciLinux</strong>: These instructions
+are for version 7 or later, and you need to have the <a class="reference external" href="https://fedoraproject.org/wiki/EPEL#How_can_I_use_these_extra_packages.3F">EPEL packages
+available</a>.
+For CentOS and SciLinux, you can access EPEL packages by doing:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">yum</span> <span class="n">install</span> <span class="n">epel</span><span class="o">-</span><span class="n">release</span>
+</pre></div>
+</div>
+<p>Now install via:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">yum</span> <span class="n">install</span> <span class="n">python36</span><span class="o">-</span><span class="n">tkinter</span> <span class="n">python36</span><span class="o">-</span><span class="n">pip</span>
+<span class="c1"># Note no &quot;sudo&quot; on the next one!</span>
+<span class="n">python36</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="o">--</span><span class="n">user</span> <span class="n">snappy</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Arch/Manjaro</strong>: Install via:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">pacman</span> <span class="o">-</span><span class="n">Sy</span> <span class="n">python</span><span class="o">-</span><span class="n">pip</span> <span class="n">tk</span>
+<span class="c1"># Note no &quot;sudo&quot; on the next one!</span>
+<span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="o">--</span><span class="n">user</span> <span class="n">snappy</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>openSUSE</strong>: Install via:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">zypper</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> <span class="n">python3</span><span class="o">-</span><span class="n">tk</span> <span class="n">python3</span><span class="o">-</span><span class="n">pip</span>
+<span class="c1"># Note no &quot;sudo&quot; on the next one!</span>
+<span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="o">--</span><span class="n">user</span> <span class="n">snappy</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>If you want the larger version of HTLinkExteriors that includes the 15
+crossing knots (uses 110M of disk space), also install the Python
+package <code class="docutils literal notranslate"><span class="pre">snappy_15_knots</span></code>, e.g. on Ubuntu do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="o">--</span><span class="n">user</span> <span class="n">snappy_15_knots</span>
+</pre></div>
+</div>
+<p>Once you have installed SnapPy, do the following to start it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">~/.</span><span class="n">local</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">SnapPy</span>
+</pre></div>
+</div>
+<p>You may get a message about creating a “.ipython” directory; this is
+normal, just hit return to continue.  There should also now be a
+command “SnapPy” which does the same thing.  To make it so that you
+can start SnapPy with just the command <code class="docutils literal notranslate"><span class="pre">SnapPy</span></code>, make sure
+<code class="docutils literal notranslate"><span class="pre">~/.local/bin</span></code> is in <a class="reference external" href="https://opensource.com/article/17/6/set-path-linux">in your path</a>.</p>
+</section>
+<section id="python-modules-for-macintosh-or-windows">
+<h2>Python Modules for Macintosh or Windows<a class="headerlink" href="#python-modules-for-macintosh-or-windows" title="Permalink to this heading"></a></h2>
+<p>If you write Python programs on a Macintosh or Windows system, you may
+wish to install SnapPy as a Python module into your own copy of
+Python.  We support Python 3.6 and up.  (On macOS, use a Python
+downloaded from <a class="reference external" href="http://python.org">Python.org</a> and not the one
+provided by Apple.)  After installing Python, you may install a SnapPy
+module from your Terminal application or Command Prompt with the
+commands:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="o">--</span><span class="n">user</span> <span class="n">snappy</span>
+</pre></div>
+</div>
+<p>If you want the larger version of HTLinkExteriors that includes the 15
+crossing knots (uses 110M of disk space), do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="o">--</span><span class="n">user</span> <span class="n">snappy_15_knots</span>
+</pre></div>
+</div>
+<p>If you use Python 2 rather than Python 3, replace <code class="docutils literal notranslate"><span class="pre">python3</span></code> with
+<code class="docutils literal notranslate"><span class="pre">python</span></code> in the above.  If your Python lacks the pip module, <a class="reference external" href="https://pip.pypa.io/en/stable/installing/">get it
+here</a>.</p>
+</section>
+<section id="sagemath">
+<h2>SageMath<a class="headerlink" href="#sagemath" title="Permalink to this heading"></a></h2>
+<p>SnapPy has some special features when used within <a class="reference external" href="http://sagemath.org">SageMath</a>, the universal mathematics software based on
+Python.  This section describes how to install SnapPy into your
+existing copy of SageMath, but you may find it easier to use the
+<a class="reference internal" href="#kitchen-sink">kitchen sink</a> approach instead.  You can install it as a Sage
+optional package via the following if using Sage 6.4 or newer:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span> <span class="o">-</span><span class="n">pip</span> <span class="n">install</span> <span class="n">snappy</span>
+<span class="n">sage</span> <span class="o">-</span><span class="n">pip</span> <span class="n">install</span> <span class="n">snappy_15_knots</span>  <span class="c1"># Larger version of HTLinkExteriors</span>
+</pre></div>
+</div>
+<p>If you are on macOS, we recommend use <a class="reference external" href="https://github.com/3-manifolds/Sage_macOS/releases">this binary</a>.</p>
+<p>Alternatively, SageMath on <a class="reference external" href="https://cocalc.com/">CoCalc</a> (formerly
+the SageMathCloud) also has SnapPy preinstalled, and the graphics
+features even work via the <a class="reference external" href="http://blog.sagemath.com/cocalc/2018/11/05/x11.html">X11 interface</a>, see the
+bottom of that page for more.</p>
+<p>If you previously installed SnapPy into SageMath and want to upgrade
+SnapPy to the latest version, do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span> <span class="o">-</span><span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">snappy</span>
+</pre></div>
+</div>
+<p>If it has trouble when compiling CyOpenGL, you are probably missing
+the <cite>“gl.h” headers &lt;openglmesa&gt;</cite>.  The graphical features may or may
+not work, depending on how Tkinter was configured within Sage, and may
+seem to “hang” when you try to start them.  To deal with the latter
+issue type “%gui tk” at the Sage prompt; please note that doing so may
+break Sage’s “attach” feature.</p>
+</section>
+<section id="kitchen-sink">
+<h2>Kitchen sink<a class="headerlink" href="#kitchen-sink" title="Permalink to this heading"></a></h2>
+<p>SnapPy gains extra features when used in <a class="reference external" href="http://sagemath.org">SageMath</a> and one can use
+Sage’s Python to interact not just with SnapPy but a range of other
+computational tools in low-dimensional topology including
+<a class="reference external" href="http://regina-normal.github.io/">Regina</a>,
+<a class="reference external" href="http://snap-pari.sourceforge.net">snap</a>,
+<a class="reference external" href="https://github.com/3-manifolds/heegaard">heegaard</a>,
+<a class="reference external" href="https://github.com/3-manifolds/gridlink">gridlink</a>,
+and <a class="reference external" href="http://flipper.readthedocs.io">flipper</a>.
+We offer a <a class="reference external" href="https://hub.docker.com/r/computop/sage/">prepackaged Docker image</a> with all of the above tools
+and many more; using this is frequently the easiest way to get a
+working setup for such multifaceted computations.  For more, watch
+<a class="reference external" href="https://icerm.brown.edu/video_archive/?play=1992">this demonstration</a>.</p>
+<p>We also offer <a class="reference external" href="https://github.com/unhyperbolic/condaForSnapPy">conda environments</a> with SnapPy and
+optionally Sage (only on Mac OS and Linux). While it has none of the
+other aforementioned tools, it has the advantage that the GUI elements
+such as the link editor and the browser can be used directly.</p>
+</section>
+<section id="generic-unix">
+<h2>Generic Unix<a class="headerlink" href="#generic-unix" title="Permalink to this heading"></a></h2>
+<p>If you use a Unix other than OS X or Linux, or if the prebuilt
+packages don’t work for you, you’ll need to build SnapPy from source.
+Here are some detailed instructions.</p>
+<p>Things you’ll need:</p>
+<ul>
+<li><p>Python 3 with Tkinter: You’ll need to have <a class="reference external" href="http://python.org">Python</a> (version 3.6 or newer) and <a class="reference external" href="http://tcl.tk">Tk</a> (at least version 8.5) with <a class="reference external" href="http://wiki.python.org/moin/TkInter">Tkinter</a> to connect them, including
+the header files.  For instance, on Debian or Ubuntu, install the
+packages “python3-tk”, “python3-pip”, and “python3-dev”. On Fedora,
+you’ll want e.g. “python3-tkinter”, “python3-pip”, and
+“python3-devel”, and “python3-wheel”.</p></li>
+<li><p>Test that Python is in order by installing PLink from source:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">user</span> <span class="n">plink</span>
+<span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">plink</span><span class="o">.</span><span class="n">app</span>  <span class="c1"># Should start the link editor!</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<ul id="openglmesa">
+<li><p>Support for OpenGL (3D graphics): This is built in on OS X and the
+most installations of Fedora and Ubuntu.  But you’ll need the <a class="reference external" href="http://www.mesa3d.org/">MESA</a> header files “gl.h” and “glu.h” to compile
+SnapPy.  On Debian and Ubuntu, install “libglu1-mesa-dev”; On Fedora install
+“mesa-libGLU-devel”.</p></li>
+<li><p><a class="reference external" href="http://cython.org">Cython</a>, which you can install via:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">user</span> <span class="n">cython</span>
+</pre></div>
+</div>
+</li>
+<li><p>The gcc C++ compiler, g++.</p></li>
+<li><p><a class="reference external" href="https://pypi.python.org/pypi/cypari/">CyPari</a>: a stand-alone version of
+<a class="reference external" href="http://sagemath.org">Sage’s</a> Python interface to the
+<a class="reference external" href="http://pari.math.u-bordeaux.fr/PARI">PARI</a> number theory
+library.  Usually, you can install this with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">user</span> <span class="n">cypari</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>Now download the <a class="reference internal" href="#source-code">source code</a> listed below, for instance</p>
+<pre class="literal-block">wget <a class="reference external" href="https://pypi.python.org/packages/source/s/snappy/">https://pypi.python.org/packages/source/s/snappy/</a>snappy-3.1.1.tar.gz
+tar xfz snappy-3.1.1.tar.gz; cd snappy-*</pre>
+<p>There is one more dependency that may need to be dealt with:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="http://togl.sf.net">Togl</a>: a 3d widget for Tk. For OS X and
+Linux, there are pre-built binaries of this in the snappy
+subdirectory, e.g. snappy/linux2-tk8.4.  For Linux these are built
+for 64-bit kernels, and should work on most systems.  If they don’t,
+you’ll need to edit or follow “build_togl.sh” to build Togl directly.</p></li>
+</ul>
+<p>Finally, compile and install the SnapPy module (which will install
+certain other dependencies) and test:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">build</span>
+<span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">user</span> <span class="o">.</span>
+<span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">snappy</span><span class="o">.</span><span class="n">test</span>
+<span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">snappy</span><span class="o">.</span><span class="n">app</span>
+</pre></div>
+</div>
+</section>
+<section id="source-code">
+<h2>Source code<a class="headerlink" href="#source-code" title="Permalink to this heading"></a></h2>
+<p>The complete source code for all platforms: <a class="reference external" href="https://pypi.python.org/packages/source/s/snappy/snappy-3.1.1.tar.gz">snappy-3.1.1.tar.gz</a></p>
+<p>You can also browse our <a class="reference external" href="https://github.com/3-manifolds/SnapPy">source code repository</a> or clone it using <a class="reference external" href="https://git-scm.com/">git</a> via:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="mi">3</span><span class="o">-</span><span class="n">manifolds</span><span class="o">/</span><span class="n">SnapPy</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="SnapPy" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="screenshots.html" class="btn btn-neutral float-right" title="Screenshots: SnapPy in action" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2009-2023, by Marc Culler, Nathan Dunfield, Matthias Goerner, Jeffrey Weeks and others.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

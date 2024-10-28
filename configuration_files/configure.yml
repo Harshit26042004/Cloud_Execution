@@ -1,0 +1,21 @@
+s3:
+  buckets: [sample-bucket]
+
+  authentication:
+    region: us-east-1
+    endpoint: http://localhost:4566
+    access_key_id: test
+    secret_access_key: test
+
+  scanner:
+    recursive_listing: True
+    list_scanned_metadata: True
+
+  reader:
+    max_buffer_size: 500
+    row_limit: 5
+    skip_file_above_size: 70
+    skip_file_type: [zip,rar]
+
+  export:
+    to_txt: True

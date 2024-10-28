@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Step-by-step examples: Part 3 &mdash; SnapPy 3.1.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/snappy_sphinx_rtd_theme.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/SnapPy.ico"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Step-by-step examples: Part 4" href="ptolemy_examples4.html" />
+    <link rel="prev" title="Step-by-step examples: Part 2" href="ptolemy_examples2.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            SnapPy
+              <img src="_static/SnapPy-horizontal-128.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                3.1.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installing SnapPy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="screenshots.html">Screenshots: SnapPy in action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snappy.html">The snappy module and its classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plink.html">Using SnapPy’s link editor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spherogram.html">Links: planar diagrams and invariants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snap.html">Number theory of hyperbolic 3-manifolds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="verify.html">Verified computations</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="other.html">Other components</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="other.html#ptolemy-module">Ptolemy module</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="ptolemy.html">The ptolemy module</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="ptolemy.html#what-is-the-ptolemy-module">What is the ptolemy module?</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="ptolemy.html#documentation">Documentation</a><ul class="current">
+<li class="toctree-l5"><a class="reference internal" href="ptolemy_prelim.html">Mathematical preliminaries</a></li>
+<li class="toctree-l5"><a class="reference internal" href="ptolemy_examples1.html">Step-by-step examples: Part 1</a></li>
+<li class="toctree-l5"><a class="reference internal" href="ptolemy_examples2.html">Step-by-step examples: Part 2</a></li>
+<li class="toctree-l5 current"><a class="current reference internal" href="#">Step-by-step examples: Part 3</a></li>
+<li class="toctree-l5"><a class="reference internal" href="ptolemy_examples4.html">Step-by-step examples: Part 4</a></li>
+<li class="toctree-l5"><a class="reference internal" href="ptolemy_classes.html">Classes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="other.html#twister">Twister</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="news.html">News</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bugs.html">Reporting bugs and other problems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="todo.html">To Do List</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development.html">Development Basics</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SnapPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="other.html">Other components</a></li>
+          <li class="breadcrumb-item"><a href="ptolemy.html">The ptolemy module</a></li>
+      <li class="breadcrumb-item active">Step-by-step examples: Part 3</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="step-by-step-examples-part-3">
+<h1>Step-by-step examples: Part 3<a class="headerlink" href="#step-by-step-examples-part-3" title="Permalink to this heading"></a></h1>
+<section id="computing-solutions-with-magma-or-sage-vs-retrieving-solutions">
+<span id="ptolemy-example-using-magma-sage"></span><h2>Computing solutions with magma or sage vs retrieving solutions<a class="headerlink" href="#computing-solutions-with-magma-or-sage-vs-retrieving-solutions" title="Permalink to this heading"></a></h2>
+<p>So far, we querried the database for solutions to a Ptolemy variety:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m011&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">ptolemy_variety</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">retrieve_solutions</span><span class="p">()</span>
+<span class="go">Trying to retrieve solutions from http://ptolemy.unhyperbolic.org/data/pgl2/OrientableCuspedCensus/03_tetrahedra/m011__sl2_c0.magma_out ...</span>
+<span class="go">Parsing...</span>
+<span class="go">[PtolemyCoordinates(</span>
+<span class="go">     {&#39;c_0011_0&#39;: 1,</span>
+<span class="go">      &#39;c_0011_1&#39;: -1,</span>
+<span class="go">      &#39;c_0011_2&#39;: -1,</span>
+<span class="go">      &#39;c_0101_0&#39;: -1,</span>
+<span class="go">      &#39;c_0101_1&#39;: Mod(x^2 + x, x^3 + 2*x^2 + x + 1),</span>
+<span class="go">      ...</span>
+<span class="go">      &#39;s_3_2&#39;: 1},</span>
+<span class="go">     is_numerical = False, ...)]</span>
+</pre></div>
+</div>
+<p>We can use <code class="docutils literal notranslate"><span class="pre">compute_solutions</span></code> instead of <code class="docutils literal notranslate"><span class="pre">retrieve_solutions</span></code> to actually compute the solutions ourselves (for example, for a non-census triangulation not in the database). Currently, we support two engines:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="http://www.sagemath.org/">sage</a> (which is free, but can only solve a fairly limited number of Ptolemy varieties)</p></li>
+<li><p><a class="reference external" href="http://magma.maths.usyd.edu.au/magma/">magma</a></p></li>
+</ul>
+<p>If you are inside sage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m011&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">ptolemy_variety</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">compute_solutions</span><span class="p">(</span><span class="n">engine</span> <span class="o">=</span> <span class="s1">&#39;sage&#39;</span><span class="p">)</span>
+<span class="go">[PtolemyCoordinates(</span>
+<span class="go">     {&#39;c_0011_0&#39;: 1,</span>
+<span class="go">      &#39;c_0011_1&#39;: -1,</span>
+<span class="go">      &#39;c_0011_2&#39;: -1,</span>
+<span class="go">      &#39;c_0101_0&#39;: -1,</span>
+<span class="go">      &#39;c_0101_1&#39;: Mod(x^2 + x, x^3 + 2*x^2 + x + 1),</span>
+<span class="go">      ...</span>
+<span class="go">      &#39;s_3_2&#39;: 1},</span>
+<span class="go">     is_numerical = False, ...)]</span>
+</pre></div>
+</div>
+<p>If you have magma installed:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m011&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">ptolemy_variety</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">compute_solutions</span><span class="p">(</span><span class="n">engine</span> <span class="o">=</span> <span class="s1">&#39;magma&#39;</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="go">Writing to file: /tmp/tmppNSc8S/m011__sl2_c0.magma</span>
+<span class="go">Magma&#39;s output in: /tmp/tmppNSc8S/m011__sl2_c0.magma_out</span>
+<span class="go">Command: ulimit -m 732421; echo | magma &quot;/tmp/tmppNSc8S/m011__sl2_c0.magma&quot; &gt; &quot;/tmp/tmppNSc8S/m011__sl2_c0.magma_out&quot;</span>
+<span class="go">Starting magma...</span>
+<span class="go">magma finished.</span>
+<span class="go">Parsing magma result...</span>
+<span class="go">[PtolemyCoordinates(</span>
+<span class="go">     {&#39;c_0011_0&#39;: 1,</span>
+<span class="go">      &#39;c_0011_1&#39;: -1,</span>
+<span class="go">      &#39;c_0011_2&#39;: -1,</span>
+<span class="go">      &#39;c_0101_0&#39;: -1,</span>
+<span class="go">      &#39;c_0101_1&#39;: Mod(x^2 + x, x^3 + 2*x^2 + x + 1),</span>
+<span class="go">      ...</span>
+<span class="go">      &#39;s_3_2&#39;: 1},</span>
+<span class="go">     is_numerical = False, ...)]</span>
+</pre></div>
+</div>
+<p>To get an idea of what Ptolemy varieties magma can still handle, have a look at the <a class="reference external" href="http://ptolemy.unhyperbolic.org/html/summary.html">database</a>: for <em>N</em> = 2, the computations up to 12 tetrahedra only took</p>
+<p><strong>Remark:</strong> The magma engine is not expected to work under windows. It will also fail if magma is not installed or the magma executable cannot be found. The ptolemy module creates a temporary file (<code class="docutils literal notranslate"><span class="pre">m011__sl2_c0</span></code> here) and also gives the command it tried to run to process the file through magma. If you believe that magma is installed correctly on your system but encounter an error, you can try to run the command yourself to understand better what is going on. Feel free to report a bug (to enischte at gmail dot com) including the temporary files (<code class="docutils literal notranslate"><span class="pre">m011__sl2_c0</span></code> and <code class="docutils literal notranslate"><span class="pre">m011__sl2_c0.out</span></code> here) and any other error messages.</p>
+<p><strong>Remark:</strong> If no engine is specified, it is assumed to be sage when used inside sage and magma instead.</p>
+</section>
+<section id="computing-the-complex-volume">
+<span id="ptolemy-example-complex-volume"></span><h2>Computing the complex volume<a class="headerlink" href="#computing-the-complex-volume" title="Permalink to this heading"></a></h2>
+<p>Similar to <code class="docutils literal notranslate"><span class="pre">volume_numerical</span></code>, we can compute the complex volume (volume + i Chern-Simons) for all representations (that are <a class="reference internal" href="ptolemy_prelim.html#ptolemy-generically-decorated"><span class="std std-ref">generically decorated</span></a>).</p>
+<p>Here is an example computing the solutions to the Ptolemy variety ourselves:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m011&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">ptolemy_variety</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;all&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">compute_solutions</span><span class="p">()</span><span class="o">.</span><span class="n">complex_volume_numerical</span><span class="p">()</span>
+<span class="go">[[[-4.30211422042248 E-16 + 0.725471193740844*I,</span>
+<span class="go">   -0.942707362776931 + 0.459731436553693*I,</span>
+<span class="go">   0.942707362776931 + 0.459731436553693*I]],</span>
+<span class="go"> [[4.64255370258293 E-15 + 0.680993020093457*I,</span>
+<span class="go">   3.94215909915729 E-15 + 0.312682687518267*I,</span>
+<span class="go">   -2.78183391239608 - 0.496837853805869*I,</span>
+<span class="go">   2.78183391239608 - 0.496837853805869*I]]]</span>
+</pre></div>
+</div>
+<p>And here the same example retrieving solutions from the database:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m011&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">ptolemy_variety</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;all&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">retrieve_solutions</span><span class="p">()</span><span class="o">.</span><span class="n">complex_volume_numerical</span><span class="p">()</span>
+<span class="go">Trying to retrieve solutions from http://ptolemy.unhyperbolic.org/data/pgl2/OrientableCuspedCensus/03_tetrahedra/m011__sl2_c0.magma_out ...</span>
+<span class="go">Parsing...</span>
+<span class="go">Trying to retrieve solutions from http://ptolemy.unhyperbolic.org/data/pgl2/OrientableCuspedCensus/03_tetrahedra/m011__sl2_c1.magma_out ...</span>
+<span class="go">Parsing...</span>
+<span class="go">[[[-4.30211422042248 E-16 + 0.725471193740844*I,</span>
+<span class="go">...</span>
+<span class="go">   2.78183391239608 - 0.496837853805869*I]]]</span>
+</pre></div>
+</div>
+</section>
+<section id="computing-the-matrices-for-a-different-presentation">
+<span id="ptolemy-detailed-example-matrices"></span><h2>Computing the matrices for a different presentation<a class="headerlink" href="#computing-the-matrices-for-a-different-presentation" title="Permalink to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">fundamental_group</span></code> method of a SnapPy triangulation can yield different presentations by supplying  optional arguments such as <code class="docutils literal notranslate"><span class="pre">simplify_presentation</span></code> and <code class="docutils literal notranslate"><span class="pre">minimize_number_of_generators</span></code>. If we have a word in one of these presentations and want to evaluate its image under the representation, we need to supply the presentation as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">M</span><span class="o">=</span><span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m003&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sol</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">ptolemy_variety</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">retrieve_solutions</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">G</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">fundamental_group</span><span class="p">(</span><span class="n">simplify_presentation</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sol</span><span class="o">.</span><span class="n">evaluate_word</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">G</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Again, we can check that the representation actually assigns the identity to all relators:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">G</span>
+<span class="go">Generators:</span>
+<span class="go">   a,b,c</span>
+<span class="go">Relators:</span>
+<span class="go">   BCaC</span>
+<span class="go">   AbCbA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sol</span><span class="o">.</span><span class="n">evaluate_word</span><span class="p">(</span><span class="s1">&#39;AbCbA&#39;</span><span class="p">,</span> <span class="n">G</span><span class="p">)</span>
+<span class="go">[[Mod(1, x^2 - x - 1), 0], [0, Mod(1, x^2 - x - 1)]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">relator</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">relators</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">evaluate_word</span><span class="p">(</span><span class="n">relator</span><span class="p">,</span> <span class="n">G</span><span class="p">))</span>
+<span class="go">[[Mod(1, x^2 - x - 1), 0], [0, Mod(1, x^2 - x - 1)]]</span>
+<span class="go">[[Mod(1, x^2 - x - 1), 0], [0, Mod(1, x^2 - x - 1)]]</span>
+</pre></div>
+</div>
+</section>
+<section id="computing-the-images-of-the-peripheral-curves-for-a-representation">
+<span id="ptolemy-example-boundary-holonomy"></span><h2>Computing the images of the peripheral curves for a representation<a class="headerlink" href="#computing-the-images-of-the-peripheral-curves-for-a-representation" title="Permalink to this heading"></a></h2>
+<p>The object returned by <code class="docutils literal notranslate"><span class="pre">fundamental_group</span></code> also contains words for the peripheral curves of a manifold. We can compute the corresponding matrices:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m003&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">G</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">fundamental_group</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sol</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">ptolemy_variety</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">retrieve_solutions</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">cusp_curves</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">peripheral_curves</span><span class="p">()):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cusp </span><span class="si">%d</span><span class="s2">:&quot;</span> <span class="o">%</span> <span class="n">i</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">cusp_curve</span> <span class="ow">in</span> <span class="n">cusp_curves</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">evaluate_word</span><span class="p">(</span><span class="n">cusp_curve</span><span class="p">,</span> <span class="n">G</span><span class="p">))</span>
+<span class="go">Cusp 0:</span>
+<span class="go">[[Mod(2*x - 3, x^2 + x + 1), Mod(2*x, x^2 + x + 1)], [Mod(6, x^2 + x + 1), Mod(-2*x + 1, x^2 + x + 1)]]</span>
+<span class="go">[[Mod(-2*x - 5, x^2 + x + 1), Mod(-2, x^2 + x + 1)], [Mod(6*x + 6, x^2 + x + 1), Mod(2*x + 3, x^2 + x + 1)]]</span>
+</pre></div>
+</div>
+<p><strong>Remark:</strong> For each cusp, we can conjugate these matrices into <em>P</em> since the representation is <a class="reference internal" href="ptolemy_prelim.html#ptolemy-boundary-unipotent"><span class="std std-ref">boundary-unipotent</span></a>. We might implement a method returning a matrix in <em>P</em> for the longitude and meridian of a cusp in the future (simply by finding loops corresponding to a longitude and meridian as path of short edges in the truncated simplex in Figure 17 of <a class="reference internal" href="ptolemy_prelim.html#ggz2012" id="id1"><span>[GGZ2012]</span></a>).</p>
+</section>
+<section id="finding-a-witness-point-for-a-positively-dimensional-component-of-the-ptolemy-variety">
+<span id="ptolemy-example-find-witness"></span><h2>Finding a witness point for a positively dimensional component of the Ptolemy variety<a class="headerlink" href="#finding-a-witness-point-for-a-positively-dimensional-component-of-the-ptolemy-variety" title="Permalink to this heading"></a></h2>
+<p>We already saw an <a class="reference internal" href="ptolemy_examples2.html#ptolemy-non-zero-dim-comp"><span class="std std-ref">example of a positively dimensional component</span></a>. By flattening, we obtain a list of all the components of the Ptolemy varieties for all obstruction classes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">M</span><span class="o">=</span><span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m371&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sols</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">ptolemy_variety</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;all&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">retrieve_solutions</span><span class="p">()</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>We can now just look at the positively dimensional ones:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">one_dim_sols</span> <span class="o">=</span> <span class="p">[</span> <span class="n">sol</span> <span class="k">for</span> <span class="n">sol</span> <span class="ow">in</span> <span class="n">sols</span> <span class="k">if</span> <span class="n">sol</span><span class="o">.</span><span class="n">dimension</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">one_dim_sols</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">one_dim_sols</span>
+<span class="go">[[ PtolemyCoordinates(</span>
+<span class="go">       {&#39;c_0011_0&#39;: 1,</span>
+<span class="go">        &#39;c_0011_1&#39;: -1,</span>
+<span class="go">        &#39;c_0011_2&#39;: -1,</span>
+<span class="go">        &#39;c_0011_3&#39;: Mod(-x - 1, x^2 + x + 2),</span>
+<span class="go">        ...,</span>
+<span class="go">        &#39;s_3_4&#39;: 1},</span>
+<span class="go">       is_numerical = False, ...)</span>
+<span class="go">   (witnesses for NonZeroDimensionalComponent(dimension = 1, free_variables = [&#39;c_0110_2&#39;])) ]]</span>
+</pre></div>
+</div>
+<p>We see that we have one such component and that each component is actually itself a list of witness points.</p>
+<p><strong>Remark:</strong> Witness points are a fairly new feature and not all files in the database have been updated yet to contain them. You might instead just see <code class="docutils literal notranslate"><span class="pre">[NonZeroDimensionalComponent(dimension</span> <span class="pre">=</span> <span class="pre">1)]</span></code>.</p>
+<p><strong>Remark:</strong> The ptolemy module also reports the <cite>free variables</cite> for the positively dimensional components. We can set these variables to random values and generically will obtain a new witness point.</p>
+<p>We can access the witness point(s) for each component just by iteration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">one_dim_sols</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Component:&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">witness</span> <span class="ow">in</span> <span class="n">component</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    Witness:&quot;</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;        Volumes:&quot;</span><span class="p">,</span> <span class="n">witness</span><span class="o">.</span><span class="n">volume_numerical</span><span class="p">())</span>
+<span class="go">Component:</span>
+<span class="go">    Witness:</span>
+<span class="go">        Volumes: [0.E-38, 0.E-38]</span>
+</pre></div>
+</div>
+<p>The different volumes in a line correspond to different Galois conjugates of the same <cite>algebraic</cite> witness point.</p>
+</section>
+<section id="finding-non-zero-dimensional-families-of-boundary-unipotent-representations">
+<span id="ptolemy-example-non-zero-dim-rep"></span><h2>Finding non-zero dimensional families of boundary-unipotent representations<a class="headerlink" href="#finding-non-zero-dimensional-families-of-boundary-unipotent-representations" title="Permalink to this heading"></a></h2>
+<p>We now revisit the <a class="reference internal" href="ptolemy_examples2.html#ptolemy-non-zero-dim-comp"><span class="std std-ref">1-dimensional component of the Ptolemy variety</span></a> and answer the question whether this yields a 1-dimensional family of representations or not. We pick a <a class="reference internal" href="#ptolemy-example-find-witness"><span class="std std-ref">witness point</span></a> for the component and check the <a class="reference internal" href="#ptolemy-example-boundary-holonomy"><span class="std std-ref">matrices for the peripheral curves</span></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m371&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">G</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">fundamental_group</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sols</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">ptolemy_variety</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;all&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">retrieve_solutions</span><span class="p">()</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">components</span> <span class="o">=</span> <span class="p">[</span> <span class="n">sol</span> <span class="k">for</span> <span class="n">sol</span> <span class="ow">in</span> <span class="n">sols</span> <span class="k">if</span> <span class="n">sol</span><span class="o">.</span><span class="n">dimension</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">components</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Component of dimension </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">component</span><span class="o">.</span><span class="n">dimension</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">witness</span> <span class="ow">in</span> <span class="n">component</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">cusp_curves</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">peripheral_curves</span><span class="p">()):</span>
+<span class="gp">... </span>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    Cusp </span><span class="si">%d</span><span class="s2">:&quot;</span> <span class="o">%</span> <span class="n">i</span><span class="p">)</span>
+<span class="gp">... </span>            <span class="k">for</span> <span class="n">cusp_curve</span> <span class="ow">in</span> <span class="n">cusp_curves</span><span class="p">:</span>
+<span class="gp">... </span>                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;        &quot;</span><span class="p">,</span> <span class="n">witness</span><span class="o">.</span><span class="n">evaluate_word</span><span class="p">(</span><span class="n">cusp_curve</span><span class="p">,</span> <span class="n">G</span><span class="p">))</span>
+<span class="go">Component of dimension 1</span>
+<span class="go">    Cusp 0:</span>
+<span class="go">        [[Mod(1, x^2 + x + 2), 0], [0, Mod(1, x^2 + x + 2)]]</span>
+<span class="go">        [[Mod(1, x^2 + x + 2), 0], [0, Mod(1, x^2 + x + 2)]]</span>
+</pre></div>
+</div>
+<p>We see that the matrices are trivial, thus this 1-dimensional component corresponds to a 1-dimensional family of <a class="reference internal" href="ptolemy_prelim.html#ptolemy-generically-decorated"><span class="std std-ref">decorations</span></a> of the same (up to Galois conjugacy) representation. The corresponding family of representation is 0-dimensional.</p>
+<p>Let us try another manifold, <code class="docutils literal notranslate"><span class="pre">m410</span></code>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m410&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">G</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">fundamental_group</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sols</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">ptolemy_variety</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;all&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">retrieve_solutions</span><span class="p">()</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">components</span> <span class="o">=</span> <span class="p">[</span> <span class="n">sol</span> <span class="k">for</span> <span class="n">sol</span> <span class="ow">in</span> <span class="n">sols</span> <span class="k">if</span> <span class="n">sol</span><span class="o">.</span><span class="n">dimension</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">components</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Component of dimension </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">component</span><span class="o">.</span><span class="n">dimension</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">witness</span> <span class="ow">in</span> <span class="n">component</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">cusp_curves</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">peripheral_curves</span><span class="p">()):</span>
+<span class="gp">... </span>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    Cusp </span><span class="si">%d</span><span class="s2">:&quot;</span> <span class="o">%</span> <span class="n">i</span><span class="p">)</span>
+<span class="gp">... </span>            <span class="k">for</span> <span class="n">cusp_curve</span> <span class="ow">in</span> <span class="n">cusp_curves</span><span class="p">:</span>
+<span class="gp">... </span>                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;       &quot;</span><span class="p">,</span> <span class="n">witness</span><span class="o">.</span><span class="n">evaluate_word</span><span class="p">(</span><span class="n">cusp_curve</span><span class="p">,</span> <span class="n">G</span><span class="p">))</span>
+<span class="go">Component of dimension 1</span>
+<span class="go">    Cusp 0:</span>
+<span class="go">        [[Mod(1, x^2 + 2), 0], [0, Mod(1, x^2 + 2)]]</span>
+<span class="go">        [[Mod(1, x^2 + 2), Mod(x, x^2 + 2)], [0, Mod(1, x^2 + 2)]]</span>
+<span class="go">Component of dimension 1</span>
+<span class="go">    Cusp 0:</span>
+<span class="go">        [[Mod(1, x^2 + 7), 0], [0, Mod(1, x^2 + 7)]]</span>
+<span class="go">        [[Mod(1, x^2 + 7), 0], [0, Mod(1, x^2 + 7)]]</span>
+</pre></div>
+</div>
+<p>It has two 1-dimensional components, and for the first one, we see that the matrices are non-trivial, so this corresponds indeed to a 1-dimensional family of representations.</p>
+<p><strong>Remark:</strong> The witness points are chosen so that they are not at the intersection of two positively dimensional components. This is for the following reason: it could happen that there is a 1-dimensional family of representations which contains points where the boundary holonomy becomes trivial. This yields a representation where the above matrices are trivial yet it is part of a 1-dimensional family of boundary-unipotent representations. In the ptolemy variety, however, this means that two non-zero dimensional components (one corresponding to a family of decorations, the other to a family of representations) intersect.</p>
+</section>
+<section id="representations-that-are-the-same-as-psl-2-c-representations">
+<h2>Representations that are the same as PSL(2, <strong>C</strong>)-representations<a class="headerlink" href="#representations-that-are-the-same-as-psl-2-c-representations" title="Permalink to this heading"></a></h2>
+<p>Let us compare the volumes of <code class="docutils literal notranslate"><span class="pre">m009</span></code> and <code class="docutils literal notranslate"><span class="pre">m159</span></code>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m009&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">ptolemy_variety</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;all&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">retrieve_solutions</span><span class="p">()</span><span class="o">.</span><span class="n">volume_numerical</span><span class="p">()</span>
+<span class="go">[[],</span>
+<span class="go"> [],</span>
+<span class="go"> [],</span>
+<span class="go"> [[2.66674478344907, -2.66674478344907, 2.66674478344907, -2.66674478344907]]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m159&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">ptolemy_variety</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;all&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">retrieve_solutions</span><span class="p">()</span><span class="o">.</span><span class="n">volume_numerical</span><span class="p">()</span>
+<span class="go">[[[0.E-38, 0.E-37, 0.E-37],</span>
+<span class="go"> [-2.02988321281931, 2.02988321281931, -2.02988321281931, 2.02988321281931]],</span>
+<span class="go">[[0.698544082784440, -0.698544082784440, 3.82168758617998, -3.82168758617998],</span>
+<span class="go"> [0.E-37, 0.E-37, 0.E-37, 0.E-37]]]</span>
+</pre></div>
+</div>
+<p>In both cases, some volumes appear twice (2.66674… for <code class="docutils literal notranslate"><span class="pre">m009</span></code> and 2.02988… for <code class="docutils literal notranslate"><span class="pre">m159</span></code>). In the case of <code class="docutils literal notranslate"><span class="pre">m009</span></code>, these two volumes correspond to the same PSL(2, <strong>C</strong>)-representation and in case <code class="docutils literal notranslate"><span class="pre">m159</span></code> to two different boundary-unipotent SL(2, <strong>C</strong>)-representations that are the same as PSL(2, <strong>C</strong>)-representations (see <a class="reference internal" href="ptolemy_prelim.html#ptolemy-psl-multiplicity"><span class="std std-ref">SL(N, C) vs PSL(N, C)</span></a>). We can get the  multiplicity by calling <code class="docutils literal notranslate"><span class="pre">degree_to_shapes</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m009&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">ptolemy_variety</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">degree_to_shapes</span><span class="p">()</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m159&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">ptolemy_variety</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">degree_to_shapes</span><span class="p">()</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+<p>When we convert the Ptolemy coordinates to shapes/cross ratios for <code class="docutils literal notranslate"><span class="pre">m009</span></code>, we also see that we see the same shape assignment appears twice (at least numerically):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m009&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">ptolemy_variety</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;all&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">retrieve_solutions</span><span class="p">()</span><span class="o">.</span><span class="n">numerical</span><span class="p">()</span><span class="o">.</span><span class="n">cross_ratios</span><span class="p">()</span>
+<span class="go">[[],</span>
+<span class="go"> [],</span>
+<span class="go"> [],</span>
+<span class="go"> [[CrossRatios(</span>
+<span class="go">       {&#39;z_0000_0&#39;: 0.500000000000000 + 1.32287565553230*I,</span>
+<span class="go">        &#39;z_0000_1&#39;: 0.375000000000000 + 0.330718913883074*I,</span>
+<span class="go">        &#39;z_0000_2&#39;: 0.500000000000000 + 1.32287565553230*I,</span>
+<span class="go">        &#39;zp_0000_0&#39;: 0.250000000000000 + 0.661437827766148*I,</span>
+<span class="go">        ...},</span>
+<span class="go">       is_numerical = True, ...),</span>
+<span class="go">   CrossRatios(</span>
+<span class="go">       {&#39;z_0000_0&#39;: 0.500000000000000 - 1.32287565553230*I,</span>
+<span class="go">        &#39;z_0000_1&#39;: 0.375000000000000 - 0.330718913883074*I,</span>
+<span class="go">        &#39;z_0000_2&#39;: 0.500000000000000 - 1.32287565553230*I,</span>
+<span class="go">        ...}</span>
+<span class="go">       is_numerical = True, ...),</span>
+<span class="go">   CrossRatios(</span>
+<span class="go">       {&#39;z_0000_0&#39;: 0.500000000000000 + 1.32287565553230*I,</span>
+<span class="go">        &#39;z_0000_1&#39;: 0.375000000000000 + 0.330718913883074*I,</span>
+<span class="go">        &#39;z_0000_2&#39;: 0.500000000000000 + 1.32287565553230*I,</span>
+<span class="go">        ...},</span>
+<span class="go">       is_numerical = True, ...),</span>
+<span class="go">   CrossRatios(</span>
+<span class="go">       {&#39;z_0000_0&#39;: 0.500000000000000 - 1.32287565553230*I,</span>
+<span class="go">        &#39;z_0000_1&#39;: 0.375000000000000 - 0.330718913883074*I,</span>
+<span class="go">        &#39;z_0000_2&#39;: 0.500000000000000 - 1.32287565553230*I,</span>
+<span class="go">        ...},</span>
+<span class="go">       is_numerical = True, ...)]]]</span>
+</pre></div>
+</div>
+<p><strong>Remark:</strong> The tables at <a class="reference external" href="http://ptolemy.unhyperbolic.org/html/summary.html">ptolemy.unhyperbolic.org</a> use the cross ratios to list representations that are the same as PSL(2, <strong>C</strong>)-representation only once.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ptolemy_examples2.html" class="btn btn-neutral float-left" title="Step-by-step examples: Part 2" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ptolemy_examples4.html" class="btn btn-neutral float-right" title="Step-by-step examples: Part 4" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2009-2023, by Marc Culler, Nathan Dunfield, Matthias Goerner, Jeffrey Weeks and others.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

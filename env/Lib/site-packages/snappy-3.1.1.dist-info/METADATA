@@ -1,0 +1,43 @@
+Metadata-Version: 2.1
+Name: snappy
+Version: 3.1.1
+Summary: Studying the topology and geometry of 3-manifolds, with a focus on hyperbolic structures.
+Home-page: http://snappy.computop.org
+Author: Marc Culler and Nathan M. Dunfield
+Author-email: culler@uic.edu, nathan@dunfield.info
+License: GPLv2+
+Keywords: 3-manifolds,topology,hyperbolic geometry
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: C
+Classifier: Programming Language :: C++
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Cython
+Classifier: Topic :: Scientific/Engineering :: Mathematics
+Requires-Python: >=3
+Description-Content-Type: text/x-rst
+Requires-Dist: plink (>=2.4.2)
+Requires-Dist: spherogram (>=2.2)
+Requires-Dist: FXrays (>=1.3)
+Requires-Dist: pypng
+Requires-Dist: decorator
+Requires-Dist: snappy-manifolds (>=1.1.2)
+Requires-Dist: low-index (>=1.2)
+Requires-Dist: cypari (>=2.3)
+Requires-Dist: ipython (>=5.0)
+
+SnapPy
+======
+
+SnapPy is a package for studying the topology and geometry of
+3-manifolds, with a focus on hyperbolic structures.  It is based on
+the SnapPea kernel written by `Jeff Weeks
+<http://www.geometrygames.org>`_.  
+
+Complete documentation is available on the web including the `main
+page <http://snappy.computop.org>`_ and an `installation guide
+<http://snappy.computop.org/installing.html>`_.  You can also browse
+the `source code <https://github.com/3-manifolds/SnapPy>`_.
+

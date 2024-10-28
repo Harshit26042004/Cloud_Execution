@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Using SnapPy’s link editor &mdash; SnapPy 3.1.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/snappy_sphinx_rtd_theme.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/SnapPy.ico"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Links: planar diagrams and invariants" href="spherogram.html" />
+    <link rel="prev" title="Censuses of Platonic manifolds" href="platonic_census.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            SnapPy
+              <img src="_static/SnapPy-horizontal-128.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                3.1.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installing SnapPy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="screenshots.html">Screenshots: SnapPy in action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snappy.html">The snappy module and its classes</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Using SnapPy’s link editor</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#drawing-basics">Drawing Basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#miscellaneous-features">Miscellaneous Features</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="spherogram.html">Links: planar diagrams and invariants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snap.html">Number theory of hyperbolic 3-manifolds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="verify.html">Verified computations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="other.html">Other components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="news.html">News</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bugs.html">Reporting bugs and other problems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="todo.html">To Do List</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development.html">Development Basics</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SnapPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Using SnapPy’s link editor</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="using-snappy-s-link-editor">
+<h1>Using SnapPy’s link editor<a class="headerlink" href="#using-snappy-s-link-editor" title="Permalink to this heading"></a></h1>
+<p>PLink draws piecewise linear link projections.  Components may be
+points, PL arcs, or PL circles.  Line segments are oriented consistently in
+each component.  Different components are different colors.</p>
+<img alt="_images/plink-action.png" class="align-right" src="_images/plink-action.png" />
+<p>To invoke the link editor, do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span><span class="p">[</span><span class="mi">5</span><span class="p">]:</span>  <span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Once you’ve drawn the link, select the menu item “PLink-&gt;Tools-&gt;Send to
+SnapPy”, and then <em>M</em> will be the complement of the link.  If you edit
+the link, you can again do “Send to SnapPy” to update <em>M</em>.</p>
+<section id="drawing-basics">
+<h2>Drawing Basics<a class="headerlink" href="#drawing-basics" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>When using the mouse to draw a link with PLink, you should always
+<em>click-and-release</em>.  Do not hold the mouse button down while drawing.
+PLink requires only the left mouse button.</p></li>
+<li><p>The default state of the editor is indicated by the arrow cursor.
+In this state, click-and-release the left mouse button on the
+background to place a starting vertex and begin drawing.  The vertex
+will be connected to the pencil cursor by a thin red line.
+Click-and-release to place a second vertex.  The two vertices will
+then be joined by an edge. Continue to draw other vertices and edges
+to your heart’s content.</p></li>
+<li><p>To stop drawing, either click twice on the same vertex to create an
+arc, or click on an endpoint vertex.  The latter operation will
+either create a circle component or join together two arc
+components.</p></li>
+<li><p>When the cursor hovers over a vertex it changes to the pointing
+finger.  From this state you can drag a vertex to a new location
+with a click-and-release on the vertex. The vertex will become
+enclosed in a circular cursor.  Move it to where you want it to go
+and click the left (or middle) button to place it.  If you drag one
+endpoint on top of another, they will meld.</p></li>
+<li><p>When the cursor hovers over an edge, not too close to a vertex or
+crossing, it changes to the push-me-pull-you cursor.  Clicking in
+this state will change the orientation of the component containing
+the edge.</p></li>
+<li><p>When the cursor hovers over a crossing it changes to the yin-yang
+recycling cursor.  Clicking while in this state changes the the
+handedness of the crossing.</p></li>
+<li><p>Double-clicking on an endpoint vertex will restart drawing from
+that vertex.  Double-clicking on a non-endpoint vertex will break
+the link at that point and begin drawing with the old incoming edge.</p></li>
+<li><p>While in drawing state, hitting the Delete key removes the last
+vertex before the cursor.  If no vertices remain, the drawing state
+ends and the active component is removed.  This can be used to
+remove a segment from the diagram.  Double-click a vertex; hit
+Delete to remove the incoming segment at that vertex; then click the
+vertex again to reconnect.</p></li>
+<li><p>You will not be allowed to create edges that pass too close to a
+vertex or a crossing, or to place vertices too close to edges or to
+crossings or to other vertices.  If you attempt to do any of these
+things, PLink will flash the drawing canvas.</p></li>
+</ul>
+</section>
+<section id="miscellaneous-features">
+<h2>Miscellaneous Features<a class="headerlink" href="#miscellaneous-features" title="Permalink to this heading"></a></h2>
+<p>The window can be resized to allow for different sizes of link
+projections, and the arrow keys can be used to slide the projection
+around in order to make more room on one side or another.</p>
+<p>The “Tools” menu can be used to make the projection alternating
+(provided that all components are circles), or to clear the screen,
+or to reflect the projection in the xy-plane, changing all crossings.
+Also, the “Tools” menu includes the “send to SnapPy” command.</p>
+<p>The “File” menu can be used to save the projection as a SnapPea
+link projection file.  (This can be done from the drawing state as
+well, in which case the “hot vertex” is remembered in the file!).  The
+“File-&gt;Open File” command will read a SnapPea link projection file,
+and restart drawing if the projection was saved while drawing.</p>
+<p>The “Info” menu selects information about the link projection to be
+displayed in the info line at the bottom.  Various encoding schemes
+for link projections are supported, as well as the blackboard framing
+curves, expressed in meridian-longitude coordinates.  Cutting and
+pasting from the info line is supported.  The numerical and
+alphabetical Dowker-Thistlethwaite codes are displayed in an extended
+form which includes a full description of the planar embedding.  The
+string printed in the info line is also accepted as input to SnapPy’s
+Manifold constructor.  That is, you can paste the complete DT code,
+for example <code class="docutils literal notranslate"><span class="pre">DT:</span> <span class="pre">[(-4,6,2)],</span> <span class="pre">[0,0,1]</span></code>, between the apostrophes in
+Manifold(‘’).  The “DT labels” option displays the indexing used in
+computing the Dowker-Thistlethwaite codes.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="platonic_census.html" class="btn btn-neutral float-left" title="Censuses of Platonic manifolds" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="spherogram.html" class="btn btn-neutral float-right" title="Links: planar diagrams and invariants" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2009-2023, by Marc Culler, Nathan Dunfield, Matthias Goerner, Jeffrey Weeks and others.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

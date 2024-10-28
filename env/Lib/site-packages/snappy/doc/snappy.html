@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The snappy module and its classes &mdash; SnapPy 3.1.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/snappy_sphinx_rtd_theme.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/SnapPy.ico"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Manifold: the main class" href="manifold.html" />
+    <link rel="prev" title="Tutorial" href="tutorial.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            SnapPy
+              <img src="_static/SnapPy-horizontal-128.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                3.1.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installing SnapPy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="screenshots.html">Screenshots: SnapPy in action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">The snappy module and its classes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="manifold.html">Manifold: the main class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manifoldhp.html">ManifoldHP: High-precision variant</a></li>
+<li class="toctree-l2"><a class="reference internal" href="triangulation.html">Triangulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="additional_classes.html">Additional Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="censuses.html">Census manifolds</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="plink.html">Using SnapPy’s link editor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spherogram.html">Links: planar diagrams and invariants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snap.html">Number theory of hyperbolic 3-manifolds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="verify.html">Verified computations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="other.html">Other components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="news.html">News</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bugs.html">Reporting bugs and other problems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="todo.html">To Do List</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development.html">Development Basics</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SnapPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">The snappy module and its classes</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="the-snappy-module-and-its-classes">
+<h1>The snappy module and its classes<a class="headerlink" href="#the-snappy-module-and-its-classes" title="Permalink to this heading"></a></h1>
+<p>SnapPy is centered around a Python interface for SnapPea called
+“snappy”, and this is what you’re interacting with in the main “SnapPy
+command shell” window.  The main class is Manifold, which is an ideal
+triangulation of the interior of a compact 3-manifold with torus
+boundary, where each tetrahedron has been assigned the geometry of
+an ideal tetrahedron in hyperbolic 3-space.  A Dehn-filling can be
+specified for each boundary component, allowing the description of
+closed 3-manifolds and some orbifolds.  The class Manifold is derived
+from the simpler Triangulation class which lacks any geometric
+structure.  There are also some additional classes for things like
+fundamental groups, Dirichlet domains, etc.  Snappy comes with a large
+library of 3-manifolds, some of which are grouped together in censuses.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="manifold.html">Manifold: the main class</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="manifold.html#snappy.Manifold"><code class="docutils literal notranslate"><span class="pre">Manifold</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="manifoldhp.html">ManifoldHP: High-precision variant</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="manifoldhp.html#faq">FAQ</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="triangulation.html">Triangulation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="triangulation.html#snappy.Triangulation"><code class="docutils literal notranslate"><span class="pre">Triangulation</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="additional_classes.html">Additional Classes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="additional_classes.html#abeliangroup">AbelianGroup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="additional_classes.html#fundamentalgroup">FundamentalGroup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="additional_classes.html#symmetrygroup">SymmetryGroup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="additional_classes.html#dirichletdomain">DirichletDomain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="additional_classes.html#cuspneighborhood">CuspNeighborhood</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="censuses.html">Census manifolds</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="censuses.html#snappy.OrientableCuspedCensus"><code class="docutils literal notranslate"><span class="pre">OrientableCuspedCensus</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="censuses.html#snappy.OrientableClosedCensus"><code class="docutils literal notranslate"><span class="pre">OrientableClosedCensus</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="censuses.html#snappy.CensusKnots"><code class="docutils literal notranslate"><span class="pre">CensusKnots</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="censuses.html#snappy.LinkExteriors"><code class="docutils literal notranslate"><span class="pre">LinkExteriors</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="censuses.html#snappy.HTLinkExteriors"><code class="docutils literal notranslate"><span class="pre">HTLinkExteriors</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="censuses.html#snappy.NonorientableCuspedCensus"><code class="docutils literal notranslate"><span class="pre">NonorientableCuspedCensus</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="censuses.html#snappy.NonorientableClosedCensus"><code class="docutils literal notranslate"><span class="pre">NonorientableClosedCensus</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="platonic_census.html">Censuses of Platonic manifolds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="censuses.html#snappy.database.ManifoldTable"><code class="docutils literal notranslate"><span class="pre">ManifoldTable</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="censuses.html#snappy.AlternatingKnotExteriors"><code class="docutils literal notranslate"><span class="pre">AlternatingKnotExteriors</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="censuses.html#snappy.NonalternatingKnotExteriors"><code class="docutils literal notranslate"><span class="pre">NonalternatingKnotExteriors</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tutorial.html" class="btn btn-neutral float-left" title="Tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="manifold.html" class="btn btn-neutral float-right" title="Manifold: the main class" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2009-2023, by Marc Culler, Nathan Dunfield, Matthias Goerner, Jeffrey Weeks and others.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

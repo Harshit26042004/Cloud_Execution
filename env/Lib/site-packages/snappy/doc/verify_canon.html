@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Canonical retriangulation and isometry signature &mdash; SnapPy 3.1.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/snappy_sphinx_rtd_theme.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/SnapPy.ico"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Internals of verified computations" href="verify_internals.html" />
+    <link rel="prev" title="Verified computations" href="verify.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            SnapPy
+              <img src="_static/SnapPy-horizontal-128.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                3.1.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installing SnapPy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="screenshots.html">Screenshots: SnapPy in action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snappy.html">The snappy module and its classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plink.html">Using SnapPy’s link editor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spherogram.html">Links: planar diagrams and invariants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snap.html">Number theory of hyperbolic 3-manifolds</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="verify.html">Verified computations</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="verify.html#overview">Overview</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="verify.html#verified-computation-topics">Verified computation topics</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Canonical retriangulation and isometry signature</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#verifying-the-canonical-retriangulation">Verifying the canonical retriangulation</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.verified_canonical_retriangulation"><code class="docutils literal notranslate"><span class="pre">verified_canonical_retriangulation()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="verify_internals.html">Internals of verified computations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="other.html">Other components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="news.html">News</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bugs.html">Reporting bugs and other problems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="todo.html">To Do List</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development.html">Development Basics</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SnapPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="verify.html">Verified computations</a></li>
+      <li class="breadcrumb-item active">Canonical retriangulation and isometry signature</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="canonical-retriangulation-and-isometry-signature">
+<h1>Canonical retriangulation and isometry signature<a class="headerlink" href="#canonical-retriangulation-and-isometry-signature" title="Permalink to this heading"></a></h1>
+<p>The canonical retriangulation is a close relative to the canonical cell
+decomposition defined by <a class="reference external" href="https://projecteuclid.org/euclid.jdg/1214441650">Epstein and Penner</a>.
+Like the canonical cell decomposition, it is intrinsic to
+a hyperbolic manifold M and is (up to combinatorial isomorphism
+relabeling the tetrahedra and vertices) completely determined by the
+isometry type of a hyperbolic manifold. Unlike the canonical cell decomposition,
+the canonical retriangulation always consists entirely of tetrahedra which makes
+it more amenable for many computations by SnapPy.</p>
+<p>If the canonical cell decomposition of manifold M has only tetrahedral cells,
+we define the canonical retriangulation to be the canonical cell decomposition.
+In this case, the canonical retriangulation consists of ideal hyperbolic
+tetrahedra and the <code class="docutils literal notranslate"><span class="pre">canonical_retriangulation</span></code> method returns a
+SnapPy manifold. Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m015&quot;</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">K</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">canonical_retriangulation</span><span class="p">(</span><span class="n">verified</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">K</span><span class="o">.</span><span class="n">has_finite_vertices</span><span class="p">()</span> <span class="c1"># False iff all canonical cells tetrahedral</span>
+<span class="kc">False</span>
+</pre></div>
+</div>
+<p>If the canonical cell decomposition has non-tetrahedral cells, we turn it into
+a topological triangulation as follows: pick a point (called center) in each
+3-cell. “Suspend” each 2-cell (which is an ideal n-gon) between
+the centers of the two neighboring 3-cells. These suspensions form a
+decomposition of M into topological “diamonds”. Each diamond can be split along
+its central axis into n tetrahedra. This introduces finite vertices, thus
+the <code class="docutils literal notranslate"><span class="pre">verified_canonical_retriangulation</span></code> method returns only a SnapPy
+triangulation. Example (canonical cell is a cube):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m412&quot;</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">K</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">canonical_retriangulation</span><span class="p">(</span><span class="n">verified</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">K</span><span class="o">.</span><span class="n">has_finite_vertices</span><span class="p">()</span>
+<span class="kc">True</span>
+</pre></div>
+</div>
+<p>The canonical retriangulation can be used to certifiably find all isometries
+of a manifold:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="n">K</span><span class="o">.</span><span class="n">isomorphisms_to</span><span class="p">(</span><span class="n">K</span><span class="p">)</span>
+<span class="p">[</span><span class="mi">0</span> <span class="o">-&gt;</span> <span class="mi">1</span>  <span class="mi">1</span> <span class="o">-&gt;</span> <span class="mi">0</span>
+ <span class="p">[</span><span class="mi">1</span> <span class="mi">0</span><span class="p">]</span>   <span class="p">[</span><span class="mi">1</span> <span class="mi">0</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">0</span> <span class="mi">1</span><span class="p">]</span>   <span class="p">[</span><span class="mi">0</span> <span class="mi">1</span><span class="p">]</span>
+ <span class="n">Extends</span> <span class="n">to</span> <span class="n">link</span><span class="p">,</span>
+ <span class="o">...</span>
+ <span class="n">Extends</span> <span class="n">to</span> <span class="n">link</span><span class="p">]</span>
+<span class="n">sage</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">isomorphisms_to</span><span class="p">(</span><span class="n">K</span><span class="p">))</span>
+<span class="mi">8</span>
+</pre></div>
+</div>
+<p>Recall that the <em>isomorphism
+signature</em> is a complete invariant of the combinatorial
+isomorphism type of a triangulation that was defined by <a class="reference external" href="http://arxiv.org/abs/1110.6080">Burton</a>. We can compute the isomorphism signature
+of the canonical retriangulation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m003&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">canonical_retriangulation</span><span class="p">(</span><span class="n">verified</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">triangulation_isosig</span><span class="p">()</span>
+<span class="s1">&#39;cPcbbbdxm&#39;</span>
+</pre></div>
+</div>
+<p>The resulting invariant was called <em>isometry signature</em> by
+<a class="reference external" href="http://arxiv.org/abs/1502.00383">Goerner</a> and, for convenience, can be
+accessed by:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m003&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">isometry_signature</span><span class="p">(</span><span class="n">verified</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="s1">&#39;cPcbbbdxm&#39;</span>
+</pre></div>
+</div>
+<p>It is a complete invariant of the isometry type of a hyperbolic manifold.
+Thus it can be used to easily identify isometric manifolds
+(here, the last two manifolds have the same isometry signature and thus
+have to be isomorphic):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m003&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">isometry_signature</span><span class="p">(</span><span class="n">verified</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="s1">&#39;cPcbbbdxm&#39;</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m004&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">isometry_signature</span><span class="p">(</span><span class="n">verified</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="s1">&#39;cPcbbbiht&#39;</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;4_1&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">isometry_signature</span><span class="p">(</span><span class="n">verified</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="s1">&#39;cPcbbbiht&#39;</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m004&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">isometry_signature</span><span class="p">(</span><span class="n">verified</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">==</span> <span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;4_1&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">isometry_signature</span><span class="p">(</span><span class="n">verified</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="kc">True</span>
+</pre></div>
+</div>
+<p>Other applications of the canonical retriangulation include the detection of
+2-bridge knots.</p>
+<section id="verifying-the-canonical-retriangulation">
+<h2>Verifying the canonical retriangulation<a class="headerlink" href="#verifying-the-canonical-retriangulation" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="snappy.verify.verified_canonical_retriangulation">
+<span class="sig-prename descclassname"><span class="pre">snappy.verify.</span></span><span class="sig-name descname"><span class="pre">verified_canonical_retriangulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">M</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interval_bits_precs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[53,</span> <span class="pre">212]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exact_bits_prec_and_degrees</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[(212,</span> <span class="pre">10),</span> <span class="pre">(1000,</span> <span class="pre">20),</span> <span class="pre">(2000,</span> <span class="pre">20)]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.verified_canonical_retriangulation" title="Permalink to this definition"></a></dt>
+<dd><p>Given some triangulation of a cusped (possibly non-orientable) manifold <code class="docutils literal notranslate"><span class="pre">M</span></code>,
+return its canonical retriangulation. Return <code class="docutils literal notranslate"><span class="pre">None</span></code> if it could not certify
+the result.</p>
+<p>To compute the canonical retriangulation, it first prepares the manifold
+(filling all Dehn-filled cusps and trying to find a proto-canonical
+triangulation).
+It then tries to certify the canonical triangulation using interval
+arithmetics. If this fails, it uses snap (using <a class="reference external" href="http://en.wikipedia.org/wiki/Lenstra%E2%80%93Lenstra%E2%80%93Lov%C3%A1sz_lattice_basis_reduction_algorithm">LLL-algorithm</a>)
+to guess
+exact representations of the shapes in the shape field and then certifies
+that it found the proto-canonical triangulation and determines the
+transparent faces to construct the canonical retriangulation.</p>
+<p>The optional arguments are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">interval_bits_precs</span></code>:
+a list of precisions used to try to
+certify the canonical triangulation using intervals. By default, it
+first tries to certify using 53 bits precision. If it failed, it tries
+212 bits precision next. If it failed again, it moves on to trying exact
+arithmetics.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">exact_bits_prec_and_degrees</span></code>:
+a list of pairs (precision, maximal degree) used when the LLL-algorithm
+is trying to find the defining polynomial of the shape field.
+Similar to <code class="docutils literal notranslate"><span class="pre">interval_bits_precs</span></code>, each pair is tried until we succeed.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">verbose</span></code>:
+If <code class="docutils literal notranslate"><span class="pre">True</span></code>, print out additional information.</p></li>
+</ul>
+<p>The exact arithmetics can take a long time. To circumvent it, use
+<code class="docutils literal notranslate"><span class="pre">exact_bits_prec_and_degrees</span> <span class="pre">=</span> <span class="pre">None</span></code>.</p>
+<p>More information on the canonical retriangulation can be found in the
+SnapPea kernel <code class="docutils literal notranslate"><span class="pre">canonize_part_2.c</span></code> and in Section 3.1 of
+<a class="reference external" href="http://arxiv.org/abs/1502.00383">Fominykh, Garoufalidis, Goerner, Tarkaev, Vesnin</a>.</p>
+<p>Canonical cell decomposition of <code class="docutils literal notranslate"><span class="pre">m004</span></code> has 2 tetrahedral cells:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">snappy</span> <span class="kn">import</span> <span class="n">Manifold</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m004&quot;</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">K</span> <span class="o">=</span> <span class="n">verified_canonical_retriangulation</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">K</span><span class="o">.</span><span class="n">has_finite_vertices</span><span class="p">()</span>
+<span class="kc">False</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">K</span><span class="o">.</span><span class="n">num_tetrahedra</span><span class="p">()</span>
+<span class="mi">2</span>
+</pre></div>
+</div>
+<p>Canonical cell decomposition of <code class="docutils literal notranslate"><span class="pre">m137</span></code> is not tetrahedral:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m137&quot;</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">K</span> <span class="o">=</span> <span class="n">verified_canonical_retriangulation</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">K</span><span class="o">.</span><span class="n">has_finite_vertices</span><span class="p">()</span>
+<span class="kc">True</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">K</span><span class="o">.</span><span class="n">num_tetrahedra</span><span class="p">()</span>
+<span class="mi">18</span>
+</pre></div>
+</div>
+<p>Canonical cell decomposition of <code class="docutils literal notranslate"><span class="pre">m412</span></code> is a cube and has exactly 8
+symmetries:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m412&quot;</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">K</span> <span class="o">=</span> <span class="n">verified_canonical_retriangulation</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">K</span><span class="o">.</span><span class="n">has_finite_vertices</span><span class="p">()</span>
+<span class="kc">True</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">K</span><span class="o">.</span><span class="n">num_tetrahedra</span><span class="p">()</span>
+<span class="mi">12</span>
+<span class="n">sage</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">isomorphisms_to</span><span class="p">(</span><span class="n">K</span><span class="p">))</span>
+<span class="mi">8</span>
+</pre></div>
+</div>
+<p><a class="reference external" href="http://arxiv.org/abs/1311.7615">Burton’s example</a> of <code class="docutils literal notranslate"><span class="pre">x101</span></code> and <code class="docutils literal notranslate"><span class="pre">x103</span></code> which are actually isometric but
+SnapPea fails to show so. We certify the canonical retriangulation and
+find them isomorphic:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="s1">&#39;x101&#39;</span><span class="p">);</span> <span class="n">K</span> <span class="o">=</span> <span class="n">verified_canonical_retriangulation</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">N</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="s1">&#39;x103&#39;</span><span class="p">);</span> <span class="n">L</span> <span class="o">=</span> <span class="n">verified_canonical_retriangulation</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">isomorphisms_to</span><span class="p">(</span><span class="n">L</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span>
+<span class="kc">True</span>
+</pre></div>
+</div>
+<p>Avoid potentially expensive exact arithmetics (return <code class="docutils literal notranslate"><span class="pre">None</span></code> because it has
+non-tetrahedral cells so interval arithmetics can’t certify it):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m412&quot;</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">verified_canonical_retriangulation</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">exact_bits_prec_and_degrees</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="verify.html" class="btn btn-neutral float-left" title="Verified computations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="verify_internals.html" class="btn btn-neutral float-right" title="Internals of verified computations" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2009-2023, by Marc Culler, Nathan Dunfield, Matthias Goerner, Jeffrey Weeks and others.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,1692 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Internals of verified computations &mdash; SnapPy 3.1.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/snappy_sphinx_rtd_theme.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/SnapPy.ico"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Other components" href="other.html" />
+    <link rel="prev" title="Canonical retriangulation and isometry signature" href="verify_canon.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            SnapPy
+              <img src="_static/SnapPy-horizontal-128.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                3.1.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installing SnapPy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="screenshots.html">Screenshots: SnapPy in action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snappy.html">The snappy module and its classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plink.html">Using SnapPy’s link editor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spherogram.html">Links: planar diagrams and invariants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snap.html">Number theory of hyperbolic 3-manifolds</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="verify.html">Verified computations</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="verify.html#overview">Overview</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="verify.html#verified-computation-topics">Verified computation topics</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="verify_canon.html">Canonical retriangulation and isometry signature</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Internals of verified computations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#naming">Naming</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#generating-certified-shape-intervals">Generating certified shape intervals</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.CertifiedShapesEngine"><code class="docutils literal notranslate"><span class="pre">CertifiedShapesEngine</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.IntervalNewtonShapesEngine"><code class="docutils literal notranslate"><span class="pre">IntervalNewtonShapesEngine</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.KrawczykShapesEngine"><code class="docutils literal notranslate"><span class="pre">KrawczykShapesEngine</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#verification-of-hyperbolicity">Verification of hyperbolicity</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.verifyHyperbolicity.check_logarithmic_gluing_equations_and_positively_oriented_tets"><code class="docutils literal notranslate"><span class="pre">check_logarithmic_gluing_equations_and_positively_oriented_tets()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#cusp-cross-sections">Cusp cross sections</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.RealCuspCrossSection"><code class="docutils literal notranslate"><span class="pre">RealCuspCrossSection</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.ComplexCuspCrossSection"><code class="docutils literal notranslate"><span class="pre">ComplexCuspCrossSection</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#verified-canonical-cell-decompositions">Verified canonical cell decompositions</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.verifyCanonical.interval_checked_canonical_triangulation"><code class="docutils literal notranslate"><span class="pre">interval_checked_canonical_triangulation()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.verifyCanonical.exactly_checked_canonical_retriangulation"><code class="docutils literal notranslate"><span class="pre">exactly_checked_canonical_retriangulation()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#module-snappy.verify.squareExtensions">Exact computations for cusp cross sections</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.squareExtensions.find_shapes_as_complex_sqrt_lin_combinations"><code class="docutils literal notranslate"><span class="pre">find_shapes_as_complex_sqrt_lin_combinations()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.squareExtensions.SqrtLinCombination"><code class="docutils literal notranslate"><span class="pre">SqrtLinCombination</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.squareExtensions.ComplexSqrtLinCombination"><code class="docutils literal notranslate"><span class="pre">ComplexSqrtLinCombination</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#module-snappy.verify.exceptions">Exceptions</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.exceptions.ConsistencyWithSnapPeaNumericalVerifyError"><code class="docutils literal notranslate"><span class="pre">ConsistencyWithSnapPeaNumericalVerifyError</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.exceptions.ConsistencyWithSnapPeaType"><code class="docutils literal notranslate"><span class="pre">ConsistencyWithSnapPeaType</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.exceptions.CuspConsistencyType"><code class="docutils literal notranslate"><span class="pre">CuspConsistencyType</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.exceptions.CuspDevelopmentExactVerifyError"><code class="docutils literal notranslate"><span class="pre">CuspDevelopmentExactVerifyError</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.exceptions.CuspDevelopmentType"><code class="docutils literal notranslate"><span class="pre">CuspDevelopmentType</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.exceptions.CuspEquationExactVerifyError"><code class="docutils literal notranslate"><span class="pre">CuspEquationExactVerifyError</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.exceptions.CuspEquationLogLiftNumericalVerifyError"><code class="docutils literal notranslate"><span class="pre">CuspEquationLogLiftNumericalVerifyError</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.exceptions.CuspEquationType"><code class="docutils literal notranslate"><span class="pre">CuspEquationType</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.exceptions.EdgeEquationExactVerifyError"><code class="docutils literal notranslate"><span class="pre">EdgeEquationExactVerifyError</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.exceptions.EdgeEquationLogLiftNumericalVerifyError"><code class="docutils literal notranslate"><span class="pre">EdgeEquationLogLiftNumericalVerifyError</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.exceptions.EdgeEquationType"><code class="docutils literal notranslate"><span class="pre">EdgeEquationType</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.exceptions.EquationType"><code class="docutils literal notranslate"><span class="pre">EquationType</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.exceptions.ExactVerifyError"><code class="docutils literal notranslate"><span class="pre">ExactVerifyError</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.exceptions.InequalityNumericalVerifyError"><code class="docutils literal notranslate"><span class="pre">InequalityNumericalVerifyError</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.exceptions.IsZeroExactVerifyError"><code class="docutils literal notranslate"><span class="pre">IsZeroExactVerifyError</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.exceptions.LogLiftNumericalVerifyError"><code class="docutils literal notranslate"><span class="pre">LogLiftNumericalVerifyError</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.exceptions.NumericalVerifyError"><code class="docutils literal notranslate"><span class="pre">NumericalVerifyError</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.exceptions.ShapePositiveImaginaryPartNumericalVerifyError"><code class="docutils literal notranslate"><span class="pre">ShapePositiveImaginaryPartNumericalVerifyError</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.exceptions.ShapeType"><code class="docutils literal notranslate"><span class="pre">ShapeType</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.exceptions.TiltInequalityNumericalVerifyError"><code class="docutils literal notranslate"><span class="pre">TiltInequalityNumericalVerifyError</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.exceptions.TiltIsZeroExactVerifyError"><code class="docutils literal notranslate"><span class="pre">TiltIsZeroExactVerifyError</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.exceptions.TiltProvenPositiveNumericalVerifyError"><code class="docutils literal notranslate"><span class="pre">TiltProvenPositiveNumericalVerifyError</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.exceptions.TiltType"><code class="docutils literal notranslate"><span class="pre">TiltType</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#snappy.verify.exceptions.VerifyErrorBase"><code class="docutils literal notranslate"><span class="pre">VerifyErrorBase</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="other.html">Other components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="news.html">News</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bugs.html">Reporting bugs and other problems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="todo.html">To Do List</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development.html">Development Basics</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SnapPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="verify.html">Verified computations</a></li>
+      <li class="breadcrumb-item active">Internals of verified computations</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="internals-of-verified-computations">
+<h1>Internals of verified computations<a class="headerlink" href="#internals-of-verified-computations" title="Permalink to this heading"></a></h1>
+<section id="naming">
+<h2>Naming<a class="headerlink" href="#naming" title="Permalink to this heading"></a></h2>
+<p>The names of methods containing <code class="docutils literal notranslate"><span class="pre">check</span></code> will raise an exception if
+the desired property cannot be certified. There are different types of
+Exceptions to indicate how the certification failed. This type can be
+used by other methods to perform some action such as changing the
+triangulation or increasing precision or to give up.</p>
+<p>The user-facing methods have names starting with <code class="docutils literal notranslate"><span class="pre">verify</span></code> or
+<code class="docutils literal notranslate"><span class="pre">verified</span></code> and will fail more gracefully returning <code class="docutils literal notranslate"><span class="pre">False</span></code> or
+<code class="docutils literal notranslate"><span class="pre">None</span></code> in such a case.</p>
+</section>
+<section id="generating-certified-shape-intervals">
+<h2>Generating certified shape intervals<a class="headerlink" href="#generating-certified-shape-intervals" title="Permalink to this heading"></a></h2>
+<p>The recommended way to obtain certified intervals for the shapes is via
+<code class="docutils literal notranslate"><span class="pre">manifold.tetrahedra_shapes(intervals=True)</span></code> as <a class="reference internal" href="verify.html"><span class="doc">described
+earlier</span></a>. Here we document the <code class="docutils literal notranslate"><span class="pre">KrawczykShapesEngine</span></code> and
+<code class="docutils literal notranslate"><span class="pre">IntervalNewtonShapesEngine</span></code> which is implemented internally to
+generate the intervals. It is of interest for those users who want to
+understand the underlying interval math and experiment with the Newton
+interval method or the Krawczyk test.  <code class="docutils literal notranslate"><span class="pre">CertifiedShapesEngine</span></code> is an
+alias of either <code class="docutils literal notranslate"><span class="pre">KrawczykShapesEngine</span></code> or
+<code class="docutils literal notranslate"><span class="pre">IntervalNewtonShapesEngine</span></code> to determine the default method used by
+verify.</p>
+<span class="target" id="module-snappy.verify"></span><dl class="py attribute">
+<dt class="sig sig-object py" id="snappy.verify.CertifiedShapesEngine">
+<span class="sig-prename descclassname"><span class="pre">snappy.verify.</span></span><span class="sig-name descname"><span class="pre">CertifiedShapesEngine</span></span><a class="headerlink" href="#snappy.verify.CertifiedShapesEngine" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#snappy.verify.KrawczykShapesEngine" title="snappy.verify.krawczyk_shapes_engine.KrawczykShapesEngine"><code class="xref py py-class docutils literal notranslate"><span class="pre">KrawczykShapesEngine</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="snappy.verify.IntervalNewtonShapesEngine">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snappy.verify.</span></span><span class="sig-name descname"><span class="pre">IntervalNewtonShapesEngine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">M</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_shapes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bits_prec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dec_prec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.IntervalNewtonShapesEngine" title="Permalink to this definition"></a></dt>
+<dd><p>An engine that is initialized with an approximated candidate solution to
+the rectangular gluing equations and produces intervals certified to
+contain a true solution. After the engine is successfully run, the
+resulting intervals are stored in certified_shapes which is a vector of
+elements in a Sage’s ComplexIntervalField.</p>
+<p>A simple example to obtain certified shape intervals that uses
+KrawczykShapesEngine or IntervalNewtonShapesEngine under the hood:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sage: from snappy import Manifold
+sage: M = Manifold(&quot;m015&quot;)
+sage: M.tetrahedra_shapes(&#39;rect&#39;, bits_prec = 80, intervals = True) # doctest: +NUMERIC15 +NORMALIZE_WHITESPACE
+[0.6623589786223730129805? + 0.5622795120623012438992?*I,
+ 0.6623589786223730129805? + 0.5622795120623012438992?*I,
+ 0.6623589786223730129805? + 0.5622795120623012438992?*I]
+</pre></div>
+</div>
+<p>Its objective is thus the same as HIKMOT and it is certainly HIKMOT
+inspired. However, it conceptually differs in that:</p>
+<ol class="arabic">
+<li><p>It uses the Newton interval method instead of the Krawczyk
+test (we implement Gaussian elimination in interval arithmetic to
+compute the inverse of an interval matrix having interval arithmetic
+semantics, see mat_solve).</p></li>
+<li><p>It uses complex numbers in it’s Newton interval method.
+We simply use Sage’s complex interval type avoiding the need of
+converting n x n complex matrices into 2n x 2n real matrices as
+described Section 3.4 of the HIKMOT paper.</p></li>
+<li><p>We avoid automatic differentiation.  We pick an independent set of
+equations of the following form and try to solve them:</p>
+<blockquote>
+<div><p>log(LHS) = 0</p>
+</div></blockquote>
+<p>where</p>
+<blockquote>
+<div><p>LHS =  c * z0^a0 * (1-z0)^b0 *  z1^a1 * (1-z1)^b1 * …</p>
+</div></blockquote>
+<p>with a, b and c’s as returned by Manifold.gluing_equations(‘rect’).</p>
+<p>The derivative of log (LHS) with respect to zj is simply given by</p>
+<blockquote>
+<div><p>aj/zj - bj/(1-zj)</p>
+</div></blockquote>
+<p>and thus no need for automatic differentiation.</p>
+</li>
+</ol>
+<p>In contrast to HIKMOT, we use and return Sage’s native implementation of
+(complex) interval arithmetic here, which allows for increased interoperability.
+Another advantage is that Sage supports arbitrary precision. Unfortunately,
+performance suffers and this implementation is 5-10 times slower than HIKMOT.</p>
+<p>Here is an example how to explicitly invoke the IntervalNewtonShapesEngine:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sage: shapes = M.tetrahedra_shapes(&#39;rect&#39;, bits_prec = 80)
+sage: C = IntervalNewtonShapesEngine(M, shapes, bits_prec = 80)
+sage: C.expand_until_certified()
+True
+sage: C.certified_shapes # doctest: +ELLIPSIS
+(0.662358978622373012981? + 0.562279512062301243...?*I, 0.66235897862237301298...? + 0.562279512062301243...?*I, 0.66235897862237301298...? + 0.562279512062301243...?*I)
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.IntervalNewtonShapesEngine.certified_newton_iteration">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">certified_newton_iteration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">equations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape_intervals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point_in_intervals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interval_value_at_point</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.IntervalNewtonShapesEngine.certified_newton_iteration" title="Permalink to this definition"></a></dt>
+<dd><p>Given shape intervals z, performs a Newton interval iteration N(z)
+as described in newton_iteration. Returns a pair (boolean, N(z)) where
+the boolean is True if N(z) is contained in z.</p>
+<p>If the boolean is True, it is certified that N(z) contains a true
+solution, e.g., a point for which f is truly zero.</p>
+<p>See newton_iteration for the other parameters.</p>
+<p>This follows from Theorem 1 of <a class="reference external" href="http://ww2.ii.uj.edu.pl/~zgliczyn/cap07/krawczyk.pdf">Zgliczynski’s notes</a>.</p>
+<p>Some examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">snappy</span> <span class="kn">import</span> <span class="n">Manifold</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m019&quot;</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">C</span> <span class="o">=</span> <span class="n">IntervalNewtonShapesEngine</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">M</span><span class="o">.</span><span class="n">tetrahedra_shapes</span><span class="p">(</span><span class="s1">&#39;rect&#39;</span><span class="p">),</span>
+<span class="o">...</span>                           <span class="n">bits_prec</span> <span class="o">=</span> <span class="mi">80</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Intervals containing the true solution:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sage: good_shapes = vector([
+...       C.CIF(C.RIF(0.78055, 0.78056), C.RIF(0.91447, 0.91448)),
+...       C.CIF(C.RIF(0.78055, 0.78056), C.RIF(0.91447, 0.91448)),
+...       C.CIF(C.RIF(0.46002, 0.46003), C.RIF(0.63262, 0.63263))])
+sage: is_certified, shapes = IntervalNewtonShapesEngine.certified_newton_iteration(C.equations, good_shapes)
+
+sage: is_certified
+True
+sage: shapes  # doctest: +ELLIPSIS
+(0.78055253? + 0.91447366...?*I, 0.7805525...? + 0.9144736...?*I, 0.4600211...? + 0.632624...?*I)
+</pre></div>
+</div>
+<p>This means that a true solution to the rectangular gluing equations is
+contained in both the given intervals (good_shapes) and the returned
+intervals (shapes) which are a refinement of the given intervals.</p>
+<p>Intervals not containing a true solution:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="n">bad_shapes</span> <span class="o">=</span> <span class="n">vector</span><span class="p">([</span>
+<span class="o">...</span>       <span class="n">C</span><span class="o">.</span><span class="n">CIF</span><span class="p">(</span><span class="n">C</span><span class="o">.</span><span class="n">RIF</span><span class="p">(</span><span class="mf">0.78054</span><span class="p">,</span> <span class="mf">0.78055</span><span class="p">),</span> <span class="n">C</span><span class="o">.</span><span class="n">RIF</span><span class="p">(</span><span class="mf">0.91447</span><span class="p">,</span> <span class="mf">0.91448</span><span class="p">)),</span>
+<span class="o">...</span>       <span class="n">C</span><span class="o">.</span><span class="n">CIF</span><span class="p">(</span><span class="n">C</span><span class="o">.</span><span class="n">RIF</span><span class="p">(</span><span class="mf">0.78055</span><span class="p">,</span> <span class="mf">0.78056</span><span class="p">),</span> <span class="n">C</span><span class="o">.</span><span class="n">RIF</span><span class="p">(</span><span class="mf">0.91447</span><span class="p">,</span> <span class="mf">0.91448</span><span class="p">)),</span>
+<span class="o">...</span>       <span class="n">C</span><span class="o">.</span><span class="n">CIF</span><span class="p">(</span><span class="n">C</span><span class="o">.</span><span class="n">RIF</span><span class="p">(</span><span class="mf">0.46002</span><span class="p">,</span> <span class="mf">0.46003</span><span class="p">),</span> <span class="n">C</span><span class="o">.</span><span class="n">RIF</span><span class="p">(</span><span class="mf">0.63262</span><span class="p">,</span> <span class="mf">0.63263</span><span class="p">))])</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">is_certified</span><span class="p">,</span> <span class="n">shapes</span> <span class="o">=</span> <span class="n">IntervalNewtonShapesEngine</span><span class="o">.</span><span class="n">certified_newton_iteration</span><span class="p">(</span><span class="n">C</span><span class="o">.</span><span class="n">equations</span><span class="p">,</span> <span class="n">bad_shapes</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">is_certified</span>
+<span class="kc">False</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.IntervalNewtonShapesEngine.expand_until_certified">
+<span class="sig-name descname"><span class="pre">expand_until_certified</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.IntervalNewtonShapesEngine.expand_until_certified" title="Permalink to this definition"></a></dt>
+<dd><p>Try Newton interval iterations, expanding the shape intervals
+until we can certify they contain a true solution.
+If succeeded, return True and write certified shapes to
+certified_shapes.
+Set verbose = True for printing additional information.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.IntervalNewtonShapesEngine.interval_vector_is_contained_in">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">interval_vector_is_contained_in</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vecA</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vecB</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.IntervalNewtonShapesEngine.interval_vector_is_contained_in" title="Permalink to this definition"></a></dt>
+<dd><p>Given two vectors of intervals, return whether the first one
+is contained in the second one.  Examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="n">RIF</span> <span class="o">=</span> <span class="n">RealIntervalField</span><span class="p">(</span><span class="mi">80</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">CIF</span> <span class="o">=</span> <span class="n">ComplexIntervalField</span><span class="p">(</span><span class="mi">80</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">box</span> <span class="o">=</span> <span class="n">CIF</span><span class="p">(</span><span class="n">RIF</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">RIF</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">a</span> <span class="o">=</span> <span class="p">[</span> <span class="n">CIF</span><span class="p">(</span><span class="mf">0.1</span><span class="p">),</span> <span class="n">CIF</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">box</span> <span class="p">]</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">b</span> <span class="o">=</span> <span class="p">[</span> <span class="n">CIF</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">box</span><span class="p">,</span> <span class="n">CIF</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">box</span> <span class="p">]</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">c</span> <span class="o">=</span> <span class="p">[</span> <span class="n">CIF</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">CIF</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">box</span> <span class="p">]</span>
+
+<span class="n">sage</span><span class="p">:</span> <span class="n">IntervalNewtonShapesEngine</span><span class="o">.</span><span class="n">interval_vector_is_contained_in</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="kc">True</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">IntervalNewtonShapesEngine</span><span class="o">.</span><span class="n">interval_vector_is_contained_in</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+<span class="kc">False</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">IntervalNewtonShapesEngine</span><span class="o">.</span><span class="n">interval_vector_is_contained_in</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+<span class="kc">False</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">IntervalNewtonShapesEngine</span><span class="o">.</span><span class="n">interval_vector_is_contained_in</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+<span class="kc">False</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">IntervalNewtonShapesEngine</span><span class="o">.</span><span class="n">interval_vector_is_contained_in</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+<span class="kc">False</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">IntervalNewtonShapesEngine</span><span class="o">.</span><span class="n">interval_vector_is_contained_in</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="kc">False</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.IntervalNewtonShapesEngine.interval_vector_mid_points">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">interval_vector_mid_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.IntervalNewtonShapesEngine.interval_vector_mid_points" title="Permalink to this definition"></a></dt>
+<dd><p>Given a vector of complex intervals, return the midpoints (as 0-length
+complex intervals) of them.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.IntervalNewtonShapesEngine.interval_vector_union">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">interval_vector_union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vecA</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vecB</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.IntervalNewtonShapesEngine.interval_vector_union" title="Permalink to this definition"></a></dt>
+<dd><p>Given two vectors of intervals, return the vector of their unions,
+i.e., the smallest interval containing both intervals.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.IntervalNewtonShapesEngine.log_gluing_LHS_derivatives">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">log_gluing_LHS_derivatives</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">equations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shapes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.IntervalNewtonShapesEngine.log_gluing_LHS_derivatives" title="Permalink to this definition"></a></dt>
+<dd><p>Compute the Jacobian of the vector-valued function f
+described in the above log_gluing_LHSs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sage: from snappy import Manifold
+sage: M = Manifold(&quot;m019&quot;)
+sage: equations = M.gluing_equations(&#39;rect&#39;)
+sage: RIF = RealIntervalField(80)
+sage: CIF = ComplexIntervalField(80)
+sage: shape1 = CIF(RIF(0.78055,0.78056), RIF(0.9144, 0.9145))
+sage: shape2 = CIF(RIF(0.46002,0.46003), RIF(0.6326, 0.6327))
+sage: shapes = [shape1, shape1, shape2]
+sage: IntervalNewtonShapesEngine.log_gluing_LHS_derivatives(equations, shapes) # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
+[  0.292? - 1.66...?*I   0.292? - 1.66...?*I   0.752? - 1.034...?*I]
+[-0.5400? + 0.63...?*I -0.5400? + 0.63...?*I   1.561? + 1.829...?*I]
+[ 0.2482? + 1.034...?*I  0.2482? + 1.034...?*I  -2.313? - 0.795...?*I]
+[ 0.5400? - 0.63...?*I -0.5400? + 0.63...?*I                    0]
+[...-0.4963? - 2.068?*I  1.0800? - 1.26...?*I   0.752? - 1.034...?*I]
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.IntervalNewtonShapesEngine.log_gluing_LHSs">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">log_gluing_LHSs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">equations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shapes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.IntervalNewtonShapesEngine.log_gluing_LHSs" title="Permalink to this definition"></a></dt>
+<dd><p>Given the result of M.gluing_equations(‘rect’) or a
+subset of rows of it and shapes, return a vector of
+log(LHS) where</p>
+<blockquote>
+<div><p>LHS = c * z0 ** a0 * (1-z0) ** b0 * z1 ** a1 * …</p>
+</div></blockquote>
+<p>Let f: C^n -&gt; C^n denote the function which takes
+shapes and returns the vector of log(LHS).</p>
+<p>The reason we take the logarithm of the rectangular
+gluing equations is because the logarithmic derivative
+is of a particular nice form:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">snappy</span> <span class="kn">import</span> <span class="n">Manifold</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m019&quot;</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">equations</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">gluing_equations</span><span class="p">(</span><span class="s1">&#39;rect&#39;</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">RIF</span> <span class="o">=</span> <span class="n">RealIntervalField</span><span class="p">(</span><span class="mi">80</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">CIF</span> <span class="o">=</span> <span class="n">ComplexIntervalField</span><span class="p">(</span><span class="mi">80</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">zero</span> <span class="o">=</span> <span class="n">CIF</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">center</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">shape1</span> <span class="o">=</span> <span class="n">CIF</span><span class="p">(</span><span class="n">RIF</span><span class="p">(</span><span class="mf">0.78055</span><span class="p">,</span><span class="mf">0.78056</span><span class="p">),</span> <span class="n">RIF</span><span class="p">(</span><span class="mf">0.9144</span><span class="p">,</span> <span class="mf">0.9145</span><span class="p">))</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">shape2</span> <span class="o">=</span> <span class="n">CIF</span><span class="p">(</span><span class="n">RIF</span><span class="p">(</span><span class="mf">0.46002</span><span class="p">,</span><span class="mf">0.46003</span><span class="p">),</span> <span class="n">RIF</span><span class="p">(</span><span class="mf">0.6326</span><span class="p">,</span> <span class="mf">0.6327</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>An interval solution containing the true solution. The log of each
+rectangular equation should be 0 for the true solution, hence the interval
+should contain zero:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sage: shapes = [shape1, shape1, shape2]
+sage: LHSs = IntervalNewtonShapesEngine.log_gluing_LHSs(equations, shapes)
+sage: LHSs # doctest: +ELLIPSIS
+(0.000? + 0.000?*I, 0.000? + 0.000?*I, 0.000? + 0.000?*I, 0.000...? + 0.000...?*I, 0.000? + 0.000?*I)
+sage: zero in LHSs[0]
+True
+</pre></div>
+</div>
+<p>An interval not containing the true solution:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sage: shapes = [shape1, shape1, shape1]
+sage: LHSs = IntervalNewtonShapesEngine.log_gluing_LHSs(equations, shapes)
+sage: LHSs # doctest: +ELLIPSIS
+(0.430? - 0.078?*I, -0.2...? + 0.942?*I, -0.1...? - 0.8...?*I, 0.000...? + 0.000...?*I, 0.430? - 0.078?*I)
+sage: zero in LHSs[0]
+False
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.IntervalNewtonShapesEngine.newton_iteration">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">newton_iteration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">equations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape_intervals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point_in_intervals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interval_value_at_point</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.IntervalNewtonShapesEngine.newton_iteration" title="Permalink to this definition"></a></dt>
+<dd><p>Perform a Newton interval method of iteration for
+the function f described in log_gluing_LHSs.</p>
+<p>Let z denote the shape intervals.
+Let z_center be a point close to the center point of the shape
+intervals (in the implementation, z_center is an interval of
+again, of length zero).</p>
+<p>The result returned will be</p>
+<blockquote>
+<div><p>N(z) = z_center - ((Df)(z))^-1 f(z_center)</p>
+</div></blockquote>
+<p>The user can overwrite the z_center to be used by providing
+point_in_intervals (which have to be 0-length complex intervals).
+The user can also give the interval value of f(z_center) by providing
+interval_value_at_point to avoid re-evaluation of f(z_center).</p>
+<p>A very approximate solution:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">snappy</span> <span class="kn">import</span> <span class="n">Manifold</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m019&quot;</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">shapes</span> <span class="o">=</span> <span class="p">[</span> <span class="mf">0.7</span><span class="o">+</span><span class="mi">1</span><span class="n">j</span><span class="p">,</span> <span class="mf">0.7</span><span class="o">+</span><span class="mi">1</span><span class="n">j</span><span class="p">,</span> <span class="mf">0.5</span><span class="o">+</span><span class="mf">0.5</span><span class="n">j</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p>Get the equations and initialize zero-length intervals from it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sage: C = IntervalNewtonShapesEngine(M, shapes, bits_prec = 80)
+sage: C.initial_shapes
+(0.69999999999999995559107902? + 1*I, 0.69999999999999995559107902? + 1*I, 0.50000000000000000000000000? + 0.50000000000000000000000000?*I)
+</pre></div>
+</div>
+<p>Do several Newton interval operations to get a better solution:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sage: shape_intervals = C.initial_shapes
+sage: for i in range(4): # doctest: +ELLIPSIS
+...     shape_intervals = IntervalNewtonShapesEngine.newton_iteration(C.equations, shape_intervals)
+...     print(shape_intervals)
+(0.78674683118381457770...? + 0.9208680745160821379529?*I, 0.786746831183814577703...? + 0.9208680745160821379529?*I, 0.459868058287098030934...? + 0.61940871855835167317...?*I)
+(0.78056102517632648594...? + 0.9144962118446750482...?*I, 0.78056102517632648594...? + 0.9144962118446750482...?*I, 0.4599773577869384936554? + 0.63251940718694538695...?*I)
+(0.78055253104531610049...? + 0.9144736621585220345231?*I, 0.780552531045316100497...? + 0.9144736621585220345231?*I, 0.460021167103732494700...? + 0.6326241909236695020810...?*I)
+(0.78055252785072483256...? + 0.91447366296772644033...?*I, 0.7805525278507248325678? + 0.914473662967726440333...?*I, 0.4600211755737178641204...? + 0.6326241936052562241142...?*I)
+</pre></div>
+</div>
+<p>For comparison:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="n">M</span><span class="o">.</span><span class="n">tetrahedra_shapes</span><span class="p">(</span><span class="s1">&#39;rect&#39;</span><span class="p">)</span>
+<span class="p">[</span><span class="mf">0.780552527850725</span> <span class="o">+</span> <span class="mf">0.914473662967726</span><span class="o">*</span><span class="n">I</span><span class="p">,</span> <span class="mf">0.780552527850725</span> <span class="o">+</span> <span class="mf">0.914473662967726</span><span class="o">*</span><span class="n">I</span><span class="p">,</span> <span class="mf">0.460021175573718</span> <span class="o">+</span> <span class="mf">0.632624193605256</span><span class="o">*</span><span class="n">I</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Start with a rather big interval, note that the Newton interval method is
+stable in the sense that the interval size decreases:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sage: box = C.CIF(C.RIF(-0.0001,0.0001),C.RIF(-0.0001,0.0001))
+sage: shape_intervals = C.initial_shapes.apply_map(lambda shape: shape + box)
+sage: shape_intervals
+(0.700? + 1.000?*I, 0.700? + 1.000?*I, 0.500? + 0.500?*I)
+sage: for i in range(7):
+...     shape_intervals = IntervalNewtonShapesEngine.newton_iteration(C.equations, shape_intervals)
+sage: print(shape_intervals) # doctest: +ELLIPSIS
+(0.78055252785072483798...? + 0.91447366296772645593...?*I, 0.7805525278507248379869? + 0.914473662967726455938...?*I, 0.460021175573717872891...? + 0.632624193605256171637...?*I)
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="snappy.verify.KrawczykShapesEngine">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snappy.verify.</span></span><span class="sig-name descname"><span class="pre">KrawczykShapesEngine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">M</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_shapes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bits_prec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dec_prec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.KrawczykShapesEngine" title="Permalink to this definition"></a></dt>
+<dd><p>An engine that is initialized with an approximated candidate solution to
+the rectangular gluing equations and produces intervals certified to
+contain a true solution. After the engine is successfully run, the
+resulting intervals are stored in certified_shapes which is a vector of
+elements in a Sage’s ComplexIntervalField.</p>
+<p>A simple example to obtain certified shape intervals that uses the
+KrawczykShapesEngine or IntervalNewtonShapesEngine under the hood:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sage: from snappy import Manifold
+sage: M = Manifold(&quot;m015&quot;)
+sage: M.tetrahedra_shapes(&#39;rect&#39;, bits_prec = 80, intervals = True) # doctest: +NUMERIC15 +NORMALIZE_WHITESPACE
+[0.6623589786223730129805? + 0.5622795120623012438992?*I,
+ 0.6623589786223730129805? + 0.5622795120623012438992?*I,
+ 0.6623589786223730129805? + 0.5622795120623012438992?*I]
+</pre></div>
+</div>
+<p>Its objective is thus the same as HIKMOT and it is certainly HIKMOT
+inspired. However, it conceptually differs in that:</p>
+<ol class="arabic">
+<li><p>It uses complex numbers in it’s computations.
+We simply use Sage’s complex interval type avoiding the need of
+converting n x n complex matrices into 2n x 2n real matrices as
+described Section 3.4 of the HIKMOT paper.</p></li>
+<li><p>We avoid automatic differentiation.  We pick an independent set of
+equations of the following form and try to solve them:</p>
+<blockquote>
+<div><p>log(LHS) = 0</p>
+</div></blockquote>
+<p>where</p>
+<blockquote>
+<div><p>LHS =  c * z0^a0 * (1-z0)^b0 *  z1^a1 * (1-z1)^b1 * …</p>
+</div></blockquote>
+<p>with a, b and c’s as returned by Manifold.gluing_equations(‘rect’).</p>
+<p>The derivative of log (LHS) with respect to zj is simply given by</p>
+<blockquote>
+<div><p>aj/zj - bj/(1-zj)</p>
+</div></blockquote>
+<p>and thus no need for automatic differentiation.</p>
+</li>
+<li><p>For speed-up, the approximate inverse is always computed with
+double’s. Some intermediate matrix computations are performed sparsely.</p></li>
+</ol>
+<p>In contrast to HIKMOT, we use and return Sage’s native implementation of
+(complex) interval arithmetic here, which allows for increased interoperability.
+Another advantage is that Sage supports arbitrary precision.</p>
+<p>Here is an example how to explicitly invoke the KrawczykShapesEngine:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sage: shapes = M.tetrahedra_shapes(&#39;rect&#39;, bits_prec = 80)
+sage: C = KrawczykShapesEngine(M, shapes, bits_prec = 80)
+sage: C.expand_until_certified()
+True
+sage: C.certified_shapes # doctest: +NUMERIC12
+(0.6623589786223730129805? + 0.5622795120623012438992?*I, 0.6623589786223730129805? + 0.5622795120623012438992?*I, 0.6623589786223730129805? + 0.5622795120623012438992?*I)
+</pre></div>
+</div>
+<p>And here an example where the initial solution is somewhat off:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sage: M = Manifold(&quot;m019&quot;)
+sage: shapes = [ 0.78+0.91j, 0.79+0.92j, 0.5 + 0.63j ]
+sage: C = KrawczykShapesEngine(M, shapes, bits_prec = 80)
+sage: C.expand_until_certified()
+True
+sage: C.certified_shapes
+(0.78? + 0.92?*I, 0.78? + 0.92?*I, 0.46? + 0.64?*I)
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.KrawczykShapesEngine.expand_until_certified">
+<span class="sig-name descname"><span class="pre">expand_until_certified</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.KrawczykShapesEngine.expand_until_certified" title="Permalink to this definition"></a></dt>
+<dd><p>Try Krawczyk iterations (i.e., expanding the shape intervals [z]
+by the Krawczyk interval K(z0, [z], f)) until we can certify they
+contain a true solution.</p>
+<p>If succeeded, return True and write certified shapes to
+certified_shapes.
+Set verbose = True for printing additional information.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.KrawczykShapesEngine.interval_vector_is_contained_in">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">interval_vector_is_contained_in</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vecA</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vecB</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.KrawczykShapesEngine.interval_vector_is_contained_in" title="Permalink to this definition"></a></dt>
+<dd><p>Given two vectors of intervals, return whether the first one
+is contained in the second one.  Examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="n">RIF</span> <span class="o">=</span> <span class="n">RealIntervalField</span><span class="p">(</span><span class="mi">80</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">CIF</span> <span class="o">=</span> <span class="n">ComplexIntervalField</span><span class="p">(</span><span class="mi">80</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">box</span> <span class="o">=</span> <span class="n">CIF</span><span class="p">(</span><span class="n">RIF</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">RIF</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">a</span> <span class="o">=</span> <span class="p">[</span> <span class="n">CIF</span><span class="p">(</span><span class="mf">0.1</span><span class="p">),</span> <span class="n">CIF</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">box</span> <span class="p">]</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">b</span> <span class="o">=</span> <span class="p">[</span> <span class="n">CIF</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">box</span><span class="p">,</span> <span class="n">CIF</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">box</span> <span class="p">]</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">c</span> <span class="o">=</span> <span class="p">[</span> <span class="n">CIF</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">CIF</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">box</span> <span class="p">]</span>
+
+<span class="n">sage</span><span class="p">:</span> <span class="n">KrawczykShapesEngine</span><span class="o">.</span><span class="n">interval_vector_is_contained_in</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="kc">True</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">KrawczykShapesEngine</span><span class="o">.</span><span class="n">interval_vector_is_contained_in</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+<span class="kc">False</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">KrawczykShapesEngine</span><span class="o">.</span><span class="n">interval_vector_is_contained_in</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+<span class="kc">False</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">KrawczykShapesEngine</span><span class="o">.</span><span class="n">interval_vector_is_contained_in</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+<span class="kc">False</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">KrawczykShapesEngine</span><span class="o">.</span><span class="n">interval_vector_is_contained_in</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+<span class="kc">False</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">KrawczykShapesEngine</span><span class="o">.</span><span class="n">interval_vector_is_contained_in</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="kc">False</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.KrawczykShapesEngine.interval_vector_mid_points">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">interval_vector_mid_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.KrawczykShapesEngine.interval_vector_mid_points" title="Permalink to this definition"></a></dt>
+<dd><p>Given a vector of complex intervals, return the midpoints (as 0-length
+complex intervals) of them.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.KrawczykShapesEngine.interval_vector_union">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">interval_vector_union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vecA</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vecB</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.KrawczykShapesEngine.interval_vector_union" title="Permalink to this definition"></a></dt>
+<dd><p>Given two vectors of intervals, return the vector of their unions,
+i.e., the smallest interval containing both intervals.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.KrawczykShapesEngine.krawczyk_interval">
+<span class="sig-name descname"><span class="pre">krawczyk_interval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shape_intervals</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.KrawczykShapesEngine.krawczyk_interval" title="Permalink to this definition"></a></dt>
+<dd><p>Compute the interval in the Krawczyk test.</p>
+<p>It is given as</p>
+<blockquote>
+<div><p>K(z0, [z], f) := z0 - c * f(z0) + (Id - c * df([z])) * ([z] - z0)</p>
+</div></blockquote>
+<dl class="simple">
+<dt>where</dt><dd><ul class="simple">
+<li><p>z0 is the approximate candidate solution,</p></li>
+<li><p>[z] are the shape_intervals we try to verify,</p></li>
+<li><p>f is the function taking the shapes to the errors of the logarithmic gluing equations</p></li>
+<li><p>c is an approximate inverse of df</p></li>
+<li><p>df([z]) is the derivative of f (interval-)evaluated for [z]</p></li>
+</ul>
+</dd>
+</dl>
+<p>Note that z0 in self.initial_shapes which are complex intervals
+containing only one value (the candidate solution given initially).</p>
+<p>If K is contained in [z], then we have proven that [z] contains a solution
+to the gluing equations.</p>
+<p>Do several Krawczyk operations to get a better solution:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sage: M = Manifold(&quot;m019&quot;)
+sage: shapes = vector(ComplexIntervalField(53), [ 0.5+0.8j, 0.5+0.8j, 0.5+0.8j])
+sage: for i in range(15):
+...       penultimateShapes = shapes
+...       centers = [ shape.center() for shape in shapes ]
+...       C = KrawczykShapesEngine(M, centers, bits_prec = 53)
+...       shapes = C.krawczyk_interval(shapes)
+sage: shapes # doctest: +NUMERIC12
+(0.78055252785073? + 0.91447366296773?*I, 0.780552527850725? + 0.91447366296773?*I, 0.460021175573718? + 0.632624193605256?*I)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.KrawczykShapesEngine.log_gluing_LHS_derivatives">
+<span class="sig-name descname"><span class="pre">log_gluing_LHS_derivatives</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shapes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.KrawczykShapesEngine.log_gluing_LHS_derivatives" title="Permalink to this definition"></a></dt>
+<dd><p>Compute the Jacobian of the vector-valued function f
+described in the above log_gluing_LHSs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sage: from snappy import Manifold
+sage: M = Manifold(&quot;m019&quot;)
+sage: shapes = M.tetrahedra_shapes(&#39;rect&#39;, bits_prec = 80)
+sage: C = KrawczykShapesEngine(M, shapes, bits_prec = 80)
+sage: RIF = RealIntervalField(80)
+sage: CIF = ComplexIntervalField(80)
+sage: shape1 = CIF(RIF(0.78055,0.78056), RIF(0.9144, 0.9145))
+sage: shape2 = CIF(RIF(0.46002,0.46003), RIF(0.6326, 0.6327))
+sage: shapes = [shape1, shape1, shape2]
+sage: C.log_gluing_LHS_derivatives(shapes) # doctest: +NUMERIC3
+[  0.292? - 1.6666?*I   0.292? - 1.6666?*I   0.752? - 1.0340?*I]
+[ 0.5400? - 0.6327?*I  0.5400? - 0.6327?*I  -1.561? - 1.8290?*I]
+[ 0.5400? - 0.6327?*I -0.5400? + 0.6327?*I                    0]
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.KrawczykShapesEngine.log_gluing_LHS_derivatives_sparse">
+<span class="sig-name descname"><span class="pre">log_gluing_LHS_derivatives_sparse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shapes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.KrawczykShapesEngine.log_gluing_LHS_derivatives_sparse" title="Permalink to this definition"></a></dt>
+<dd><p>A column-sparse matrix version of log_gluing_LHS_derivatives_sparse.
+The result is a list of list of pairs. Each list of pairs corresponds
+to a column, a pair being (index of row, value) where the index is
+increasing.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.KrawczykShapesEngine.log_gluing_LHSs">
+<span class="sig-name descname"><span class="pre">log_gluing_LHSs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shapes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.KrawczykShapesEngine.log_gluing_LHSs" title="Permalink to this definition"></a></dt>
+<dd><p>Given the result of M.gluing_equations(‘rect’) or a
+subset of rows of it and shapes, return a vector of
+log(LHS) where</p>
+<blockquote>
+<div><p>LHS = c * z0 ** a0 * (1-z0) ** b0 * z1 ** a1 * …</p>
+</div></blockquote>
+<p>Let f: C^n -&gt; C^n denote the function which takes
+shapes and returns the vector of log(LHS).</p>
+<p>The reason we take the logarithm of the rectangular
+gluing equations is because the logarithmic derivative
+is of a particular nice form:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">snappy</span> <span class="kn">import</span> <span class="n">Manifold</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m019&quot;</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">equations</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">gluing_equations</span><span class="p">(</span><span class="s1">&#39;rect&#39;</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">RIF</span> <span class="o">=</span> <span class="n">RealIntervalField</span><span class="p">(</span><span class="mi">80</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">CIF</span> <span class="o">=</span> <span class="n">ComplexIntervalField</span><span class="p">(</span><span class="mi">80</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">zero</span> <span class="o">=</span> <span class="n">CIF</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">center</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">shape1</span> <span class="o">=</span> <span class="n">CIF</span><span class="p">(</span><span class="n">RIF</span><span class="p">(</span><span class="mf">0.78055</span><span class="p">,</span><span class="mf">0.78056</span><span class="p">),</span> <span class="n">RIF</span><span class="p">(</span><span class="mf">0.9144</span><span class="p">,</span> <span class="mf">0.9145</span><span class="p">))</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">shape2</span> <span class="o">=</span> <span class="n">CIF</span><span class="p">(</span><span class="n">RIF</span><span class="p">(</span><span class="mf">0.46002</span><span class="p">,</span><span class="mf">0.46003</span><span class="p">),</span> <span class="n">RIF</span><span class="p">(</span><span class="mf">0.6326</span><span class="p">,</span> <span class="mf">0.6327</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>An interval solution containing the true solution. The log of each
+rectangular equation should be 0 for the true solution, hence the interval
+should contain zero:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sage: shapes = [shape1, shape1, shape2]
+sage: C = KrawczykShapesEngine(M, [shape.center() for shape in shapes], bits_prec = 53)
+sage: LHSs = C.log_gluing_LHSs(shapes)
+sage: LHSs # doctest: +NUMERIC6
+(0.000? + 0.000?*I, 0.000? + 0.000?*I, 0.0000? + 0.0000?*I)
+sage: zero in LHSs[0]
+True
+</pre></div>
+</div>
+<p>An interval not containing the true solution:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sage: shapes = [shape1, shape1, shape1]
+sage: LHSs = C.log_gluing_LHSs(shapes)
+sage: LHSs # doctest: +NUMERIC3
+(0.430? - 0.078?*I, 0.246? - 0.942?*I, 0.0000? + 0.0000?*I)
+sage: zero in LHSs[0]
+False
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.KrawczykShapesEngine.matrix_times_sparse">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">matrix_times_sparse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparse_m</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.KrawczykShapesEngine.matrix_times_sparse" title="Permalink to this definition"></a></dt>
+<dd><p>Multiply a (dense) Sage matrix with a column-sparse matrix
+(in the format described in log_gluing_LHS_derivatives_sparse).</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="verification-of-hyperbolicity">
+<h2>Verification of hyperbolicity<a class="headerlink" href="#verification-of-hyperbolicity" title="Permalink to this heading"></a></h2>
+<p>Methods containing <code class="docutils literal notranslate"><span class="pre">check</span></code> will raise an exception if the desired property
+cannot be certified. Methods containing <code class="docutils literal notranslate"><span class="pre">verify</span></code> or <code class="docutils literal notranslate"><span class="pre">verified</span></code> will fail
+more gracefully returning <code class="docutils literal notranslate"><span class="pre">False</span></code> or <code class="docutils literal notranslate"><span class="pre">None</span></code> in such a case.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="snappy.verify.verifyHyperbolicity.check_logarithmic_gluing_equations_and_positively_oriented_tets">
+<span class="sig-prename descclassname"><span class="pre">snappy.verify.verifyHyperbolicity.</span></span><span class="sig-name descname"><span class="pre">check_logarithmic_gluing_equations_and_positively_oriented_tets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">manifold</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape_intervals</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.verifyHyperbolicity.check_logarithmic_gluing_equations_and_positively_oriented_tets" title="Permalink to this definition"></a></dt>
+<dd><p>Given a SnapPy manifold manifold and complex intervals for the shapes
+shape_intervals that are certified to contain a solution to the
+rectangular gluing equations, verify that the logarithmic gluing equations
+are also fulfilled and that all shapes have positive imaginary part.
+It will raise an exception if the verification fails.
+This is sufficient to prove that the manifold is indeed hyperbolic.</p>
+<p>Since the given interval are supposed to contain a true solution of
+the rectangular gluing equations, the logarithmic gluing equations
+are known to be fulfilled up to a multiple of 2 pi i. Thus it is enough
+to certify that the  absolute error of the logarithmic gluing
+equations is &lt; 0.1. Using interval arithmetic, this function certifies
+this and positivity of the imaginary parts of the shapes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">snappy</span> <span class="kn">import</span> <span class="n">Manifold</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m019&quot;</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">check_logarithmic_gluing_equations_and_positively_oriented_tets</span><span class="p">(</span>
+<span class="o">...</span>    <span class="n">M</span><span class="p">,</span> <span class="n">M</span><span class="o">.</span><span class="n">tetrahedra_shapes</span><span class="p">(</span><span class="s1">&#39;rect&#39;</span><span class="p">,</span> <span class="n">intervals</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The SnapPy triangulation of the following hyperbolic manifold contains
+actually negatively oriented tetrahedra:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sage: M = Manifold(&quot;t02774&quot;)
+sage: check_logarithmic_gluing_equations_and_positively_oriented_tets(
+...    M, M.tetrahedra_shapes(&#39;rect&#39;, intervals=True))    # doctest: +IGNORE_EXCEPTION_DETAIL
+Traceback (most recent call last):
+...
+ShapePositiveImaginaryPartNumericalVerifyError: Numerical verification that shape has positive imaginary part has failed: Im(0.4800996900657? - 0.0019533695046?*I) &gt; 0
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="cusp-cross-sections">
+<h2>Cusp cross sections<a class="headerlink" href="#cusp-cross-sections" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="snappy.verify.RealCuspCrossSection">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snappy.verify.</span></span><span class="sig-name descname"><span class="pre">RealCuspCrossSection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mcomplex</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.RealCuspCrossSection" title="Permalink to this definition"></a></dt>
+<dd><p>A t3m triangulation with real edge lengths of cusp cross sections built
+from a cusped (possibly non-orientable) SnapPy manifold M with a hyperbolic
+structure specified by shapes. It can scale the cusps to areas that can be
+specified or scale them such that they are disjoint.
+It can also compute the “tilts” used in the Tilt Theorem, see
+<code class="docutils literal notranslate"><span class="pre">canonize_part_1.c</span></code>.</p>
+<p>The computations are agnostic about the type of numbers provided as shapes
+as long as they provide <code class="docutils literal notranslate"><span class="pre">+</span></code>, <code class="docutils literal notranslate"><span class="pre">-</span></code>, <code class="docutils literal notranslate"><span class="pre">*</span></code>, <code class="docutils literal notranslate"><span class="pre">/</span></code>, <code class="docutils literal notranslate"><span class="pre">conjugate()</span></code>,
+<code class="docutils literal notranslate"><span class="pre">im()</span></code>, <code class="docutils literal notranslate"><span class="pre">abs()</span></code>, <code class="docutils literal notranslate"><span class="pre">sqrt()</span></code>.
+Shapes can be a numerical type such as ComplexIntervalField or an exact
+type (supporting sqrt) such as QQbar.</p>
+<p>The resulting edge lengths and tilts will be of the type returned by
+applying the above operations to the shapes. For example, if the shapes
+are in ComplexIntervalField, the edge lengths and tilts are elements in
+RealIntervalField.</p>
+<p><strong>Remark:</strong> The real edge lengths could also be obtained from the complex
+edge lengths computed by <code class="docutils literal notranslate"><span class="pre">ComplexCuspCrossSection</span></code>, but this has two
+drawbacks. The times at which we apply <code class="docutils literal notranslate"><span class="pre">abs</span></code> or <code class="docutils literal notranslate"><span class="pre">sqrt</span></code> during the
+development and rescaling of the cusps would be different. Though this
+gives the same values, the resulting representation of these values by an
+exact number type (such as the ones in <code class="docutils literal notranslate"><span class="pre">squareExtension.py</span></code>) might be
+prohibitively more complicated. Furthermore, <code class="docutils literal notranslate"><span class="pre">ComplexCuspCrossSection</span></code>
+does not work for non-orientable manifolds (it does not implement working
+in a cusp’s double-cover like the SnapPea kernel does).</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="snappy.verify.RealCuspCrossSection.HoroTriangle">
+<span class="sig-name descname"><span class="pre">HoroTriangle</span></span><a class="headerlink" href="#snappy.verify.RealCuspCrossSection.HoroTriangle" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">RealHoroTriangle</span></code></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.RealCuspCrossSection.check_cusp_development_exactly">
+<span class="sig-name descname"><span class="pre">check_cusp_development_exactly</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.RealCuspCrossSection.check_cusp_development_exactly" title="Permalink to this definition"></a></dt>
+<dd><p>Check that all side lengths of horo triangles are consistent.
+If the logarithmic edge equations are fulfilled, this implices
+that the all cusps are complete and thus the manifold is complete.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.RealCuspCrossSection.check_logarithmic_edge_equations_and_positivity">
+<span class="sig-name descname"><span class="pre">check_logarithmic_edge_equations_and_positivity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">NumericalField</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.RealCuspCrossSection.check_logarithmic_edge_equations_and_positivity" title="Permalink to this definition"></a></dt>
+<dd><p>Check that the shapes have positive imaginary part and that the
+logarithmic gluing equations have small error.</p>
+<p>The shapes are coerced into the field given as argument before the
+logarithm is computed. It can be, e.g., a ComplexIntervalField.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.RealCuspCrossSection.check_polynomial_edge_equations_exactly">
+<span class="sig-name descname"><span class="pre">check_polynomial_edge_equations_exactly</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.RealCuspCrossSection.check_polynomial_edge_equations_exactly" title="Permalink to this definition"></a></dt>
+<dd><p>Check that the polynomial edge equations are fulfilled exactly.</p>
+<p>We use the conjugate inverse to support non-orientable manifolds.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.RealCuspCrossSection.compute_tilts">
+<span class="sig-name descname"><span class="pre">compute_tilts</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.RealCuspCrossSection.compute_tilts" title="Permalink to this definition"></a></dt>
+<dd><p>Computes all tilts. They are written to the instances of
+t3m.simplex.Face and can be accessed as
+[ face.Tilt for face in crossSection.Faces].</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.RealCuspCrossSection.cusp_areas">
+<span class="sig-name descname"><span class="pre">cusp_areas</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.RealCuspCrossSection.cusp_areas" title="Permalink to this definition"></a></dt>
+<dd><p>List of all cusp areas.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.RealCuspCrossSection.ensure_disjoint_on_edges">
+<span class="sig-name descname"><span class="pre">ensure_disjoint_on_edges</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.RealCuspCrossSection.ensure_disjoint_on_edges" title="Permalink to this definition"></a></dt>
+<dd><p>Scales the cusp neighborhoods down until they are disjoint when
+intersected with the edges of the triangulations.</p>
+<p>Given an edge of a triangulation, we can easily compute the signed
+distance between the two cusp neighborhoods at the ends of the edge
+measured along that edge. Thus, we can easily check that all the
+distances measured along all the edges are positive and scale the
+cusps down if necessary.</p>
+<p>Unfortunately, this is not sufficient to ensure that two cusp
+neighborhoods are disjoint since there might be a geodesic between
+the two cusps such that the distance between the two cusps measured
+along the geodesic is shorter than measured along any edge of the
+triangulation.</p>
+<p>Thus, it is necessary to call ensure_std_form as well:
+it will make sure that the cusp neighborhoods are small enough so
+that they intersect the tetrahedra in “standard” form.
+Here, “standard” form means that the corresponding horoball about a
+vertex of a tetrahedron intersects the three faces of the tetrahedron
+adjacent to the vertex but not the one opposite to the vertex.</p>
+<p>For any geometric triangulation, standard form and positive distance
+measured along all edges of the triangulation is sufficient for
+disjoint neighborhoods.</p>
+<p>The SnapPea kernel uses the proto-canonical triangulation associated
+to the cusp neighborhood to get around this when computing the
+“reach” and the “stoppers” for the cusps.</p>
+<p><strong>Remark:</strong> This means that the cusp neighborhoods might be scaled down
+more than necessary. Related open questions are: given maximal disjoint
+cusp neighborhoods (maximal in the sense that no neighborhood can be
+expanded without bumping into another or itself), is there always a
+geometric triangulation intersecting the cusp neighborhoods in standard
+form? Is there an easy algorithm to find this triangulation, e.g., by
+applying a 2-3 move whenever we see a non-standard intersection?</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.RealCuspCrossSection.ensure_std_form">
+<span class="sig-name descname"><span class="pre">ensure_std_form</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">allow_scaling_up</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.RealCuspCrossSection.ensure_std_form" title="Permalink to this definition"></a></dt>
+<dd><p>Makes sure that the cusp neighborhoods intersect each tetrahedron
+in standard form by scaling the cusp neighborhoods down if necessary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.RealCuspCrossSection.fromManifoldAndShapes">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fromManifoldAndShapes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shapes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.RealCuspCrossSection.fromManifoldAndShapes" title="Permalink to this definition"></a></dt>
+<dd><p><strong>Examples:</strong></p>
+<p>Initialize from shapes provided from the floats returned by
+tetrahedra_shapes. The tilts appear to be negative but are not
+verified by interval arithmetics:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">snappy</span> <span class="kn">import</span> <span class="n">Manifold</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m004&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">M</span><span class="o">.</span><span class="n">canonize</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">shapes</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">tetrahedra_shapes</span><span class="p">(</span><span class="s1">&#39;rect&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="n">RealCuspCrossSection</span><span class="o">.</span><span class="n">fromManifoldAndShapes</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">shapes</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span><span class="o">.</span><span class="n">normalize_cusps</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span><span class="o">.</span><span class="n">compute_tilts</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tilts</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">read_tilts</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">tilt</span> <span class="ow">in</span> <span class="n">tilts</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%.8f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">tilt</span><span class="p">)</span>
+<span class="go">-0.31020162</span>
+<span class="go">-0.31020162</span>
+<span class="go">-0.31020162</span>
+<span class="go">-0.31020162</span>
+<span class="go">-0.31020162</span>
+<span class="go">-0.31020162</span>
+<span class="go">-0.31020162</span>
+<span class="go">-0.31020162</span>
+</pre></div>
+</div>
+<p>Use verified intervals:</p>
+<p>sage: from snappy.verify import *
+sage: M = Manifold(“m004”)
+sage: M.canonize()
+sage: shapes = M.tetrahedra_shapes(‘rect’, intervals=True)</p>
+<p>Verify that the tetrahedra shapes form a complete manifold:</p>
+<p>sage: check_logarithmic_gluing_equations_and_positively_oriented_tets(M,shapes)
+sage: e = RealCuspCrossSection.fromManifoldAndShapes(M, shapes)
+sage: e.normalize_cusps()
+sage: e.compute_tilts()</p>
+<p>Tilts are verified to be negative:</p>
+<p>sage: [tilt &lt; 0 for tilt in e.read_tilts()]
+[True, True, True, True, True, True, True, True]</p>
+<p>Setup necessary things in Sage:</p>
+<p>sage: from sage.rings.qqbar import QQbar
+sage: from sage.rings.rational_field import RationalField
+sage: from sage.rings.polynomial.polynomial_ring import polygen
+sage: from sage.rings.real_mpfi import RealIntervalField
+sage: from sage.rings.complex_interval_field import ComplexIntervalField
+sage: x = polygen(RationalField())
+sage: RIF = RealIntervalField()
+sage: CIF = ComplexIntervalField()</p>
+<p>sage: M = Manifold(“m412”)
+sage: M.canonize()</p>
+<p>Make our own exact shapes using Sage. They are the root of the given
+polynomial isolated by the given interval.</p>
+<p>sage: r=QQbar.polynomial_root(x**2-x+1,CIF(RIF(0.49,0.51),RIF(0.86,0.87)))
+sage: shapes = 5 * [r]
+sage: e=RealCuspCrossSection.fromManifoldAndShapes(M, shapes)
+sage: e.normalize_cusps()</p>
+<p>The following three lines verify that we have shapes giving a complete
+hyperbolic structure. The last one uses complex interval arithmetics.</p>
+<p>sage: e.check_polynomial_edge_equations_exactly()
+sage: e.check_cusp_development_exactly()
+sage: e.check_logarithmic_edge_equations_and_positivity(CIF)</p>
+<p>Because we use exact types, we can verify that each tilt is either
+negative or exactly zero.</p>
+<p>sage: e.compute_tilts()
+sage: [(tilt &lt; 0, tilt == 0) for tilt in e.read_tilts()]
+[(True, False), (True, False), (False, True), (True, False), (True, False), (True, False), (True, False), (False, True), (True, False), (True, False), (True, False), (False, True), (False, True), (False, True), (False, True), (False, True), (True, False), (True, False), (False, True), (True, False)]</p>
+<p>Some are exactly zero, so the canonical cell decomposition has
+non-tetrahedral cells. In fact, the one cell is a cube. We can obtain
+the retriangulation of the canonical cell decomposition as follows:</p>
+<p>sage: e.compute_tilts()
+sage: opacities = [tilt &lt; 0 for tilt in e.read_tilts()]
+sage: N = M._canonical_retriangulation()
+sage: N.num_tetrahedra()
+12</p>
+<p>The manifold m412 has 8 isometries, the above code certified that using
+exact arithmetic:
+sage: len(N.isomorphisms_to(N))
+8</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.RealCuspCrossSection.normalize_cusps">
+<span class="sig-name descname"><span class="pre">normalize_cusps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">areas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.RealCuspCrossSection.normalize_cusps" title="Permalink to this definition"></a></dt>
+<dd><p>Scale cusp so that they have the given target area.
+Without argument, each cusp is scaled to have area 1.
+If the argument is a number, scale each cusp to have that area.
+If the argument is an array, scale each cusp by the respective
+entry in the array.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.RealCuspCrossSection.read_tilts">
+<span class="sig-name descname"><span class="pre">read_tilts</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.RealCuspCrossSection.read_tilts" title="Permalink to this definition"></a></dt>
+<dd><p>After compute_tilts() has been called, put the tilt values into an
+array containing the tilt of face 0, 1, 2, 3 of the first tetrahedron,
+… of the second tetrahedron, ….</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.RealCuspCrossSection.scale_cusps">
+<span class="sig-name descname"><span class="pre">scale_cusps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scales</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.RealCuspCrossSection.scale_cusps" title="Permalink to this definition"></a></dt>
+<dd><p>Scale each cusp by Euclidean dilation by values in given array.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="snappy.verify.ComplexCuspCrossSection">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snappy.verify.</span></span><span class="sig-name descname"><span class="pre">ComplexCuspCrossSection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mcomplex</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.ComplexCuspCrossSection" title="Permalink to this definition"></a></dt>
+<dd><p>Similarly to RealCuspCrossSection with the following differences: it
+computes the complex edge lengths and the cusp translations (instead
+of the tilts) and it only works for orientable manifolds.</p>
+<p>The same comment applies about the type of the shapes. The resulting
+edge lengths and translations will be of the same type as the shapes.</p>
+<p>For shapes corresponding to a non-boundary unipotent representation
+(in other words, a manifold having an incomplete cusp), a cusp can
+be developed if an appropriate 1-cocycle is given. The 1-cocycle
+is a cellular cocycle in the dual of the cusp triangulations and
+represents an element in H^1(boundary M; C^*) that must match the
+PSL(2,C) boundary holonomy of the representation.
+It is encoded as dictionary with key (tet index, t3m face, t3m vertex).</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="snappy.verify.ComplexCuspCrossSection.HoroTriangle">
+<span class="sig-name descname"><span class="pre">HoroTriangle</span></span><a class="headerlink" href="#snappy.verify.ComplexCuspCrossSection.HoroTriangle" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">ComplexHoroTriangle</span></code></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.ComplexCuspCrossSection.add_vertex_positions_to_horotriangles">
+<span class="sig-name descname"><span class="pre">add_vertex_positions_to_horotriangles</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.ComplexCuspCrossSection.add_vertex_positions_to_horotriangles" title="Permalink to this definition"></a></dt>
+<dd><p>Develops cusp to assign to each horotriangle the positions of its three
+vertices in the Euclidean plane.</p>
+<p>Note: For a complete cusp, this is defined only up to translating the
+entire triangle by translations generated by meridian and longitude.</p>
+<p>For an incomplete cusp, this is defined only up to
+similarities generated by the meridian and longitude. The
+positions can be moved such that the fixed point of these
+similarities is at the origin by calling
+move_fixed_point_to_zero after
+add_vertex_positions_to_horotriangles.</p>
+<p>Note: This is not working when one_cocycle is passed during the
+construction of the cusp cross section.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.ComplexCuspCrossSection.all_normalized_translations">
+<span class="sig-name descname"><span class="pre">all_normalized_translations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.ComplexCuspCrossSection.all_normalized_translations" title="Permalink to this definition"></a></dt>
+<dd><p>Compute the translations corresponding to the meridian and longitude
+for each cusp.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.ComplexCuspCrossSection.check_cusp_development_exactly">
+<span class="sig-name descname"><span class="pre">check_cusp_development_exactly</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.ComplexCuspCrossSection.check_cusp_development_exactly" title="Permalink to this definition"></a></dt>
+<dd><p>Check that all side lengths of horo triangles are consistent.
+If the logarithmic edge equations are fulfilled, this implices
+that the all cusps are complete and thus the manifold is complete.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.ComplexCuspCrossSection.check_logarithmic_edge_equations_and_positivity">
+<span class="sig-name descname"><span class="pre">check_logarithmic_edge_equations_and_positivity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">NumericalField</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.ComplexCuspCrossSection.check_logarithmic_edge_equations_and_positivity" title="Permalink to this definition"></a></dt>
+<dd><p>Check that the shapes have positive imaginary part and that the
+logarithmic gluing equations have small error.</p>
+<p>The shapes are coerced into the field given as argument before the
+logarithm is computed. It can be, e.g., a ComplexIntervalField.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.ComplexCuspCrossSection.check_polynomial_edge_equations_exactly">
+<span class="sig-name descname"><span class="pre">check_polynomial_edge_equations_exactly</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.ComplexCuspCrossSection.check_polynomial_edge_equations_exactly" title="Permalink to this definition"></a></dt>
+<dd><p>Check that the polynomial edge equations are fulfilled exactly.</p>
+<p>We use the conjugate inverse to support non-orientable manifolds.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.ComplexCuspCrossSection.cusp_areas">
+<span class="sig-name descname"><span class="pre">cusp_areas</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.ComplexCuspCrossSection.cusp_areas" title="Permalink to this definition"></a></dt>
+<dd><p>List of all cusp areas.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.ComplexCuspCrossSection.cusp_shapes">
+<span class="sig-name descname"><span class="pre">cusp_shapes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.ComplexCuspCrossSection.cusp_shapes" title="Permalink to this definition"></a></dt>
+<dd><p>Compute the cusp shapes as conjugate of the quotient of the translations
+corresponding to the longitude and meridian for each cusp (SnapPea
+kernel convention).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.ComplexCuspCrossSection.ensure_disjoint_on_edges">
+<span class="sig-name descname"><span class="pre">ensure_disjoint_on_edges</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.ComplexCuspCrossSection.ensure_disjoint_on_edges" title="Permalink to this definition"></a></dt>
+<dd><p>Scales the cusp neighborhoods down until they are disjoint when
+intersected with the edges of the triangulations.</p>
+<p>Given an edge of a triangulation, we can easily compute the signed
+distance between the two cusp neighborhoods at the ends of the edge
+measured along that edge. Thus, we can easily check that all the
+distances measured along all the edges are positive and scale the
+cusps down if necessary.</p>
+<p>Unfortunately, this is not sufficient to ensure that two cusp
+neighborhoods are disjoint since there might be a geodesic between
+the two cusps such that the distance between the two cusps measured
+along the geodesic is shorter than measured along any edge of the
+triangulation.</p>
+<p>Thus, it is necessary to call ensure_std_form as well:
+it will make sure that the cusp neighborhoods are small enough so
+that they intersect the tetrahedra in “standard” form.
+Here, “standard” form means that the corresponding horoball about a
+vertex of a tetrahedron intersects the three faces of the tetrahedron
+adjacent to the vertex but not the one opposite to the vertex.</p>
+<p>For any geometric triangulation, standard form and positive distance
+measured along all edges of the triangulation is sufficient for
+disjoint neighborhoods.</p>
+<p>The SnapPea kernel uses the proto-canonical triangulation associated
+to the cusp neighborhood to get around this when computing the
+“reach” and the “stoppers” for the cusps.</p>
+<p><strong>Remark:</strong> This means that the cusp neighborhoods might be scaled down
+more than necessary. Related open questions are: given maximal disjoint
+cusp neighborhoods (maximal in the sense that no neighborhood can be
+expanded without bumping into another or itself), is there always a
+geometric triangulation intersecting the cusp neighborhoods in standard
+form? Is there an easy algorithm to find this triangulation, e.g., by
+applying a 2-3 move whenever we see a non-standard intersection?</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.ComplexCuspCrossSection.ensure_std_form">
+<span class="sig-name descname"><span class="pre">ensure_std_form</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">allow_scaling_up</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.ComplexCuspCrossSection.ensure_std_form" title="Permalink to this definition"></a></dt>
+<dd><p>Makes sure that the cusp neighborhoods intersect each tetrahedron
+in standard form by scaling the cusp neighborhoods down if necessary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.ComplexCuspCrossSection.lift_vertex_positions_of_horotriangles">
+<span class="sig-name descname"><span class="pre">lift_vertex_positions_of_horotriangles</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.ComplexCuspCrossSection.lift_vertex_positions_of_horotriangles" title="Permalink to this definition"></a></dt>
+<dd><p>After developing an incomplete cusp with
+add_vertex_positions_to_horotriangles, this function moves the
+vertex positions first to zero the fixed point (see
+move_ffixed_point_to_zero) and computes logarithms for all the
+vertex positions of the horotriangles in the Euclidean plane
+in a consistent manner. These logarithms are written to a
+dictionary lifted_vertex_positions on the HoroTriangle’s.</p>
+<p>For an incomplete cusp, the respective value in lifted_vertex_positions
+will be None.</p>
+<p>The three logarithms of the vertex positions of a triangle are only
+defined up to adding mu Z + lambda Z where mu and lambda are the
+logarithmic holonomies of the meridian and longitude.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.ComplexCuspCrossSection.move_fixed_point_to_zero">
+<span class="sig-name descname"><span class="pre">move_fixed_point_to_zero</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.ComplexCuspCrossSection.move_fixed_point_to_zero" title="Permalink to this definition"></a></dt>
+<dd><p>Determines the fixed point of the holonomies for all
+incomplete cusps. Then moves the vertex positions of the
+corresponding cusp triangles so that the fixed point is at the
+origin.</p>
+<p>It also add the boolean v.is_complete to all vertices of the
+triangulation to mark whether the corresponding cusp is
+complete or not.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.ComplexCuspCrossSection.move_lifted_vertex_positions_to_zero_first">
+<span class="sig-name descname"><span class="pre">move_lifted_vertex_positions_to_zero_first</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.ComplexCuspCrossSection.move_lifted_vertex_positions_to_zero_first" title="Permalink to this definition"></a></dt>
+<dd><p>Shift the lifted vertex positions such that the one associated
+to the first vertex when developing the incomplete cusp is
+zero. This makes the values we obtain more stable when
+changing the Dehn-surgery parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.ComplexCuspCrossSection.normalize_cusps">
+<span class="sig-name descname"><span class="pre">normalize_cusps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">areas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.ComplexCuspCrossSection.normalize_cusps" title="Permalink to this definition"></a></dt>
+<dd><p>Scale cusp so that they have the given target area.
+Without argument, each cusp is scaled to have area 1.
+If the argument is a number, scale each cusp to have that area.
+If the argument is an array, scale each cusp by the respective
+entry in the array.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.ComplexCuspCrossSection.scale_cusps">
+<span class="sig-name descname"><span class="pre">scale_cusps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scales</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.ComplexCuspCrossSection.scale_cusps" title="Permalink to this definition"></a></dt>
+<dd><p>Scale each cusp by Euclidean dilation by values in given array.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="verified-canonical-cell-decompositions">
+<h2>Verified canonical cell decompositions<a class="headerlink" href="#verified-canonical-cell-decompositions" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="snappy.verify.verifyCanonical.interval_checked_canonical_triangulation">
+<span class="sig-prename descclassname"><span class="pre">snappy.verify.verifyCanonical.</span></span><span class="sig-name descname"><span class="pre">interval_checked_canonical_triangulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">M</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bits_prec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.verifyCanonical.interval_checked_canonical_triangulation" title="Permalink to this definition"></a></dt>
+<dd><p>Given a canonical triangulation of a cusped (possibly non-orientable)
+manifold M, return this triangulation if it has tetrahedral cells and can
+be verified using interval arithmetics with the optional, given precision.
+Otherwise, raises an Exception.</p>
+<p>It fails when we call it on something which is not the canonical
+triangulation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sage: from snappy import Manifold
+sage: M = Manifold(&quot;m015&quot;)
+sage: interval_checked_canonical_triangulation(M) # doctest: +ELLIPSIS +IGNORE_EXCEPTION_DETAIL
+Traceback (most recent call last):
+...
+TiltProvenPositiveNumericalVerifyError: Numerical verification that tilt is negative has failed, tilt is actually positive. This is provably not the proto-canonical triangulation: 0.164542163...? &lt;= 0
+</pre></div>
+</div>
+<p>It verifies the canonical triangulation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="n">M</span><span class="o">.</span><span class="n">canonize</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">K</span> <span class="o">=</span> <span class="n">interval_checked_canonical_triangulation</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">K</span>
+<span class="n">m015</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Has a non-tetrahedral canonical cell:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sage: M = Manifold(&quot;m137&quot;)
+sage: M.canonize()
+sage: interval_checked_canonical_triangulation(M) # doctest: +ELLIPSIS +IGNORE_EXCEPTION_DETAIL
+Traceback (most recent call last):
+...
+TiltInequalityNumericalVerifyError: Numerical verification that tilt is negative has failed: 0.?e-1... &lt; 0
+</pre></div>
+</div>
+<p>Has a cubical canonical cell:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sage: M = Manifold(&quot;m412&quot;)
+sage: M.canonize()
+sage: interval_checked_canonical_triangulation(M) # doctest: +ELLIPSIS +IGNORE_EXCEPTION_DETAIL
+Traceback (most recent call last):
+...
+TiltInequalityNumericalVerifyError: Numerical verification that tilt is negative has failed: 0.?e-1... &lt; 0
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snappy.verify.verifyCanonical.exactly_checked_canonical_retriangulation">
+<span class="sig-prename descclassname"><span class="pre">snappy.verify.verifyCanonical.</span></span><span class="sig-name descname"><span class="pre">exactly_checked_canonical_retriangulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">M</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bits_prec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degree</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.verifyCanonical.exactly_checked_canonical_retriangulation" title="Permalink to this definition"></a></dt>
+<dd><p>Given a proto-canonical triangulation of a cusped (possibly non-orientable)
+manifold M, return its canonical retriangulation which is computed from
+exact shapes. The exact shapes are computed using snap (which uses the
+LLL-algorithm). The precision (in bits) and the maximal degree need to be
+specified (here 300 bits precision and polynomials of degree less than 4):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">snappy</span> <span class="kn">import</span> <span class="n">Manifold</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m412&quot;</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">M</span><span class="o">.</span><span class="n">canonize</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">K</span> <span class="o">=</span> <span class="n">exactly_checked_canonical_retriangulation</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>M’s canonical cell decomposition has a cube, so non-tetrahedral:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="n">K</span><span class="o">.</span><span class="n">has_finite_vertices</span><span class="p">()</span>
+<span class="kc">True</span>
+</pre></div>
+</div>
+<p>Has 12 tetrahedra after the retrianglation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="n">K</span><span class="o">.</span><span class="n">num_tetrahedra</span><span class="p">()</span>
+<span class="mi">12</span>
+</pre></div>
+</div>
+<p>Check that it fails on something which is not a proto-canonical
+triangulation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sage: from snappy import Manifold
+sage: M = Manifold(&quot;m015&quot;)
+sage: exactly_checked_canonical_retriangulation(M, 500, 6)  # doctest: +IGNORE_EXCEPTION_DETAIL
+Traceback (most recent call last):
+...
+TiltProvenPositiveNumericalVerifyError: Numerical verification that tilt is negative has failed, tilt is actually positive. This is provably not the proto-canonical triangulation: 0.1645421638874662848910671879? &lt;= 0
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="module-snappy.verify.squareExtensions">
+<span id="exact-computations-for-cusp-cross-sections"></span><h2>Exact computations for cusp cross sections<a class="headerlink" href="#module-snappy.verify.squareExtensions" title="Permalink to this heading"></a></h2>
+<p>The squareExtensions module provides
+two special classes to give exact representations of the values
+involved when computing a cusp cross section.</p>
+<p>The method find_shapes_as_complex_sqrt_lin_combinations returns a list of
+shapes as ComplexSqrtLinCombination’s. This can be used as input to
+CuspCrossSection. The outputs of CuspCrossSection, including the tilts, will
+then be of type SqrtLinCombination.</p>
+<p>Consider the real number field N generated by the real and imaginary part of
+the shapes. The edge lengths and the factors used to normalize the cusp areas
+will be square roots in N and thus the tilts will be N-linear combinations of
+square roots in N. To avoid computing in a massive tower of square extensions
+of N, we implement SqrtLinCombination here that provides a special
+implementation of the == operator.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="snappy.verify.squareExtensions.find_shapes_as_complex_sqrt_lin_combinations">
+<span class="sig-prename descclassname"><span class="pre">snappy.verify.squareExtensions.</span></span><span class="sig-name descname"><span class="pre">find_shapes_as_complex_sqrt_lin_combinations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">M</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degree</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.squareExtensions.find_shapes_as_complex_sqrt_lin_combinations" title="Permalink to this definition"></a></dt>
+<dd><p>Given a manifold M, use snap (which uses LLL-algorithm) with the given
+decimal precision and maximal degree to find exact values for the shapes’
+real and imaginary part. Return the shapes as list of
+ComplexSqrtLinCombination’s. Return None on failure.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">snappy</span> <span class="kn">import</span> <span class="n">Manifold</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">M</span><span class="o">=</span><span class="n">Manifold</span><span class="p">(</span><span class="s2">&quot;m412&quot;</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">find_shapes_as_complex_sqrt_lin_combinations</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="p">[</span><span class="n">ComplexSqrtLinCombination</span><span class="p">((</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="p">)),</span> <span class="n">ComplexSqrtLinCombination</span><span class="p">((</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="p">)),</span> <span class="n">ComplexSqrtLinCombination</span><span class="p">((</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="p">)),</span> <span class="n">ComplexSqrtLinCombination</span><span class="p">((</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="p">)),</span> <span class="n">ComplexSqrtLinCombination</span><span class="p">((</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="p">))]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="snappy.verify.squareExtensions.SqrtLinCombination">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snappy.verify.squareExtensions.</span></span><span class="sig-name descname"><span class="pre">SqrtLinCombination</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embed_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.squareExtensions.SqrtLinCombination" title="Permalink to this definition"></a></dt>
+<dd><p>A class representing a linear combination</p>
+<blockquote>
+<div><p>c_1 * sqrt(r_1) + c_2 * sqrt(r_2) + … + c_n * sqrt(r_n)</p>
+</div></blockquote>
+<p>where c_i and r_i have to be of type Integer, Rational or elements
+of the same Sage NumberField with a real embedding (Caution: this is
+assumed but not checked!) such that all r_i are positive (Caution: this is
+not checked during construction!).</p>
+<p>It implements +, -, * where one of the operators is allowed to be an
+integer or rational.</p>
+<p>/ is only implemented when the denominator has only one term c_1 * sqrt(1).
+sqrt is only implemented for c_1 * sqrt(1) and it is not checked that
+c_1 is positive.</p>
+<p>== is implemented, but the other comparison operators are not: casting to
+a RealIntervalField is implemented instead and the user can compare the
+intervals.</p>
+<p>The == operator is implemented by first reducing A == B to D == 0 and then
+converting to a different data type (_FactorizedSqrtLinCombination) that can
+represent linear combinations:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">D</span> <span class="o">=</span>     <span class="n">c_1</span> <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">r_</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">})</span> <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">r_</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">})</span> <span class="o">*</span> <span class="o">...</span> <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">r_</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="n">k_1</span><span class="p">})</span>
+      <span class="o">+</span> <span class="n">c_2</span> <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">r_</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">})</span> <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">r_</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">})</span> <span class="o">*</span> <span class="o">...</span> <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">r_</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="n">k_2</span><span class="p">})</span>
+      <span class="o">+</span> <span class="o">...</span>
+      <span class="o">+</span> <span class="n">c_n</span> <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">r_</span><span class="p">{</span><span class="n">n</span><span class="p">,</span><span class="mi">1</span><span class="p">})</span> <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">r_</span><span class="p">{</span><span class="n">n</span><span class="p">,</span><span class="mi">2</span><span class="p">})</span> <span class="o">*</span> <span class="o">...</span> <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">r_</span><span class="p">{</span><span class="n">n</span><span class="p">,</span><span class="n">k_n</span><span class="p">})</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>by just trivially setting</dt><dd><p>k_i = 0                       when r_i = 1 and
+r_{i,1} = r_i and k_1 = 1     otherwise.</p>
+</dd>
+</dl>
+<p>For this data type, multiplying two sqrt(r_{i,j}) with equal r_{i,j} will
+cancel the two sqrt’s and apply the common r_{i,j} to the c_i of the result
+instead. Thus, the following procedure for determining whether D == 0 will
+eventually terminate:</p>
+<ul class="simple">
+<li><p>if the number of terms n is 0, return True</p></li>
+<li><p>if the number of terms n is 1, return c_1 == 0</p></li>
+<li><p>if there is a r_{i,j} common to each summand, factor it out</p></li>
+<li><p>pick one of the r_{i,j}, split the sum into two parts “left”,
+respectively, “right” of all the terms containing sqrt(r_{i,j}),
+respectively, not containing sqrt(r_{i,j}).</p></li>
+<li><p>If left^2 - right^2 == 0 is False, return False.
+(sqrt(r_{i,j})^2 simplifies to r_{i,j} and disappears, so the resulting
+expression is easier and this recursion terminates eventually.)</p></li>
+<li><p>If left == 0 (some comment applies), return True</p></li>
+<li><p>Use interval arithmetic of increasing precision until it is high enough
+to determine the signs of left and right.
+Return True if and only if the signs differ, otherwise False.</p></li>
+</ul>
+<p>Examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sage: from sage.rings.number_field.number_field import NumberField
+sage: from sage.rings.integer import Integer
+sage: from sage.rings.rational import Rational
+sage: from sage.rings.real_mpfr import RealLiteral, RealField
+sage: from sage.rings.real_mpfi import RealIntervalField
+sage: from sage.calculus.var import var
+sage: from sage.functions.other import sqrt
+sage: x = var(&#39;x&#39;)
+sage: poly = x ** 6 + Rational((3,2))*x**4 + Rational((9,16))*x**2 - Rational((23,64))
+sage: nf = NumberField(poly, &#39;z&#39;, embedding = RealField()(0.56227951206))
+sage: z = nf.gen()
+
+sage: A = SqrtLinCombination(z)
+sage: B = SqrtLinCombination(Rational((8,9))*z**4 + Rational((10,9))*z**2 + Rational((2,9)))
+sage: C = SqrtLinCombination(3)
+sage: D = SqrtLinCombination(Integer(5))
+sage: E = SqrtLinCombination(Rational((6,7)))
+
+sage: A + B
+(8/9*z^4 + 10/9*z^2 + z + 2/9) * sqrt(1)
+sage: B - E
+(8/9*z^4 + 10/9*z^2 - 40/63) * sqrt(1)
+sage: A + sqrt(B) * sqrt(B)
+(8/9*z^4 + 10/9*z^2 + z + 2/9) * sqrt(1)
+sage: A + sqrt(B) * sqrt(B) + C == A + B + C
+True
+sage: A / E
+(7/6*z) * sqrt(1)
+sage: B / A.sqrt()
+(128/207*z^5 + 376/207*z^3 + 302/207*z) * sqrt(z)
+sage: B / (D * A.sqrt())
+(128/1035*z^5 + 376/1035*z^3 + 302/1035*z) * sqrt(z)
+sage: RIF = RealIntervalField(100)
+sage: RIF(B.sqrt() + E.sqrt())
+1.73967449622339881238507307209?
+sage: A - B == 0
+False
+sage: (A + B).sqrt()
+(1) * sqrt(8/9*z^4 + 10/9*z^2 + z + 2/9)
+sage: 3 * A.sqrt() + (4 * B).sqrt() + C + 8 == (9 * A).sqrt() + 2 * B.sqrt() + (C * C).sqrt() + 11 - 3
+True
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.squareExtensions.SqrtLinCombination.sign">
+<span class="sig-name descname"><span class="pre">sign</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.squareExtensions.SqrtLinCombination.sign" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the +1, 0, -1 depending on whether the value is positive,
+zero or negative. For the zero case, exact arithmetic is used to
+certify. Otherwise, interval arithmetic is used.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.squareExtensions.SqrtLinCombination.sign_with_interval">
+<span class="sig-name descname"><span class="pre">sign_with_interval</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.squareExtensions.SqrtLinCombination.sign_with_interval" title="Permalink to this definition"></a></dt>
+<dd><p>Similar to sign, but for the non-zero case, also return the interval
+certifying the sign - useful for debugging.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="snappy.verify.squareExtensions.ComplexSqrtLinCombination">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snappy.verify.squareExtensions.</span></span><span class="sig-name descname"><span class="pre">ComplexSqrtLinCombination</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">real</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embed_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.squareExtensions.ComplexSqrtLinCombination" title="Permalink to this definition"></a></dt>
+<dd><p>A pair (real, imag) of SqrtLinCombinations representing the complex number
+real + imag * I. Supports <code class="docutils literal notranslate"><span class="pre">real()</span></code>, <code class="docutils literal notranslate"><span class="pre">imag()</span></code>, <code class="docutils literal notranslate"><span class="pre">+</span></code>, <code class="docutils literal notranslate"><span class="pre">-</span></code>, <code class="docutils literal notranslate"><span class="pre">*</span></code>, <code class="docutils literal notranslate"><span class="pre">/</span></code>,
+<code class="docutils literal notranslate"><span class="pre">abs</span></code>, <code class="docutils literal notranslate"><span class="pre">conjugate()</span></code> and <code class="docutils literal notranslate"><span class="pre">==</span></code>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.squareExtensions.ComplexSqrtLinCombination.imag">
+<span class="sig-name descname"><span class="pre">imag</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.squareExtensions.ComplexSqrtLinCombination.imag" title="Permalink to this definition"></a></dt>
+<dd><p>Imaginary part.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.verify.squareExtensions.ComplexSqrtLinCombination.real">
+<span class="sig-name descname"><span class="pre">real</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.squareExtensions.ComplexSqrtLinCombination.real" title="Permalink to this definition"></a></dt>
+<dd><p>Real part.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-snappy.verify.exceptions">
+<span id="exceptions"></span><h2>Exceptions<a class="headerlink" href="#module-snappy.verify.exceptions" title="Permalink to this heading"></a></h2>
+<p>All final exceptions are deriving from two base classes:</p>
+<ul class="simple">
+<li><p>a subclass of VerifyErrorBase to indicate whether a numerical or exact
+verification failed</p></li>
+<li><p>a subclass of EquationType to indicate the type of equation of
+inequality for which the verification failed.</p></li>
+</ul>
+<p>Intermediate subclasses (those without __init__) are not supposed to be
+raised.</p>
+<p>The hierarchy is as follows:</p>
+<ul class="simple">
+<li><p>VerifyErrorBase(RuntimeError)</p>
+<ul>
+<li><p>NumericalVerifyError</p>
+<ul>
+<li><p>InequalityNumericalVerifyError</p></li>
+<li><p>LogLiftNumericalVerifyError</p></li>
+</ul>
+</li>
+<li><p>ExactVerifyError</p>
+<ul>
+<li><p>IsZeroExactVerifyError</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>EquationType</p>
+<ul>
+<li><p>EdgeEquationType</p>
+<ul>
+<li><p>EdgeEquationExactVerifyError</p></li>
+<li><p>EdgeEquationLogLiftNumericalVerifyError</p></li>
+</ul>
+</li>
+<li><p>CuspConsistencyType</p>
+<ul>
+<li><p>CuspEquationType</p>
+<ul>
+<li><p>CuspEquationExactVerifyError</p></li>
+<li><p>CuspEquationLogLiftNumericalVerifyError</p></li>
+</ul>
+</li>
+<li><p>CuspDevelopmentType</p>
+<ul>
+<li><p>CuspDevelopmentTypeExactVerifyError</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>TiltType</p>
+<ul>
+<li><p>TiltInequalityNumericalVerifyError</p>
+<ul>
+<li><p>TiltProvenPositiveNumericalVerifyError</p></li>
+</ul>
+</li>
+<li><p>TiltIsZeroExactVerifyError</p></li>
+</ul>
+</li>
+<li><p>ShapeType</p>
+<ul>
+<li><p>ShapePositiveImaginaryPartNumericalVerifyError</p></li>
+</ul>
+</li>
+<li><p>ConsistencyWithSnapPeaType</p>
+<ul>
+<li><p>ConsistencyWithSnapPeaNumericalVerifyError</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<dl class="py exception">
+<dt class="sig sig-object py" id="snappy.verify.exceptions.ConsistencyWithSnapPeaNumericalVerifyError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snappy.verify.exceptions.</span></span><span class="sig-name descname"><span class="pre">ConsistencyWithSnapPeaNumericalVerifyError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snappea_value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.exceptions.ConsistencyWithSnapPeaNumericalVerifyError" title="Permalink to this definition"></a></dt>
+<dd><p>Exception raised when there is a significant numerical difference
+between the values computed by the SnapPea kernel and by this module
+for a given quantity.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="snappy.verify.exceptions.ConsistencyWithSnapPeaType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snappy.verify.exceptions.</span></span><span class="sig-name descname"><span class="pre">ConsistencyWithSnapPeaType</span></span><a class="headerlink" href="#snappy.verify.exceptions.ConsistencyWithSnapPeaType" title="Permalink to this definition"></a></dt>
+<dd><p>A base class for exceptions raised when there is a difference
+between the values computed by the SnapPea kernel and by this module
+for a given quantity.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="snappy.verify.exceptions.CuspConsistencyType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snappy.verify.exceptions.</span></span><span class="sig-name descname"><span class="pre">CuspConsistencyType</span></span><a class="headerlink" href="#snappy.verify.exceptions.CuspConsistencyType" title="Permalink to this definition"></a></dt>
+<dd><p>A base class indicating that verificatin of an equation involving a cusp
+failed.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="snappy.verify.exceptions.CuspDevelopmentExactVerifyError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snappy.verify.exceptions.</span></span><span class="sig-name descname"><span class="pre">CuspDevelopmentExactVerifyError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.exceptions.CuspDevelopmentExactVerifyError" title="Permalink to this definition"></a></dt>
+<dd><p>Raised when finding a consistent assignment of side lengths to the
+Euclidean Horotriangles to form a Euclidean Horotorus for a cusp failed
+using exact arithmetic.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="snappy.verify.exceptions.CuspDevelopmentType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snappy.verify.exceptions.</span></span><span class="sig-name descname"><span class="pre">CuspDevelopmentType</span></span><a class="headerlink" href="#snappy.verify.exceptions.CuspDevelopmentType" title="Permalink to this definition"></a></dt>
+<dd><p>A base class indicating that there was a failure to find a consistent
+assignment of side lengths to the Euclidean Horotriangles to form a
+Euclidean Horotorus for a cusp.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="snappy.verify.exceptions.CuspEquationExactVerifyError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snappy.verify.exceptions.</span></span><span class="sig-name descname"><span class="pre">CuspEquationExactVerifyError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.exceptions.CuspEquationExactVerifyError" title="Permalink to this definition"></a></dt>
+<dd><p>Exception for failed verification of a polynomial cusp gluing equation
+using exact arithmetics.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="snappy.verify.exceptions.CuspEquationLogLiftNumericalVerifyError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snappy.verify.exceptions.</span></span><span class="sig-name descname"><span class="pre">CuspEquationLogLiftNumericalVerifyError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.exceptions.CuspEquationLogLiftNumericalVerifyError" title="Permalink to this definition"></a></dt>
+<dd><p>Exception for failed numerical verification that a logarithmic cusp
+equation has error bound by epsilon.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="snappy.verify.exceptions.CuspEquationType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snappy.verify.exceptions.</span></span><span class="sig-name descname"><span class="pre">CuspEquationType</span></span><a class="headerlink" href="#snappy.verify.exceptions.CuspEquationType" title="Permalink to this definition"></a></dt>
+<dd><p>A base class indicating that a cusp gluing equation (involving the
+shapes) failed.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="snappy.verify.exceptions.EdgeEquationExactVerifyError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snappy.verify.exceptions.</span></span><span class="sig-name descname"><span class="pre">EdgeEquationExactVerifyError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.exceptions.EdgeEquationExactVerifyError" title="Permalink to this definition"></a></dt>
+<dd><p>Exception for failed verification of a polynomial edge equation
+using exact arithmetics.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="snappy.verify.exceptions.EdgeEquationLogLiftNumericalVerifyError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snappy.verify.exceptions.</span></span><span class="sig-name descname"><span class="pre">EdgeEquationLogLiftNumericalVerifyError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.exceptions.EdgeEquationLogLiftNumericalVerifyError" title="Permalink to this definition"></a></dt>
+<dd><p>Exception for failed numerical verification that a logarithmic edge
+equation has error bound by epsilon.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="snappy.verify.exceptions.EdgeEquationType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snappy.verify.exceptions.</span></span><span class="sig-name descname"><span class="pre">EdgeEquationType</span></span><a class="headerlink" href="#snappy.verify.exceptions.EdgeEquationType" title="Permalink to this definition"></a></dt>
+<dd><p>A base class indicating that an edge equation could not be verified.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="snappy.verify.exceptions.EquationType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snappy.verify.exceptions.</span></span><span class="sig-name descname"><span class="pre">EquationType</span></span><a class="headerlink" href="#snappy.verify.exceptions.EquationType" title="Permalink to this definition"></a></dt>
+<dd><p>A base class to derive subclasses which indicate what kind of
+equation failed to be verified.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="snappy.verify.exceptions.ExactVerifyError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snappy.verify.exceptions.</span></span><span class="sig-name descname"><span class="pre">ExactVerifyError</span></span><a class="headerlink" href="#snappy.verify.exceptions.ExactVerifyError" title="Permalink to this definition"></a></dt>
+<dd><p>The base for all exceptions resulting from a failed verification of an
+equation using exact arithmetics.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="snappy.verify.exceptions.InequalityNumericalVerifyError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snappy.verify.exceptions.</span></span><span class="sig-name descname"><span class="pre">InequalityNumericalVerifyError</span></span><a class="headerlink" href="#snappy.verify.exceptions.InequalityNumericalVerifyError" title="Permalink to this definition"></a></dt>
+<dd><p>The base for all exceptions resulting from a failed numerical
+verification of an inequality (typically by interval arithmetics).</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="snappy.verify.exceptions.IsZeroExactVerifyError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snappy.verify.exceptions.</span></span><span class="sig-name descname"><span class="pre">IsZeroExactVerifyError</span></span><a class="headerlink" href="#snappy.verify.exceptions.IsZeroExactVerifyError" title="Permalink to this definition"></a></dt>
+<dd><p>The base for all exceptions resulting from verifying that a desired
+quantity is zero using exact arithmetics.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="snappy.verify.exceptions.LogLiftNumericalVerifyError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snappy.verify.exceptions.</span></span><span class="sig-name descname"><span class="pre">LogLiftNumericalVerifyError</span></span><a class="headerlink" href="#snappy.verify.exceptions.LogLiftNumericalVerifyError" title="Permalink to this definition"></a></dt>
+<dd><p>To verify a logarithmic gluing equation, the verify module will usually
+first verify the corresponding polynomial gluing equation.
+This means that the logarithmic gluing equation will be fulfilled up
+to a multiple of 2 Pi I.
+It then computes the logarithms and numerically checks that the result
+is close (by some epsilon) to the right value. Because we already know
+that the difference is a multiple of 2 Pi I, checking closeness is enough.</p>
+<p>This exception is supposed to be raised if the polynomial gluing equations
+have passed but checking the logarithmic equation is epsilon-close has
+failed.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="snappy.verify.exceptions.NumericalVerifyError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snappy.verify.exceptions.</span></span><span class="sig-name descname"><span class="pre">NumericalVerifyError</span></span><a class="headerlink" href="#snappy.verify.exceptions.NumericalVerifyError" title="Permalink to this definition"></a></dt>
+<dd><p>The base for all exceptions resulting from a failed numerical
+verification of an equality (using some epsilon) or inequality
+(typically by interval arithmetics).</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="snappy.verify.exceptions.ShapePositiveImaginaryPartNumericalVerifyError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snappy.verify.exceptions.</span></span><span class="sig-name descname"><span class="pre">ShapePositiveImaginaryPartNumericalVerifyError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.exceptions.ShapePositiveImaginaryPartNumericalVerifyError" title="Permalink to this definition"></a></dt>
+<dd><p>Failed numerical verification of a shape having positive imaginary part.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="snappy.verify.exceptions.ShapeType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snappy.verify.exceptions.</span></span><span class="sig-name descname"><span class="pre">ShapeType</span></span><a class="headerlink" href="#snappy.verify.exceptions.ShapeType" title="Permalink to this definition"></a></dt>
+<dd><p>Base class for failed verification of legal shapes.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="snappy.verify.exceptions.TiltInequalityNumericalVerifyError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snappy.verify.exceptions.</span></span><span class="sig-name descname"><span class="pre">TiltInequalityNumericalVerifyError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.exceptions.TiltInequalityNumericalVerifyError" title="Permalink to this definition"></a></dt>
+<dd><p>Numerically verifying that a tilt is negative has failed.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="snappy.verify.exceptions.TiltIsZeroExactVerifyError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snappy.verify.exceptions.</span></span><span class="sig-name descname"><span class="pre">TiltIsZeroExactVerifyError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.exceptions.TiltIsZeroExactVerifyError" title="Permalink to this definition"></a></dt>
+<dd><p>Verifying that a tilt is zero has failed using exact arithmetic.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="snappy.verify.exceptions.TiltProvenPositiveNumericalVerifyError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snappy.verify.exceptions.</span></span><span class="sig-name descname"><span class="pre">TiltProvenPositiveNumericalVerifyError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.verify.exceptions.TiltProvenPositiveNumericalVerifyError" title="Permalink to this definition"></a></dt>
+<dd><p>Numerically verifying that a tilt is negative has not only failed, we
+proved that the tilt is positive and thus that this cannot be a
+proto-canonical triangulation.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="snappy.verify.exceptions.TiltType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snappy.verify.exceptions.</span></span><span class="sig-name descname"><span class="pre">TiltType</span></span><a class="headerlink" href="#snappy.verify.exceptions.TiltType" title="Permalink to this definition"></a></dt>
+<dd><p>A base class relating to tilts.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="snappy.verify.exceptions.VerifyErrorBase">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snappy.verify.exceptions.</span></span><span class="sig-name descname"><span class="pre">VerifyErrorBase</span></span><a class="headerlink" href="#snappy.verify.exceptions.VerifyErrorBase" title="Permalink to this definition"></a></dt>
+<dd><p>The base for all exceptions related to verification.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="verify_canon.html" class="btn btn-neutral float-left" title="Canonical retriangulation and isometry signature" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="other.html" class="btn btn-neutral float-right" title="Other components" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2009-2023, by Marc Culler, Nathan Dunfield, Matthias Goerner, Jeffrey Weeks and others.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

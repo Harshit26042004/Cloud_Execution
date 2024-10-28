@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Development Basics &mdash; SnapPy 3.1.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/snappy_sphinx_rtd_theme.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/SnapPy.ico"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="To Do List" href="todo.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            SnapPy
+              <img src="_static/SnapPy-horizontal-128.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                3.1.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installing SnapPy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="screenshots.html">Screenshots: SnapPy in action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snappy.html">The snappy module and its classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plink.html">Using SnapPy’s link editor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spherogram.html">Links: planar diagrams and invariants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snap.html">Number theory of hyperbolic 3-manifolds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="verify.html">Verified computations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="other.html">Other components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="news.html">News</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bugs.html">Reporting bugs and other problems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="todo.html">To Do List</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Development Basics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submitting-patches">Submitting patches</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#macos">macOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#windows">Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#linux">Linux</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SnapPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Development Basics</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="development-basics">
+<h1>Development Basics<a class="headerlink" href="#development-basics" title="Permalink to this heading"></a></h1>
+<section id="submitting-patches">
+<h2>Submitting patches<a class="headerlink" href="#submitting-patches" title="Permalink to this heading"></a></h2>
+<p>The source code for SnapPy and its various parts are <a class="reference external" href="https://github.com/3-manifolds">hosted on GitHub</a> as <a class="reference external" href="https://git-scm.com/">Git repositories</a>.  To contribute a patch, create a free
+GitHub account, fork the appropriate repository, and then send us a
+pull request, as described in <a class="reference external" href="https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request">here</a>.</p>
+</section>
+<section id="macos">
+<h2>macOS<a class="headerlink" href="#macos" title="Permalink to this heading"></a></h2>
+<p>Here is how to get a clean development setup under macOS.</p>
+<ul>
+<li><p>Install the latest Python 3.8 from Python.org using the <a class="reference external" href="http://www.python.org/download/">Mac
+Installer Disk Image</a>.  Set your
+path so that “python3” is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">Library</span><span class="o">/</span><span class="n">Frameworks</span><span class="o">/</span><span class="n">Python</span><span class="o">.</span><span class="n">framework</span><span class="o">/</span><span class="n">Versions</span><span class="o">/</span><span class="mf">3.8</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">python3</span>
+</pre></div>
+</div>
+</li>
+<li><p>Use <a class="reference external" href="https://pip.pypa.io/en/latest/index.html">pip</a> to install the
+following packages:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">setuptools</span> <span class="n">virtualenv</span> <span class="n">wheel</span> <span class="n">pip</span>
+<span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">cython</span>        <span class="c1"># Used for Python-C interfacing</span>
+<span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">sphinx</span>        <span class="c1"># For building the documentation</span>
+<span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">ipython</span>       <span class="c1"># Improved Python shell</span>
+<span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">py2app</span>        <span class="c1"># For making app bundles</span>
+<span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">pyx</span> <span class="n">FXrays</span> <span class="n">low_index</span>
+</pre></div>
+</div>
+</li>
+<li><p>Get the source code from the repository, using Git. For
+example you can install Git via its <a class="reference external" href="https://www.git-scm.org/">package installer</a>.  Now do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="mi">3</span><span class="o">-</span><span class="n">manifolds</span><span class="o">/</span><span class="n">plink</span><span class="o">.</span><span class="n">git</span>
+<span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="mi">3</span><span class="o">-</span><span class="n">manifolds</span><span class="o">/</span><span class="n">spherogram</span><span class="o">.</span><span class="n">git</span>
+<span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="mi">3</span><span class="o">-</span><span class="n">manifolds</span><span class="o">/</span><span class="n">snappy</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+</li>
+<li><p>Test the stand-alone link editor:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">plink</span>
+<span class="n">python3</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">pip_install</span>
+<span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">plink</span><span class="o">.</span><span class="n">app</span>   <span class="c1"># Link editor appears!</span>
+</pre></div>
+</div>
+<p>This last command runs the script “plink/app.py”; the real code for
+the link editor is in “plink/__init__.py”.</p>
+</li>
+<li><p>Build and install Spherogram:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">../</span><span class="n">spherogram</span>
+<span class="n">python3</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">pip_install</span>
+<span class="n">python3</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">test</span>
+</pre></div>
+</div>
+</li>
+<li><p>Now build SnapPy itself.  One builds it twice to generate the
+documentation, much of which is extracted from the installed module:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">../</span><span class="n">snappy</span>
+<span class="n">python3</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">pip_install</span>
+<span class="n">python3</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">test</span>   <span class="c1"># Run the tests; pretty picture should appear.</span>
+<span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">snappy</span><span class="o">.</span><span class="n">app</span>   <span class="c1">#SnapPy starts!</span>
+</pre></div>
+</div>
+<p>To build the clickable app, just do the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">mac_osx_app</span>
+<span class="n">python3</span> <span class="n">release</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">manual</span>
+</pre></div>
+</div>
+<p>though for general development purposes <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">snappy.app</span></code> is
+usually the way to go.</p>
+</li>
+</ul>
+<p>Some major parts of the SnapPy codebase are:</p>
+<ul class="simple">
+<li><p>“SnapPy.pyx”, “SnapPycore.pxi”, “SnapPy.pxi”: The Cython interface
+to the SnapPea kernel</p></li>
+<li><p>“opengl/CyOpenGL*.pyx”: The Cython interface to OpenGL*</p></li>
+<li><p>“snappy/app.py”: The core GUI code</p></li>
+<li><p>“snappy/polyviewer.py”: The GUI code for Dirichlet domains</p></li>
+<li><p>“snappy/horoviewer.py”: The GUI code for horoball pictures</p></li>
+<li><p>“snappy/database.py”: Interacts with the sqlite3 manifold database</p></li>
+</ul>
+<p>In addition, Jeff’s old prototype for a Tk-based UI can be found in
+“misc/JeffsOldUI/SnapPeaGUI.py”; just run Python on this file to try it
+out, after installing <a class="reference external" href="http://pmw.sf.net">PythonMegaWidgets</a>.</p>
+</section>
+<section id="windows">
+<h2>Windows<a class="headerlink" href="#windows" title="Permalink to this heading"></a></h2>
+<p>These instructions have been tested on Windows 10, and describe
+setting up a development environment using the (free) MSVC
+compiler. To build the CyPari subcomponent, which few will want or
+need to do, one must install additional tools.</p>
+<ul>
+<li><p>Install <a class="reference external" href="https://www.python.org/downloads/windows/">Python 3.7</a>,
+specifically the 32 bit version (Windows x86 not Windows x86-64).
+These instructions assume it has been installed in the directory
+<code class="docutils literal notranslate"><span class="pre">C:\Python37</span></code> which is not the default.</p></li>
+<li><p>With Python 3.7.4, you need the MSVC command line tools.  You can
+get them by using Microsoft’s free <a class="reference external" href="https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=BuildTools&amp;rel=16">Build Tools for Visual Studio 2019</a>
+installer and selecting the “C++ command line tools” and installing
+the following subpackages: “MSVC v142 - VS 2019 C++ build tools”,
+“Testing tools core features”, “C++/CLI support for v142”, and
+“Windows 10 SDK (most recent version)”.</p>
+<p>If you would like to make your own installer you will also need
+<a class="reference external" href="http://www.jrsoftware.org/isdl.php">Inno Setup</a>, specifically the
+unicode version; tested with version 5.5.9.</p>
+</li>
+<li><p>Install whichever version of <a class="reference external" href="http://msys2.github.io">MSYS2</a> is
+appropriate for your version Windows.  Most commonly, you will have
+a 64-bit Windows and hence want the “x86_64” installer; for
+concreteness the rest of these instructions assume this. (Technical
+note: even if you want to build 32-bit binaries, if your Windows is
+64-bit you want the x86_64 installer.) Follow the instructions on
+the webpage to update everything to the very latest MSYS2
+(<code class="docutils literal notranslate"><span class="pre">pacman</span> <span class="pre">-Sy</span> <span class="pre">pacman;</span> <span class="pre">pacman</span> <span class="pre">-Syu;</span> <span class="pre">pacman</span> <span class="pre">-Su</span></code> etc.).</p></li>
+<li><p>Make a shortcut to <code class="docutils literal notranslate"><span class="pre">c:\msys64\msys2.exe</span></code> as you will be using it all
+the time; alternatively, pin <code class="docutils literal notranslate"><span class="pre">mys2.exe</span></code> to your taskbar.</p></li>
+<li><p>Install some additional packages:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pacman</span> <span class="o">-</span><span class="n">S</span> <span class="n">git</span> <span class="n">make</span> <span class="n">nano</span> <span class="n">openssh</span> <span class="n">perl</span> <span class="n">tar</span> <span class="n">unzip</span> <span class="n">wget</span> <span class="n">winpty</span> <span class="n">patch</span>
+</pre></div>
+</div>
+</li>
+<li><p>Install your favorite text editor, for example you can install Emacs
+via:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pacman</span> <span class="o">-</span><span class="n">S</span>  <span class="n">mingw</span><span class="o">-</span><span class="n">w64</span><span class="o">-</span><span class="n">x86_64</span><span class="o">-</span><span class="n">emacs</span>
+</pre></div>
+</div>
+</li>
+<li><p>Make it so that MinGW, Python, and Inno Setup are all in your PATH,
+as well as work around some stupid bug, by making the end of your
+“~/.bash_profile” file to read:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>PATH=/c/Python37:/c/Python37/Scripts:$PATH
+PATH=$PATH:&#39;/c/Program Files (x86)/Inno Setup 5&#39;
+export PATH
+alias emacs=&quot;/mingw64/bin/emacs&quot;
+winpty bash; exit
+</pre></div>
+</div>
+<p>For example, do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nano</span> <span class="o">~/.</span><span class="n">bash_profile</span>
+</pre></div>
+</div>
+</li>
+<li><p>Make sure you have the right version of Python in your path by
+typing:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">--</span><span class="n">version</span>
+</pre></div>
+</div>
+<p>You should see something like <code class="docutils literal notranslate"><span class="pre">Python</span> <span class="pre">3.7.4</span></code>.</p>
+</li>
+<li><p>Use pip to install some basic tools:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">pip</span> <span class="n">setuptools</span> <span class="n">wheel</span>  <span class="c1"># Upgrades pip to the current version.</span>
+<span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">pyreadline</span> <span class="n">sphinx</span> <span class="n">cython</span> <span class="n">cypari</span> <span class="n">pyx</span> <span class="n">FXrays</span> <span class="n">low_index</span>
+</pre></div>
+</div>
+</li>
+<li><p>Fetch the latest development versions of the source straight from
+the t3m repository:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="mi">3</span><span class="o">-</span><span class="n">manifolds</span><span class="o">/</span><span class="n">plink</span><span class="o">.</span><span class="n">git</span>
+<span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="mi">3</span><span class="o">-</span><span class="n">manifolds</span><span class="o">/</span><span class="n">spherogram</span><span class="o">.</span><span class="n">git</span>
+<span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="mi">3</span><span class="o">-</span><span class="n">manifolds</span><span class="o">/</span><span class="n">snappy</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+</li>
+<li><p>Build the components, from easiest to hardest, and then test:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">plink</span>
+<span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">pip_install</span>
+<span class="n">cd</span> <span class="o">../</span><span class="n">Spherogram</span>
+<span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">pip_install</span>
+<span class="n">cd</span> <span class="o">../</span><span class="n">SnapPy</span>
+<span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">pip_install</span>
+<span class="n">cd</span> <span class="o">..</span>
+<span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">SnapPy</span><span class="o">.</span><span class="n">test</span>
+</pre></div>
+</div>
+</li>
+<li><p>To run the app, you can just do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">snappy</span><span class="o">.</span><span class="n">app</span>
+</pre></div>
+</div>
+</li>
+<li><p>To build the binary installer, you need PyInstaller:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">pyinstaller</span>
+</pre></div>
+</div>
+<p>To build the binary installer do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">windows_exe</span>
+<span class="n">python</span> <span class="n">make</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>You will need to close the SnapPy window that pops up here to
+complete the build process.</p>
+</li>
+<li><p>Useful tips for those coming from Unix.  In MSYS2, your home
+directory is really something like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="p">:</span>\<span class="n">msys2</span>\<span class="n">home</span>\<span class="n">Nathan</span> <span class="n">Dunfield</span>
+</pre></div>
+</div>
+<p>whereas your Windows 10 home directory is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">Nathan</span> <span class="n">Dunfield</span>
+</pre></div>
+</div>
+<p>It is handy to have symbolic links from your MSYS2 home directory to
+the Downloads and Desktop folders on the Windows side.  <a class="reference external" href="http://www.howtogeek.com/howto/16226/">See this
+discussion</a>, but basically
+you start a “Command Prompt” as Administrator and do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="s2">&quot;C:\msys64\home\Nathan Dunfield&quot;</span>
+<span class="n">mklink</span> <span class="o">/</span><span class="n">D</span> <span class="n">Desktop</span> <span class="s2">&quot;C:\Users\Nathan Dunfield\Desktop&quot;</span>
+<span class="n">mklink</span> <span class="o">/</span><span class="n">D</span> <span class="n">Downloads</span> <span class="s2">&quot;C:\Users\Nathan Dunfield\Downloads&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p>To build CyPari, first install the 32-bit gcc compiler:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pacman</span> <span class="o">-</span><span class="n">S</span> <span class="n">mingw</span><span class="o">-</span><span class="n">w64</span><span class="o">-</span><span class="n">i686</span><span class="o">-</span><span class="n">gcc</span>
+</pre></div>
+</div>
+<p>Then open a <em>MinGW32 terminal window</em>, which is <strong>different</strong> than a
+MSYS2 terminal, and can be started via <cite>c:msys64mingw32.exe</cite>.
+This will put the 32-bit gcc in your path and set the correct
+“uname”.  Now do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="mi">3</span><span class="o">-</span><span class="n">manifolds</span><span class="o">/</span><span class="n">CyPari</span><span class="o">.</span><span class="n">git</span>
+<span class="n">cd</span> <span class="n">CyPari</span>
+<span class="n">sh</span> <span class="n">build_pari</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">build</span> <span class="o">--</span><span class="n">compiler</span><span class="o">=</span><span class="n">mingw32</span>
+<span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
+<span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">cypari</span><span class="o">.</span><span class="n">test</span>   <span class="c1"># About 30 tests will fail.</span>
+</pre></div>
+</div>
+<p>Warning: CyPari will not build if there are spaces in the path to
+the CyPari directory.</p>
+</li>
+</ul>
+</section>
+<section id="linux">
+<h2>Linux<a class="headerlink" href="#linux" title="Permalink to this heading"></a></h2>
+<p>See the <a class="reference internal" href="installing.html#generic-unix"><span class="std std-ref">installation instructions on generic Unix</span></a> for how to build SnapPy from source.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="todo.html" class="btn btn-neutral float-left" title="To Do List" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2009-2023, by Marc Culler, Nathan Dunfield, Matthias Goerner, Jeffrey Weeks and others.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

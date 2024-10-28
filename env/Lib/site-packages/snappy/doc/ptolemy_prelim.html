@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mathematical preliminaries &mdash; SnapPy 3.1.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/snappy_sphinx_rtd_theme.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/SnapPy.ico"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Step-by-step examples: Part 1" href="ptolemy_examples1.html" />
+    <link rel="prev" title="The ptolemy module" href="ptolemy.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            SnapPy
+              <img src="_static/SnapPy-horizontal-128.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                3.1.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installing SnapPy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="screenshots.html">Screenshots: SnapPy in action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snappy.html">The snappy module and its classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plink.html">Using SnapPy’s link editor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spherogram.html">Links: planar diagrams and invariants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snap.html">Number theory of hyperbolic 3-manifolds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="verify.html">Verified computations</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="other.html">Other components</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="other.html#ptolemy-module">Ptolemy module</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="ptolemy.html">The ptolemy module</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="ptolemy.html#what-is-the-ptolemy-module">What is the ptolemy module?</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="ptolemy.html#documentation">Documentation</a><ul class="current">
+<li class="toctree-l5 current"><a class="current reference internal" href="#">Mathematical preliminaries</a></li>
+<li class="toctree-l5"><a class="reference internal" href="ptolemy_examples1.html">Step-by-step examples: Part 1</a></li>
+<li class="toctree-l5"><a class="reference internal" href="ptolemy_examples2.html">Step-by-step examples: Part 2</a></li>
+<li class="toctree-l5"><a class="reference internal" href="ptolemy_examples3.html">Step-by-step examples: Part 3</a></li>
+<li class="toctree-l5"><a class="reference internal" href="ptolemy_examples4.html">Step-by-step examples: Part 4</a></li>
+<li class="toctree-l5"><a class="reference internal" href="ptolemy_classes.html">Classes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="other.html#twister">Twister</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="news.html">News</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bugs.html">Reporting bugs and other problems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="todo.html">To Do List</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development.html">Development Basics</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SnapPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="other.html">Other components</a></li>
+          <li class="breadcrumb-item"><a href="ptolemy.html">The ptolemy module</a></li>
+      <li class="breadcrumb-item active">Mathematical preliminaries</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="mathematical-preliminaries">
+<h1>Mathematical preliminaries<a class="headerlink" href="#mathematical-preliminaries" title="Permalink to this heading"></a></h1>
+<p>Given a triangulation, the ptolemy module will produce a system of equation that is equivalent to
+the reduced Ptolemy variety (see <a class="reference internal" href="#gtz2011" id="id1"><span>[GTZ2011]</span></a>, Section 5 of <a class="reference internal" href="#ggz2012" id="id2"><span>[GGZ2012]</span></a>, and Proposition 4.7 of <a class="reference internal" href="#ggz2014" id="id3"><span>[GGZ2014]</span></a>).</p>
+<p>A solution
+to this system of equations where no Ptolemy coordinate is zero yields a <a class="reference internal" href="#ptolemy-boundary-unipotent"><span class="std std-ref">boundary-unipotent</span></a>
+SL(<em>N</em>, <strong>C</strong>)-representation, respectively, PSL(<em>N</em>, <strong>C</strong>)-representation (see <a class="reference internal" href="#obstruction-class"><span class="std std-ref">Obstruction class</span></a>).</p>
+<p>Note that a solution where some Ptolemy coordinates are zero might not have enough information
+to recover the representation - thus the ptolemy module discards those and thus might miss some
+boundary-unipotent representations for the chosen triangulation (see <a class="reference internal" href="#ptolemy-generically-decorated"><span class="std std-ref">Generically decorated representations</span></a>).
+This is the same problem that the
+gluing equations for finding PGL(2, <strong>C</strong>)-representations suffer from where simplices in the developing
+map can be degenerate and yielding cross ratios that are 0, 1, or <span class="math notranslate nohighlight">\(\infty\)</span>.</p>
+<section id="boundary-unipotent">
+<span id="ptolemy-boundary-unipotent"></span><h2>Boundary-unipotent<a class="headerlink" href="#boundary-unipotent" title="Permalink to this heading"></a></h2>
+<p>We call a SL(<em>N</em>,  <strong>C</strong>)-representation <em>boundary-unipotent</em> if each peripheral subgroup is taken to
+a conjugate of the unipotent group <em>P</em> of upper unit-triangular matrices. Similarly, we call
+a PSL(<em>N</em>, <strong>C</strong>)-representation <em>boundary-unipotent</em> if each peripheral subgroup is taken to a conjugate
+of the unipotent group of PSL(<em>N</em>, <strong>C</strong>), i.e., the image of <em>P</em> under the projection SL(<em>N</em>, <strong>C</strong>)<span class="math notranslate nohighlight">\(\rightarrow\)</span>PSL(<em>N</em>, <strong>C</strong>).</p>
+<p>Note that even when boundary-unipotent PSL(<em>N</em>, <strong>C</strong>)-representation can be lifted to an
+SL(<em>N</em>, <strong>C</strong>)-representation, the lift might no longer be boundary-unipotent, i.e., there might be
+a peripheral curve whose image now is conjugate to an upper triangular matrix with an <em>N</em>-th root
+of unity on the diagonal. For example, if the manifold is hyperbolic and has one cusp,
+any lift of the geometric representation will take the longitude
+to a matrix with trace -2 and is thus not boundary-unipotent as SL(2, <strong>C</strong>)-representation.</p>
+</section>
+<section id="obstruction-class">
+<span id="id4"></span><h2>Obstruction class<a class="headerlink" href="#obstruction-class" title="Permalink to this heading"></a></h2>
+<p>Given a boundary-unipotent PSL(<em>N</em>, <strong>C</strong>)-representation, we obtain an <em>obstruction class</em> in H<sup>2</sup>(M,<span class="math notranslate nohighlight">\(\partial\)</span>M; <strong>Z</strong>/<em>N</em>)
+that is trivial if and only if the representations lifts to a boundary-unipotent SL(<em>N</em>, <strong>C</strong>)-representation (see Section 9.1 of <a class="reference internal" href="#gtz2011" id="id5"><span>[GTZ2011]</span></a> and Section 1.3 of <a class="reference internal" href="#ggz2014" id="id6"><span>[GGZ2014]</span></a>).
+Given a triangulation and an element in H<sup>2</sup>(M,<span class="math notranslate nohighlight">\(\partial\)</span>M; <strong>Z</strong>/<em>N</em>), the Ptolemy variety can be modified to find
+the boundary-unipotent
+PSL(<em>N</em>, <strong>C</strong>)-representations with that obstruction class (for <em>N</em> &gt; 2 this is implemented here but has not been published yet).</p>
+<p>Note that two elements in H<sup>2</sup>(M,<span class="math notranslate nohighlight">\(\partial\)</span>M; <strong>Z</strong>/<em>N</em>)
+related by multiplication by an element in (<strong>Z</strong>/<em>N</em>)<sup>*</sup> yield Ptolemy
+varieties corresponding to picking different Galois conjugates for the <em>N</em>-th root of unity. Thus, it is enough
+to consider a representative for each element in the quotient H<sup>2</sup>(M,<span class="math notranslate nohighlight">\(\partial\)</span>M; <strong>Z</strong>/<em>N</em>)/(<strong>Z</strong>/<em>N</em>)<sup>*</sup>.</p>
+</section>
+<section id="sl-n-c-vs-psl-n-c">
+<span id="ptolemy-psl-multiplicity"></span><h2>SL(<em>N</em>, <strong>C</strong>) vs PSL(<em>N</em>, <strong>C</strong>)<a class="headerlink" href="#sl-n-c-vs-psl-n-c" title="Permalink to this heading"></a></h2>
+<p>The reduced Ptolemy variety for the trivial obstruction class can have several points (say <em>d</em>) giving different SL(<em>N</em>, <strong>C</strong>)-representations that are the same as PSL(<em>N</em>, <strong>C</strong>)-representations. Similarly, for the non-trivial obstruction class we can have <em>d</em> points in the reduced Ptolemy variety yielding the same PSL(<em>N</em>, <strong>C</strong>)-representation.</p>
+<p>The degree <em>d</em> of this correspondence is the size of H<sup>1</sup>(<span class="math notranslate nohighlight">\(\hat{M}\)</span>; <strong>Z</strong>/<em>N</em>) where <span class="math notranslate nohighlight">\(\hat{M}\)</span> is the cell complex obtained from collapsing each cusp to a point.</p>
+</section>
+<section id="generically-decorated-representations">
+<span id="ptolemy-generically-decorated"></span><h2>Generically decorated representations<a class="headerlink" href="#generically-decorated-representations" title="Permalink to this heading"></a></h2>
+<p>We want to point out two important facts when using the reduced Ptolemy variety to find boundary-unipotent representations:</p>
+<ul class="simple">
+<li><p>We miss representations that are not generically decorated (as mentioned above). This happens but rarely.</p></li>
+<li><dl class="simple">
+<dt>A positively dimensional component in the reduced Ptolemy variety might mean two things (which we can distinguish by looking at the images of the peripheral groups):</dt><dd><ul>
+<li><p>a positively dimensional family of boundary-unipotent representations or</p></li>
+<li><p>a family of decorations of the same representation.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>The reason for this is that the reduced Ptolmey variety does not parametrize representations but generically decorated representations (which can also be thought of as development maps). We just list the facts about decorations important to us here and refer the reader for details to Section 4 of <a class="reference internal" href="#gtz2011" id="id7"><span>[GTZ2011]</span></a> and Section 8 of <a class="reference internal" href="#ggz2012" id="id8"><span>[GGZ2012]</span></a> (where decoration would be called <em>B</em>-decoration or (SL(<em>N</em>), <strong>C</strong>), <em>B</em>)-decoration with <em>B</em> the Borel group of upper triangular matrices):</p>
+<ul class="simple">
+<li><p>Every boundary-unipotent representation of a cusped manifold admits a decoration. The set of decorations of a representation is intrinsic to the representation and independent of the triangulation.</p></li>
+<li><p>The representation determines the decoration uniquely if and only if the representation is boundary-non-degenerate (which most representations are).</p></li>
+<li><p>Given a decorated representation and an ideal triangulation of a cusped manifold, we obtain Ptolemy coordinates.</p></li>
+<li><p>If all the resulting Ptolemy coordinates are non-zero, we call the representation <em>generically decorated</em> - a notion that depends on the chosen triangulation.</p></li>
+<li><p>The reduced Ptolemy variety parametrizes generically decorated and boundary-unipotent representations.</p></li>
+</ul>
+</section>
+<section id="reduced-ptolemy-variety">
+<span id="ptolemy-reduced-variety"></span><h2>Reduced Ptolemy variety<a class="headerlink" href="#reduced-ptolemy-variety" title="Permalink to this heading"></a></h2>
+<p>We will actually always use the reduced Ptolemy variety, i.e., the system of equation that consists of the Ptolemy relations (always of the form
+<span class="math notranslate nohighlight">\(\pm\)</span> c<sub>…</sub> c<sub>…</sub> <span class="math notranslate nohighlight">\(\pm\)</span> c<sub>…</sub> c<sub>…</sub>  <span class="math notranslate nohighlight">\(\pm\)</span> c<sub>…</sub> c<sub>…</sub>) and extra equations fixing an appropriate set of (N-1) Ptolemy coordinates per cusp as described in Proposition 4.7 of <a class="reference internal" href="#ggz2014" id="id9"><span>[GGZ2014]</span></a>. This is because the Ptolemy relations alone admit an action by (<strong>C</strong><sup>*</sup>)<sup>(N-1)</sup> for each cusp that does not change the representation it yields.</p>
+<p>In other words, the Ptolemy variety parametrizes <em>P</em>-decorations and the reduced Ptolemy variety parametrizes <em>B</em>-decorations.</p>
+</section>
+<section id="future-work">
+<h2>Future work<a class="headerlink" href="#future-work" title="Permalink to this heading"></a></h2>
+<p>In unpublished work, we developed an algorithm that takes some triangulation of a manifold and constructs a set of triangulations and corresponding Ptolemy varieties (with extra edge relations) such that we can guarantee that all boundary-unipotent PSL(2,C)-representations are found - not just the ones that are generically decorated with respect to the chosen triangulation. This is inspired by <a class="reference internal" href="#s2009" id="id10"><span>[S2009]</span></a>. The ptolemy module might support this in the future.</p>
+<p>In <a class="reference internal" href="#z2014" id="id11"><span>[Z2014]</span></a>, the Ptolemy variety was extended to detect non boundary-unipotent representations as well. The ptolemy module might produce these varieties in the future. This might offer another way of computing A-polynomials - that when combined with the above algorithm is guaranteed to be the full A-polynomial and not just a factor of it.</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this heading"></a></h2>
+<div role="list" class="citation-list">
+<div class="citation" id="s2009" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id10">S2009</a><span class="fn-bracket">]</span></span>
+<p>Henry Segerman: A generalisation of the deformation variety, <a class="reference external" href="http://arxiv.org/abs/0904.1893">http://arxiv.org/abs/0904.1893</a></p>
+</div>
+<div class="citation" id="gtz2011" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>GTZ2011<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id5">2</a>,<a role="doc-backlink" href="#id7">3</a>)</span>
+<p>Stavros Garoufalidis, Dylan P. Thurston, and Christian K. Zickert: The Complex Volume of SL(n,C)-Representations of 3-Manifolds, <a class="reference external" href="http://arxiv.org/abs/1111.2828">http://arxiv.org/abs/1111.2828</a></p>
+</div>
+<div class="citation" id="ggz2012" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>GGZ2012<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id8">2</a>)</span>
+<p>Stavros Garoufalidis, Matthias Goerner, and Christian K. Zickert: Gluing Equations for PGL(n,C)-Representations of 3-Manifolds, <a class="reference external" href="http://arxiv.org/abs/1207.6711">http://arxiv.org/abs/1207.6711</a></p>
+</div>
+<div class="citation" id="ggz2014" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>GGZ2014<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id3">1</a>,<a role="doc-backlink" href="#id6">2</a>,<a role="doc-backlink" href="#id9">3</a>)</span>
+<p>Stavros Garoufalidis, Matthias Goerner, and Christian K. Zickert: The Ptolemy Field of 3-Manifold Representations, <a class="reference external" href="http://arxiv.org/abs/1401.5542">http://arxiv.org/abs/1401.5542</a></p>
+</div>
+<div class="citation" id="z2014" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id11">Z2014</a><span class="fn-bracket">]</span></span>
+<p>Christian K. Zickert: Ptolemy coordinates, Dehn invariant, and the A-polynomial, <a class="reference external" href="http://arxiv.org/abs/1405.0025">http://arxiv.org/abs/1405.0025</a></p>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ptolemy.html" class="btn btn-neutral float-left" title="The ptolemy module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ptolemy_examples1.html" class="btn btn-neutral float-right" title="Step-by-step examples: Part 1" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2009-2023, by Marc Culler, Nathan Dunfield, Matthias Goerner, Jeffrey Weeks and others.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

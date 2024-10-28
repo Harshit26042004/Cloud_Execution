@@ -1,0 +1,24 @@
+{
+    "s3": {
+      "buckets": ["sample-bucket"],
+      "authentication": {
+        "region": "us-east-1",
+        "endpoint": "http://localhost:4566",
+        "access_key_id": "test",
+        "secret_access_key": "test"
+      },
+
+      "scanner": {
+        "recursive_listing": true,
+        "list_scanned_metadata": false
+      },
+      
+      "reader": {
+        "max_buffer_size": 200,
+        "row_limit": 5,
+        "skip_file_above_size": 70,
+        "skip_file_type": []
+      }
+    }
+  }
+  

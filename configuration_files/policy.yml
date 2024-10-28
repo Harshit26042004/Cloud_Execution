@@ -1,0 +1,13 @@
+policies:
+  - name: create-s3-bucket-and-upload-object
+    resource: s3
+    mode:
+      type: periodic
+      schedule: "rate(1 day)"
+    actions:
+      - type: CreateBucket
+        bucket: my-custodian-bucket 
+      - type: PutObject
+        bucket: my-custodian-bucket
+        key: my-object.txt            
+        body: "Hello, Cloud Custodian!"  

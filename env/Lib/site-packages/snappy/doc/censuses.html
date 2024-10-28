@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Census manifolds &mdash; SnapPy 3.1.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/snappy_sphinx_rtd_theme.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/SnapPy.ico"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Censuses of Platonic manifolds" href="platonic_census.html" />
+    <link rel="prev" title="Additional Classes" href="additional_classes.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            SnapPy
+              <img src="_static/SnapPy-horizontal-128.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                3.1.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installing SnapPy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="screenshots.html">Screenshots: SnapPy in action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="snappy.html">The snappy module and its classes</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="manifold.html">Manifold: the main class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manifoldhp.html">ManifoldHP: High-precision variant</a></li>
+<li class="toctree-l2"><a class="reference internal" href="triangulation.html">Triangulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="additional_classes.html">Additional Classes</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Census manifolds</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#snappy.OrientableCuspedCensus"><code class="docutils literal notranslate"><span class="pre">OrientableCuspedCensus</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snappy.OrientableClosedCensus"><code class="docutils literal notranslate"><span class="pre">OrientableClosedCensus</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snappy.CensusKnots"><code class="docutils literal notranslate"><span class="pre">CensusKnots</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snappy.LinkExteriors"><code class="docutils literal notranslate"><span class="pre">LinkExteriors</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snappy.HTLinkExteriors"><code class="docutils literal notranslate"><span class="pre">HTLinkExteriors</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snappy.NonorientableCuspedCensus"><code class="docutils literal notranslate"><span class="pre">NonorientableCuspedCensus</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snappy.NonorientableClosedCensus"><code class="docutils literal notranslate"><span class="pre">NonorientableClosedCensus</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="platonic_census.html">Censuses of Platonic manifolds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snappy.database.ManifoldTable"><code class="docutils literal notranslate"><span class="pre">ManifoldTable</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#snappy.database.ManifoldTable.find"><code class="docutils literal notranslate"><span class="pre">ManifoldTable.find()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#snappy.database.ManifoldTable.identify"><code class="docutils literal notranslate"><span class="pre">ManifoldTable.identify()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#snappy.database.ManifoldTable.keys"><code class="docutils literal notranslate"><span class="pre">ManifoldTable.keys()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#snappy.database.ManifoldTable.siblings"><code class="docutils literal notranslate"><span class="pre">ManifoldTable.siblings()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#snappy.AlternatingKnotExteriors"><code class="docutils literal notranslate"><span class="pre">AlternatingKnotExteriors</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#snappy.AlternatingKnotExteriors.next"><code class="docutils literal notranslate"><span class="pre">AlternatingKnotExteriors.next()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#snappy.NonalternatingKnotExteriors"><code class="docutils literal notranslate"><span class="pre">NonalternatingKnotExteriors</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#snappy.NonalternatingKnotExteriors.next"><code class="docutils literal notranslate"><span class="pre">NonalternatingKnotExteriors.next()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="plink.html">Using SnapPy’s link editor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spherogram.html">Links: planar diagrams and invariants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snap.html">Number theory of hyperbolic 3-manifolds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="verify.html">Verified computations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="other.html">Other components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="news.html">News</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bugs.html">Reporting bugs and other problems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="todo.html">To Do List</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development.html">Development Basics</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SnapPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="snappy.html">The snappy module and its classes</a></li>
+      <li class="breadcrumb-item active">Census manifolds</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="census-manifolds">
+<h1>Census manifolds<a class="headerlink" href="#census-manifolds" title="Permalink to this heading"></a></h1>
+<p>Snappy comes with a large library of manifolds, which can be accessed
+individually through the Manifold and Triangulation constructors but
+can also be iterated through using the objects described on this
+page.</p>
+<p>SnapPy’s iterators support several flexible methods for accessing
+manifolds.  They can be sliced (i.e. restricted to subranges) either
+by index or by volume.  Calling the iterator with keyword arguments
+such as num_tets=1, betti=2 or num_cusps=3 returns an iterator which
+is filtered by the specified conditions.  In addition these iterators
+can determine whether they contain a given manifold.  They support
+python’s “A in B” syntax, and also provide an identify method which
+will return a copy of the census manifold which is isometric to the
+manifold passed as an argument.</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="snappy.OrientableCuspedCensus">
+<span class="sig-prename descclassname"><span class="pre">snappy.</span></span><span class="sig-name descname"><span class="pre">OrientableCuspedCensus</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">OrientableCuspedCensus</span> <span class="pre">without</span> <span class="pre">filters</span></em><a class="headerlink" href="#snappy.OrientableCuspedCensus" title="Permalink to this definition"></a></dt>
+<dd><p>Iterator for all orientable cusped hyperbolic manifolds that
+can be triangulated with at most 9 ideal tetrahedra.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">M</span> <span class="ow">in</span> <span class="n">OrientableCuspedCensus</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">6</span><span class="p">]:</span> <span class="nb">print</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">M</span><span class="o">.</span><span class="n">volume</span><span class="p">())</span> 
+<span class="gp">... </span>
+<span class="go">m007(0,0) 2.56897060</span>
+<span class="go">m009(0,0) 2.66674478</span>
+<span class="go">m010(0,0) 2.66674478</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">M</span> <span class="ow">in</span> <span class="n">OrientableCuspedCensus</span><span class="p">[</span><span class="o">-</span><span class="mi">9</span><span class="p">:</span><span class="o">-</span><span class="mi">6</span><span class="p">]:</span> <span class="nb">print</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">M</span><span class="o">.</span><span class="n">volume</span><span class="p">())</span> 
+<span class="gp">...</span>
+<span class="go">o9_44241(0,0) 8.96323909</span>
+<span class="go">o9_44242(0,0) 8.96736842</span>
+<span class="go">o9_44243(0,0) 8.96736842</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">M</span> <span class="ow">in</span> <span class="n">OrientableCuspedCensus</span><span class="p">[</span><span class="mf">4.10</span><span class="p">:</span><span class="mf">4.11</span><span class="p">]:</span> <span class="nb">print</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">M</span><span class="o">.</span><span class="n">volume</span><span class="p">())</span> 
+<span class="gp">... </span>
+<span class="go">m217(0,0) 4.10795310</span>
+<span class="go">m218(0,0) 4.10942659</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">M</span> <span class="ow">in</span> <span class="n">OrientableCuspedCensus</span><span class="p">(</span><span class="n">num_cusps</span><span class="o">=</span><span class="mi">2</span><span class="p">)[:</span><span class="mi">3</span><span class="p">]:</span> 
+<span class="gp">... </span>  <span class="nb">print</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">M</span><span class="o">.</span><span class="n">volume</span><span class="p">(),</span> <span class="n">M</span><span class="o">.</span><span class="n">num_cusps</span><span class="p">())</span>
+<span class="gp">... </span>
+<span class="go">m125(0,0)(0,0) 3.66386238 2</span>
+<span class="go">m129(0,0)(0,0) 3.66386238 2</span>
+<span class="go">m202(0,0)(0,0) 4.05976643 2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="s1">&#39;m129&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">M</span> <span class="ow">in</span> <span class="n">LinkExteriors</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">LinkExteriors</span><span class="o">.</span><span class="n">identify</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+<span class="go">5^2_1(0,0)(0,0)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="snappy.OrientableClosedCensus">
+<span class="sig-prename descclassname"><span class="pre">snappy.</span></span><span class="sig-name descname"><span class="pre">OrientableClosedCensus</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">OrientableClosedCensus</span> <span class="pre">without</span> <span class="pre">filters</span></em><a class="headerlink" href="#snappy.OrientableClosedCensus" title="Permalink to this definition"></a></dt>
+<dd><p>Iterator for 11,031 closed hyperbolic manifolds from the census by
+Hodgson and Weeks.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">OrientableClosedCensus</span><span class="p">)</span>
+<span class="go">11031</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">OrientableClosedCensus</span><span class="p">(</span><span class="n">betti</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">M</span> <span class="ow">in</span> <span class="n">OrientableClosedCensus</span><span class="p">(</span><span class="n">betti</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+<span class="gp">... </span>  <span class="nb">print</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">M</span><span class="o">.</span><span class="n">homology</span><span class="p">())</span>
+<span class="gp">... </span>
+<span class="go">v1539(5,1) Z + Z</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="snappy.CensusKnots">
+<span class="sig-prename descclassname"><span class="pre">snappy.</span></span><span class="sig-name descname"><span class="pre">CensusKnots</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">CensusKnots</span> <span class="pre">without</span> <span class="pre">filters</span></em><a class="headerlink" href="#snappy.CensusKnots" title="Permalink to this definition"></a></dt>
+<dd><p>Iterator for all of the knot exteriors in the SnapPea Census,
+as tabulated by Callahan, Dean, Weeks, Champanerkar, Kofman,
+Patterson, and Dunfield.  These are the knot exteriors which
+can be triangulated by at most 9 ideal tetrahedra.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">M</span> <span class="ow">in</span> <span class="n">CensusKnots</span><span class="p">[</span><span class="mf">3.4</span><span class="p">:</span><span class="mf">3.5</span><span class="p">]:</span> 
+<span class="gp">... </span>  <span class="nb">print</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">M</span><span class="o">.</span><span class="n">volume</span><span class="p">(),</span> <span class="n">LinkExteriors</span><span class="o">.</span><span class="n">identify</span><span class="p">(</span><span class="n">M</span><span class="p">))</span>
+<span class="gp">... </span>
+<span class="go">K4_3(0,0) 3.47424776 False</span>
+<span class="go">K5_1(0,0) 3.41791484 False</span>
+<span class="go">K5_2(0,0) 3.42720525 8_1(0,0)</span>
+<span class="go">K5_3(0,0) 3.48666015 9_2(0,0)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">CensusKnots</span><span class="p">)</span>
+<span class="go">1267</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">CensusKnots</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">num_tetrahedra</span><span class="p">()</span>
+<span class="go">9</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="snappy.LinkExteriors">
+<span class="sig-prename descclassname"><span class="pre">snappy.</span></span><span class="sig-name descname"><span class="pre">LinkExteriors</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">LinkExteriors</span> <span class="pre">without</span> <span class="pre">filters</span></em><a class="headerlink" href="#snappy.LinkExteriors" title="Permalink to this definition"></a></dt>
+<dd><p>Iterator for all knots with at most 11 crossings and links with
+at most 10 crossings, using the Rolfsen notation.  The triangulations
+were computed by Joe Christy.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">K</span> <span class="ow">in</span> <span class="n">LinkExteriors</span><span class="p">(</span><span class="n">num_cusps</span><span class="o">=</span><span class="mi">3</span><span class="p">)[</span><span class="o">-</span><span class="mi">3</span><span class="p">:]:</span> 
+<span class="gp">... </span>  <span class="nb">print</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">K</span><span class="o">.</span><span class="n">volume</span><span class="p">())</span>
+<span class="gp">... </span>
+<span class="go">10^3_72(0,0)(0,0)(0,0) 14.35768903</span>
+<span class="go">10^3_73(0,0)(0,0)(0,0) 15.86374431</span>
+<span class="go">10^3_74(0,0)(0,0)(0,0) 15.55091438</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="s1">&#39;8_4&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">OrientableCuspedCensus</span><span class="o">.</span><span class="n">identify</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+<span class="go">s862(0,0)</span>
+</pre></div>
+</div>
+<p>By default, the ‘identify’ returns the first isometric manifold it finds;
+if the optional ‘extends_to_link’ flag is set, it insists that meridians
+are taken to meridians.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="s1">&#39;7^2_8&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">LinkExteriors</span><span class="o">.</span><span class="n">identify</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+<span class="go">5^2_1(0,0)(0,0)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">LinkExteriors</span><span class="o">.</span><span class="n">identify</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">extends_to_link</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">7^2_8(0,0)(0,0)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="snappy.HTLinkExteriors">
+<span class="sig-prename descclassname"><span class="pre">snappy.</span></span><span class="sig-name descname"><span class="pre">HTLinkExteriors</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">HTLinkExteriors</span> <span class="pre">without</span> <span class="pre">filters</span></em><a class="headerlink" href="#snappy.HTLinkExteriors" title="Permalink to this definition"></a></dt>
+<dd><p>Iterator for all knots up to 14 or 15 crossings (see below for
+which) and links up to 14 crossings as tabulated by Jim Hoste
+and Morwen Thistlethwaite.  In addition to the filter
+arguments supported by all ManifoldTables, this iterator
+provides alternating=&lt;True/False&gt;;
+knots_vs_links=&lt;’knots’/’links’&gt;; and crossings=N. These allow
+iterations only through alternating or non-alternating links
+with 1 or more than 1 component and a specified crossing
+number.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">HTLinkExteriors</span><span class="o">.</span><span class="n">identify</span><span class="p">(</span><span class="n">LinkExteriors</span><span class="p">[</span><span class="s1">&#39;8_20&#39;</span><span class="p">])</span>
+<span class="go">K8n1(0,0)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Mylist</span> <span class="o">=</span> <span class="n">HTLinkExteriors</span><span class="p">(</span><span class="n">alternating</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">knots_vs_links</span><span class="o">=</span><span class="s1">&#39;links&#39;</span><span class="p">)[</span><span class="mf">8.5</span><span class="p">:</span><span class="mf">8.7</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">Mylist</span><span class="p">)</span>
+<span class="go">8</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">L</span> <span class="ow">in</span> <span class="n">Mylist</span><span class="p">:</span> 
+<span class="gp">... </span>  <span class="nb">print</span><span class="p">(</span> <span class="n">L</span><span class="o">.</span><span class="n">name</span><span class="p">(),</span> <span class="n">L</span><span class="o">.</span><span class="n">num_cusps</span><span class="p">(),</span> <span class="n">L</span><span class="o">.</span><span class="n">volume</span><span class="p">()</span> <span class="p">)</span>
+<span class="gp">... </span>
+<span class="go">L11n138 2 8.66421454</span>
+<span class="go">L12n1097 2 8.51918360</span>
+<span class="go">L14n13364 2 8.69338342</span>
+<span class="go">L14n13513 2 8.58439465</span>
+<span class="go">L14n15042 2 8.66421454</span>
+<span class="go">L14n24425 2 8.60676092</span>
+<span class="go">L14n24777 2 8.53123093</span>
+<span class="go">L14n26042 2 8.64333782</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">L</span> <span class="ow">in</span> <span class="n">Mylist</span><span class="p">:</span>
+<span class="gp">... </span>  <span class="nb">print</span><span class="p">(</span> <span class="n">L</span><span class="o">.</span><span class="n">name</span><span class="p">(),</span> <span class="n">L</span><span class="o">.</span><span class="n">DT_code</span><span class="p">()</span> <span class="p">)</span>
+<span class="gp">... </span>
+<span class="go">L11n138 [(8, -10, -12), (6, -16, -18, -22, -20, -2, -4, -14)]</span>
+<span class="go">L12n1097 [(10, 12, -14, -18), (22, 2, -20, 24, -6, -8, 4, 16)]</span>
+<span class="go">L14n13364 [(8, -10, 12), (6, -18, 20, -22, -26, -24, 2, -4, -28, -16, -14)]</span>
+<span class="go">L14n13513 [(8, -10, 12), (6, -20, 18, -26, -24, -4, 2, -28, -16, -14, -22)]</span>
+<span class="go">L14n15042 [(8, -10, 14), (12, -16, 18, -22, 24, 2, 26, 28, 6, -4, 20)]</span>
+<span class="go">L14n24425 [(10, -12, 14, -16), (-18, 26, -24, 22, -20, -28, -6, 4, -2, 8)]</span>
+<span class="go">L14n24777 [(10, 12, -14, -18), (2, 28, -22, 24, -6, 26, -8, 4, 16, 20)]</span>
+<span class="go">L14n26042 [(10, 12, 14, -20), (8, 2, 28, -22, -24, -26, -6, -16, -18, 4)]</span>
+</pre></div>
+</div>
+<p>SnapPy comes with one of two versions of HTLinkExteriors.  The
+smaller original one provides knots and links up to 14
+crossings; the larger adds to that the knots (but not links)
+with 15 crossings.  You can determine which you have by whether</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">HTLinkExteriors</span><span class="p">(</span><span class="n">crossings</span><span class="o">=</span><span class="mi">15</span><span class="p">))</span>   
+</pre></div>
+</div>
+<p>gives 0 or 253293. To upgrade to the larger database, install
+the Python module ‘snappy_15_knots’ as discussed on the
+‘installing SnapPy’ webpage.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="snappy.NonorientableCuspedCensus">
+<span class="sig-prename descclassname"><span class="pre">snappy.</span></span><span class="sig-name descname"><span class="pre">NonorientableCuspedCensus</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">NonorientableCuspedCensus</span> <span class="pre">without</span> <span class="pre">filters</span></em><a class="headerlink" href="#snappy.NonorientableCuspedCensus" title="Permalink to this definition"></a></dt>
+<dd><p>Iterator for all orientable cusped hyperbolic manifolds that
+can be triangulated with at most 5 ideal tetrahedra.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">M</span> <span class="ow">in</span> <span class="n">NonorientableCuspedCensus</span><span class="p">(</span><span class="n">betti</span><span class="o">=</span><span class="mi">2</span><span class="p">)[:</span><span class="mi">3</span><span class="p">]:</span>
+<span class="gp">... </span>  <span class="nb">print</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">M</span><span class="o">.</span><span class="n">homology</span><span class="p">())</span>
+<span class="gp">... </span>
+<span class="go">m124(0,0)(0,0)(0,0) Z/2 + Z + Z</span>
+<span class="go">m128(0,0)(0,0) Z + Z</span>
+<span class="go">m131(0,0) Z + Z</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="snappy.NonorientableClosedCensus">
+<span class="sig-prename descclassname"><span class="pre">snappy.</span></span><span class="sig-name descname"><span class="pre">NonorientableClosedCensus</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">NonorientableClosedCensus</span> <span class="pre">without</span> <span class="pre">filters</span></em><a class="headerlink" href="#snappy.NonorientableClosedCensus" title="Permalink to this definition"></a></dt>
+<dd><p>Iterator for 17 nonorientable closed hyperbolic manifolds from the
+census by Hodgson and Weeks.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">M</span> <span class="ow">in</span> <span class="n">NonorientableClosedCensus</span><span class="p">[:</span><span class="mi">3</span><span class="p">]:</span> <span class="nb">print</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">M</span><span class="o">.</span><span class="n">volume</span><span class="p">())</span> 
+<span class="gp">... </span>
+<span class="go">m018(1,0) 2.02988321</span>
+<span class="go">m177(1,0) 2.56897060</span>
+<span class="go">m153(1,0) 2.66674478</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<p>There are also:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="platonic_census.html">Censuses of Platonic manifolds</a></li>
+</ul>
+</div>
+<p>As instances of subclasses of ManifoldTable, the objects above
+support the following methods.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="snappy.database.ManifoldTable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snappy.database.</span></span><span class="sig-name descname"><span class="pre">ManifoldTable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table=''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db_path=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mfld_hash=&lt;function</span> <span class="pre">mfld_hash&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**filter_args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.database.ManifoldTable" title="Permalink to this definition"></a></dt>
+<dd><p>Iterator for cusped manifolds in an sqlite3 table of manifolds.</p>
+<p>Initialize with the table name.  The table schema is required to
+include a text field called ‘name’ and a text field called
+‘triangulation’.  The text holds the result of
+M.triangulation_isosig(), M.triangulation_isosig(decorated = True), or
+M._to_string().</p>
+<p>Both mapping from the manifold name, and lookup by index are
+supported.  Slicing can be done either by numerical index or by
+volume.</p>
+<p>The __contains__ method is supported, so M in T returns True if M
+is isometric to a manifold in the table T.  The method
+T.identify(M) will return the matching manifold from the table.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.database.ManifoldTable.find">
+<span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">where</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order_by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'id'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.database.ManifoldTable.find" title="Permalink to this definition"></a></dt>
+<dd><p>Return a list of up to limit manifolds stored in this table,
+satisfying the where clause, and ordered by the order_by
+clause.  If limit is None, all matching manifolds are
+returned.  If the offset parameter is set, the first offset
+matches are skipped.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.database.ManifoldTable.identify">
+<span class="sig-name descname"><span class="pre">identify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mfld</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extends_to_link</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.database.ManifoldTable.identify" title="Permalink to this definition"></a></dt>
+<dd><p>Look for a manifold in this table which is isometric to the
+argument.</p>
+<p>Return the matching manifold, if there is one which SnapPea
+declares to be isometric.</p>
+<p>Return False if no manifold in the table has the same hash.</p>
+<p>Return None in all other cases (for now).</p>
+<p>If the flag “extends_to_link” is True, requires that the isometry
+sends meridians to meridians.   If the input manifold is closed
+this will result in no matches being returned.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.database.ManifoldTable.keys">
+<span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#snappy.database.ManifoldTable.keys" title="Permalink to this definition"></a></dt>
+<dd><p>Return the list of column names for this manifold table.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.database.ManifoldTable.siblings">
+<span class="sig-name descname"><span class="pre">siblings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mfld</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.database.ManifoldTable.siblings" title="Permalink to this definition"></a></dt>
+<dd><p>Return all manifolds in the census which have the same hash value.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p>Because of the large size of their datasets, the classes below
+can only iterate through slices by index, and do not provide
+the identification methods.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="snappy.AlternatingKnotExteriors">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snappy.</span></span><span class="sig-name descname"><span class="pre">AlternatingKnotExteriors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">indices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0,</span> <span class="pre">491327,</span> <span class="pre">1)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.AlternatingKnotExteriors" title="Permalink to this definition"></a></dt>
+<dd><p>Iterator/Sequence for Alternating knot exteriors from the
+Hoste-Thistlethwaite tables.   Goes through 16 crossings.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.AlternatingKnotExteriors.next">
+<span class="sig-name descname"><span class="pre">next</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#snappy.AlternatingKnotExteriors.next" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="snappy.NonalternatingKnotExteriors">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snappy.</span></span><span class="sig-name descname"><span class="pre">NonalternatingKnotExteriors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">indices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0,</span> <span class="pre">1210608,</span> <span class="pre">1)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#snappy.NonalternatingKnotExteriors" title="Permalink to this definition"></a></dt>
+<dd><p>Iterator/Sequence for nonAlternating knot exteriors from the
+Hoste-Thistlethwaite tables.  Goes through 16 crossings.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="snappy.NonalternatingKnotExteriors.next">
+<span class="sig-name descname"><span class="pre">next</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#snappy.NonalternatingKnotExteriors.next" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="additional_classes.html" class="btn btn-neutral float-left" title="Additional Classes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="platonic_census.html" class="btn btn-neutral float-right" title="Censuses of Platonic manifolds" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2009-2023, by Marc Culler, Nathan Dunfield, Matthias Goerner, Jeffrey Weeks and others.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
