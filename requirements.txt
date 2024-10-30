@@ -1,0 +1,8 @@
+PyMuPDF
+pdfbox
+opendal
+pytesseract
+pandas
+Pillow
+tika
+pyarrow
