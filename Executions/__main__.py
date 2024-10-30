@@ -28,6 +28,7 @@ with open(filepath, 'r') as file:
     """Reading data of Reader Operations"""
     max_buffer = read.get("max_buffer_size", None)
     row_limit = read['row_limit']
+    pages = read['pages']
     skip_file_above_size = read['skip_file_above_size']
     skip_file_type = read['skip_file_type']
 
@@ -47,5 +48,4 @@ with open(filepath, 'r') as file:
             s3_execution.discover()
 
         """Reading the file listed"""
-        pages = 3
         s3_execution.read_all(max_buffer, pages, row_limit, skip_file_above_size, skip_file_type)

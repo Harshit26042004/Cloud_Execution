@@ -16,6 +16,7 @@
       "reader": {
         "max_buffer_size": 200,
         "row_limit": 5,
+        "pages" : 3,
         "skip_file_above_size": 70,
         "skip_file_type": []
       }
