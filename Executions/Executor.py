@@ -159,7 +159,9 @@ class S3Executor:
                             f.write(reader.read())
 
                         self.file_read(lpath,max_buffer,pages,row_limit,skip_file_type)
-                        print("\nFile type: ",Classifier().classify(lpath))
+                        classifier = Classifier()
+                        main_type,subtype = classifier.classify(lpath)
+                        print(f'\nThe MIME type of "{lpath}" :\n\t File Type -> {main_type}\n\t Subtype -> {subtype}\n')
                         f.close()
                         reader.close()
                         os.remove(lpath)
