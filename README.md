@@ -15,7 +15,7 @@ For Tesseract OCR configuration, use these steps:
 
 1. **Install Tesseract**: Visit the [Tesseract Installation Guide](https://github.com/UB-Mannheim/tesseract/wiki) and follow the installation instructions.
 2. **Copy Tesseract Path**: After installation, locate the `tesseract.exe` file and copy its path.
-3. **Update `reader.py`**: Open the `reader.py` file and navigate to line 32. Replace the placeholder with the copied path of `tesseract.exe`.
+3. **Update `reader.py`**: Open the `reader.py` file and navigate to line 68. Replace the placeholder with the copied path of `tesseract.exe`.
 
    Example:
    ```python
