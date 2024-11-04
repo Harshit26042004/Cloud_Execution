@@ -375,13 +375,14 @@ class Classifier:
                 - main_type: A list of main types derived from the file's extension and MIME type.
                 - sub_type: A list of sub types derived from the file's extension and MIME type.
         """
-        lst = path.split(".")
         file_ext = []
+        lst = path.split(".")
+
         file_ext.append("." + str(lst[-1]))
         mime_type = self.get_mime_type_from_magic(path)
         file_ext.extend(mimetypes.guess_all_extensions(mime_type))
+        
         print(mime_type)
-
         file_type = set()
 
         if mime_type in mime_key:

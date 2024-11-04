@@ -26,7 +26,7 @@ with open(filepath, 'r') as file:
     is_scanned = scan['list_scanned_metadata']
 
     """Reading data of Reader Operations"""
-    max_buffer = read.get("max_buffer_size", None)
+    max_buffer = read['max_buffer_size']
     row_limit = read['row_limit']
     pages = read['pages']
     skip_file_above_size = read['skip_file_above_size']
