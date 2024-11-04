@@ -126,6 +126,9 @@ class S3Executor:
 
             lst = path.split(".")
             ext = lst[len(lst) - 1]
+            if ext in skip_file_type :
+                print("File type skipped!")
+                return
             if ext in content:
                 file.seek(0, 0)
                 print("Reading : \n", file.read(max_buffer))
